@@ -20686,4 +20686,7 @@ html[dir=rtl] .choices__input {
   background-color: rgba(0, 0, 0, 0.511) !important;
   border-radius: 50% !important;
 }
+.navitems{
+  display:block;
+}
 /*User CSS*/
