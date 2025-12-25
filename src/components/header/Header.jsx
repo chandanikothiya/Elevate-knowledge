@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 function Header(props) {
     return (
@@ -203,6 +204,9 @@ function Header(props) {
         {/* Nav category menu END */}
         {/* Nav Main menu START */}
         <ul className="navbar-nav navbar-nav-scroll me-auto">
+
+          <NavLink to="/about">About</NavLink>
+
           {/* Nav item 1 Demos */}
           <li className="nav-item dropdown">
             <a className="nav-link dropdown-toggle active" href="#" id="demoMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Demos</a>
