@@ -20682,5 +20682,8 @@ html[dir=rtl] .choices__input {
 .ql-snow .ql-stroke {
   stroke: #747579;
 }
-
+.swiper-button-prev-custom{
+  background-color: rgba(0, 0, 0, 0.511) !important;
+  border-radius: 50% !important;
+}
 /*User CSS*/

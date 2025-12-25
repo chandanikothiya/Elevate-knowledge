@@ -1,6 +1,8 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
+import { Navigation } from 'swiper/modules';
+import 'swiper/css/navigation'
 
 function Home(props) {
     return (
@@ -1231,8 +1233,10 @@ Trending courses START */}
                         <div className="tiny-slider arrow-round arrow-blur arrow-hover">
                             <div className="tiny-slider-inner pb-1" data-autoplay="true" data-arrow="true" data-edge={2} data-dots="false" data-items={3} data-items-lg={2} data-items-sm={1}>
                                 <Swiper
+                                modules={[Navigation]}
                                     spaceBetween={50}
                                     slidesPerView={3}
+                                    navigation
                                     onSlideChange={() => console.log('slide change')}
                                     onSwiper={(swiper) => console.log(swiper)}
                                 >
