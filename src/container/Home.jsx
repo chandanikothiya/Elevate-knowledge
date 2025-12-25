@@ -1233,16 +1233,15 @@ Trending courses START */}
                         <div className="tiny-slider arrow-round arrow-blur arrow-hover">
                             <div className="tiny-slider-inner pb-1" data-autoplay="true" data-arrow="true" data-edge={2} data-dots="false" data-items={3} data-items-lg={2} data-items-sm={1}>
                                 <Swiper
-                                modules={[Navigation]}
+                                    modules={[Navigation]}
                                     spaceBetween={50}
                                     slidesPerView={3}
                                     navigation
                                     onSlideChange={() => console.log('slide change')}
                                     onSwiper={(swiper) => console.log(swiper)}
                                 >
-                                {/* Card item START */}
-                                <SwiperSlide>
-                                    <div>
+                                    {/* Card item START */}
+                                    <SwiperSlide>
                                         <div className="card action-trigger-hover border">
                                             {/* Image */}
                                             <img src="assets/images/courses/4by3/14.jpg" className="card-img-top" alt="course image" />
@@ -1297,12 +1296,10 @@ Trending courses START */}
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </SwiperSlide>
-                                {/* Card item END */}
-                                {/* Card item START */}
-                                <SwiperSlide>
-                                    <div>
+                                    </SwiperSlide>
+                                    {/* Card item END */}
+                                    {/* Card item START */}
+                                    <SwiperSlide>
                                         <div className="card action-trigger-hover border">
                                             {/* Image */}
                                             <img src="assets/images/courses/4by3/15.jpg" className="card-img-top" alt="course image" />
@@ -1355,12 +1352,10 @@ Trending courses START */}
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </SwiperSlide>
-                                {/* Card item END */}
-                                {/* Card item START */}
-                                <SwiperSlide>
-                                    <div>
+                                    </SwiperSlide>
+                                    {/* Card item END */}
+                                    {/* Card item START */}
+                                    <SwiperSlide>
                                         <div className="card action-trigger-hover border">
                                             {/* Image */}
                                             <img src="assets/images/courses/4by3/17.jpg" className="card-img-top" alt="course image" />
@@ -1413,12 +1408,10 @@ Trending courses START */}
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </SwiperSlide>
-                                {/* Card item END */}
-                                {/* Card item START */}
-                                <SwiperSlide>
-                                    <div>
+                                    </SwiperSlide>
+                                    {/* Card item END */}
+                                    {/* Card item START */}
+                                    <SwiperSlide>
                                         <div className="card action-trigger-hover border">
                                             {/* Image */}
                                             <img src="assets/images/courses/4by3/16.jpg" className="card-img-top" alt="course image" />
@@ -1471,9 +1464,8 @@ Trending courses START */}
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </SwiperSlide>
-                                {/* Card item END */}
+                                    </SwiperSlide>
+                                    {/* Card item END */}
                                 </Swiper>
                             </div>
                         </div>
