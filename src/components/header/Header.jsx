@@ -206,8 +206,7 @@ function Header(props) {
             {/* Nav Main menu START */}
             <ul className="navbar-nav navbar-nav-scroll me-auto">
 
-              <NavLink to="/about">About</NavLink>
-
+              
               {/* Nav item 1 Demos */}
               <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle active" href="#" id="demoMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Demos</a>
@@ -276,7 +275,7 @@ function Header(props) {
                   <li className="dropdown-submenu dropend">
                     <a className="dropdown-item dropdown-toggle" href="#">About</a>
                     <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none">
-                      <li> <a className="dropdown-item" href="about.html">About Us</a></li>
+                      <NavLink to="/about" className="navitems">About</NavLink>
                       <NavLink to="/contactus" className="navitems">Contact Us</NavLink>
                       <NavLink to="/bloggrid" className="navitems">Blog Grid</NavLink>
                       <NavLink to="/blogmasonry" className="navitems">Blog Masonry</NavLink>
