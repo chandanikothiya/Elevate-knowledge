@@ -1,0 +1,16 @@
+{
+  "category": [
+    {
+      "id": "c4cd",
+      "name": "web development",
+      "description": "dderer",
+      "categoryimg": "webdvelopment.jpg"
+    },
+    {
+      "id": "2da5",
+      "name": "UIUX desiging",
+      "description": "xcdcxfdc",
+      "categoryimg": "uiux.jpg"
+    }
+  ]
+}

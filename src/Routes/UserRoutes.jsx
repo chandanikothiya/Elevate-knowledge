@@ -49,6 +49,7 @@ import StudentSubscription from '../container/StudentSubscription/StudentSubscri
 import StudentCourseList from '../container/StudentCourseList/StudentCourseList';
 import StudentPaymentInfo from '../container/StudentPaymentInfo/StudentPaymentInfo';
 import PrivateRoutes from './PrivateRoutes';
+import CategorySingal from '../container/CategorySingal/CategorySingal';
 
 function UserRoutes(props) {
     return (
@@ -97,13 +98,13 @@ function UserRoutes(props) {
                 <Route path='/orders' element={<InstructorOrder />} />
                 <Route path='/review' element={<InstructorReview />} />
                 <Route path='/payout' element={<InstructorPayout />} />
-                <Route element={<PrivateRoutes/>}>
+                <Route element={<PrivateRoutes />}>
                     <Route path='/studentdashboard' element={<StudentDashboard />} />
                 </Route>
                 <Route path='/studentsubscriptions' element={<StudentSubscription />} />
                 <Route path='/studentdcourses' element={<StudentCourseList />} />
                 <Route path='/studentpaymentinfo' element={<StudentPaymentInfo />} />
-            
+                <Route path='/CategorySingal/:id' element={<CategorySingal />} />
                 <Route path='*' element={<Error404 />} />
             </Routes>
             <Footer />

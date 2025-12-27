@@ -1,8 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 
 function Header(props) {
+
+  const [data, setData] = useState([]);
+
+  const s = "web deve";
+  console.log("trim", s.trim())
+  const a = s.split(" ");
+  console.log("join", a.join(""));
+  console.log("split", a);
+
+
+  const getdata = async () => {
+    const response = await fetch("http://localhost:3000/category");
+    const datar = await response.json();
+
+    setData(datar);
+  }
+
+  getdata();
+  console.log(data)
+
   return (
     <header className="navbar-light navbar-sticky header-static">
       {/* Logo Nav START */}
@@ -30,11 +50,21 @@ function Header(props) {
               <li className="nav-item dropdown dropdown-menu-shadow-stacked">
                 <a className="nav-link bg-primary bg-opacity-10 rounded-3 text-primary px-3 py-3 py-xl-0" href="#" id="categoryMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i className="bi bi-ui-radios-grid me-2" /><span>Category</span></a>
                 <ul className="dropdown-menu" aria-labelledby="categoryMenu">
+                  {
+                    data.map((v) => (
+                      // console.log("name",v.name.split(" ").join("").toLowerCase())
+                      // <NavLink to={"/" + v.name.split(" ").join("").toLowerCase() + "/" + v.id}
+                      //   className="navitems">{v.name}
+                      // </NavLink>
+                      <NavLink to={"/CategorySingal/" + v.id}
+                        className="navitems">{v.name}
+                      </NavLink>
+                    ))
+                  }
                   {/* Dropdown submenu */}
-                  <li className="dropdown-submenu dropend">
+                  {/* <li className="dropdown-submenu dropend">
                     <a className="dropdown-item dropdown-toggle" href="#">Development</a>
                     <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none">
-                      {/* dropdown submenu open right */}
                       <li className="dropdown-submenu dropend">
                         <a className="dropdown-item dropdown-toggle" href="#">Web Development</a>
                         <ul className="dropdown-menu" data-bs-popper="none">
@@ -54,10 +84,10 @@ function Header(props) {
                       <li> <a className="dropdown-item" href="#">Software Development Tools</a> </li>
                     </ul>
                   </li>
-                  <li> <a className="dropdown-item" href="#">Design</a></li>
+                  <li> <a className="dropdown-item" href="#">Design</a></li> */}
                   {/* Dropdown submenu */}
                   <li className="dropdown-submenu dropend">
-                    <a className="dropdown-item dropdown-toggle" href="#">Marketing</a>
+                    {/* <a className="dropdown-item dropdown-toggle" href="#">Marketing</a> */}
                     <div className="dropdown-menu dropdown-menu-start dropdown-width-lg" data-bs-popper="none">
                       <div className="row p-4">
                         {/* Dropdown column item */}
@@ -189,7 +219,7 @@ function Header(props) {
                       </div>
                     </div>
                   </li>
-                  <li> <a className="dropdown-item" href="#">Music</a></li>
+                  {/* <li> <a className="dropdown-item" href="#">Music</a></li>
                   <li> <a className="dropdown-item" href="#">Lifestyle</a></li>
                   <li> <a className="dropdown-item" href="#">IT &amp; software</a></li>
                   <li> <a className="dropdown-item" href="#">Personal development</a></li>
@@ -198,7 +228,7 @@ function Header(props) {
                   <li> <a className="dropdown-item" href="#">Social science</a></li>
                   <li> <a className="dropdown-item" href="#">Math &amp; logic</a></li>
                   <li> <hr className="dropdown-divider" /></li>
-                  <li> <a className="dropdown-item bg-primary text-primary bg-opacity-10 rounded-2 mb-0" href="#">View all categories</a></li>
+                  <li> <a className="dropdown-item bg-primary text-primary bg-opacity-10 rounded-2 mb-0" href="#">View all categories</a></li> */}
                 </ul>
               </li>
             </ul>
@@ -206,7 +236,7 @@ function Header(props) {
             {/* Nav Main menu START */}
             <ul className="navbar-nav navbar-nav-scroll me-auto">
 
-              
+
               {/* Nav item 1 Demos */}
               <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle active" href="#" id="demoMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Demos</a>
