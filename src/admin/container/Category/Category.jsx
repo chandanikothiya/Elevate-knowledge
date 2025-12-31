@@ -14,6 +14,8 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { DataGrid } from '@mui/x-data-grid';
+import { useDispatch, useSelector } from 'react-redux';
+import { addcategory, deletecategory, editcategory, getcategory } from '../../../redux/slice/category.slice';
 
 
 function Category(props) {
@@ -21,6 +23,12 @@ function Category(props) {
     const [open, setOpen] = React.useState(false);
     const [categorydata, setCategoryData] = useState([]);
     const [updatecategory, setUpdateCategory] = useState({});
+
+    const dispatch = useDispatch();
+    const categorys = useSelector(state => state.category)
+    console.log("addda",categorys.category);
+    
+
     console.log(categorydata);
 
     const handleClickOpen = () => {
@@ -32,9 +40,11 @@ function Category(props) {
     };
 
     const getdata = async () => {
-        const response = await fetch("http://localhost:3000/category");
-        const data = await response.json();
-        setCategoryData(data);
+        // const response = await fetch("http://localhost:3000/category");
+        // const data = await response.json();
+        // setCategoryData(data);
+
+        dispatch(getcategory())
     }
 
     useEffect(() => {
@@ -60,44 +70,11 @@ function Category(props) {
         try {
             if (Object.keys(updatecategory).length > 0) {
 
-                console.log(values.categoryimg.name);
-                
-                let newvalue = {...values}
-
-                if (typeof values.categoryimg === 'object') {
-                    newvalue = {...values,categoryimg : values.categoryimg.name}
-                }
-
-                const response = await fetch(`http://localhost:3000/category/${updatecategory.id}`, {
-                    method: "PUT",
-                    body: JSON.stringify(newvalue),
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                });
-
-                const data = await response.json();
-                const udata = [...categorydata];
-
-                const index = udata.findIndex((v) => v.id === data.id);
-                udata[index] = data;
-
-                setCategoryData(udata);
+                dispatch(editcategory(values))
                 setUpdateCategory({});
 
             } else {
-                const category = { ...values, categoryimg: values.categoryimg.name }
-
-                const response = await fetch("http://localhost:3000/category", {
-                    method: "POST",
-                    body: JSON.stringify(category),
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                });
-
-                const data = await response.json();
-                setCategoryData([...categorydata, data])
+                dispatch(addcategory(values))
             }
 
         } catch (error) {
@@ -113,14 +90,7 @@ function Category(props) {
     }
 
     const handleDelete = async (id) => {
-        console.log(id);
-        const response = await fetch(`http://localhost:3000/category/${id}`, {
-            method: "DELETE"
-        })
-
-        const data = [...categorydata];
-        const udata = data.filter((v) => v.id !== id)
-        setCategoryData(udata)
+        dispatch(deletecategory(id))
     }
 
     const columns = [
@@ -213,7 +183,7 @@ function Category(props) {
             </React.Fragment>
 
             <DataGrid
-                rows={categorydata}
+                rows={categorys.category}
                 columns={columns}
                 initialState={{ pagination: { paginationModel } }}
                 pageSizeOptions={[5, 10]}

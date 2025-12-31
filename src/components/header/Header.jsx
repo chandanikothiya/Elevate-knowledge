@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import ListItem from '@mui/material/ListItem';
 
 
 function Header(props) {
@@ -20,7 +21,11 @@ function Header(props) {
     setData(datar);
   }
 
-  getdata();
+  useEffect(() => {
+      getdata();
+
+  },[])
+
   console.log(data)
 
   return (
@@ -56,9 +61,11 @@ function Header(props) {
                       // <NavLink to={"/" + v.name.split(" ").join("").toLowerCase() + "/" + v.id}
                       //   className="navitems">{v.name}
                       // </NavLink>
-                      <NavLink to={"/CategorySingal/" + v.id}
-                        className="navitems">{v.name}
-                      </NavLink>
+                     
+                        <NavLink key={v.id} to={`/CategorySingal/${v.id}`}
+                          className="navitems">{v.name}
+                        </NavLink>
+                     
                     ))
                   }
                   {/* Dropdown submenu */}
