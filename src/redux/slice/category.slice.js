@@ -12,11 +12,11 @@ export const addcategory = createAsyncThunk(
         console.log("addda", data.categoryimg.name);
 
         try {
-            const c = { ...data, categoryimg: data.categoryimg.name }
+            // const c = { ...data, categoryimg: data.categoryimg.name }
 
             const response = await fetch("http://localhost:3000/category", {
                 method: "POST",
-                body: JSON.stringify(c),
+                body: JSON.stringify(data),
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -55,6 +55,9 @@ export const deletecategory = createAsyncThunk(
                 method: "DELETE"
             })
 
+            const data = await response.json();
+            console.log(data)
+
             return id;
         } catch (error) {
             console.log(error)
@@ -66,15 +69,11 @@ export const editcategory = createAsyncThunk(
     'category/editcategory',
     async (data) => {
         try {
-            let newdata = { ...data }
-
-            if (typeof data.categoryimg === 'object') {
-                newdata = { ...data, categoryimg: data.categoryimg.name }
-            }
+            console.log(data);
 
             const response = await fetch(`http://localhost:3000/category/${data.id}`, {
                 method: "PUT",
-                body: JSON.stringify(newdata),
+                body: JSON.stringify(data),
                 headers: {
                     "Content-Type": "application/json"
                 }
@@ -93,7 +92,7 @@ const categoryslice = createSlice({
     name: 'category',
     initialState,
     extraReducers: (builder) => {
-        //builder.addcase is same like switch case,itdefine logic for handling actions
+        //builder.addcase is same like switch case,it define logic for handling actions
         builder.addCase(addcategory.fulfilled, (state, action) => {
             state.category.push(action.payload)
         })

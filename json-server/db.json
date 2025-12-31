@@ -3,20 +3,20 @@
     {
       "id": "c4cd",
       "name": "web development",
-      "description": "dderer",
+      "description": "Web development is the process of creating and maintaining websites and web applications, involving coding (HTML, CSS, JavaScript, etc.) for functionality, design, and user experience, covering front-end (what users see) and back-end (server/database logic) aspects, and ranging from simple static pages to complex web apps, ensuring everything works efficiently across devices.  ",
       "categoryimg": "webdvelopment.jpg"
     },
     {
       "id": "2da5",
       "name": "UIUX desiging",
-      "description": "xcdcxfdc",
+      "description": "UI/UX design combines User Interface (UI) (visuals, look & feel) and User Experience (UX) (overall journey, ease of use) to create digital products that are both aesthetically pleasing and highly functional, focusing on intuitive navigation, accessibility, and user satisfaction for a seamless, enjoyable experience. UX is the broad strategy and research (the \"why\" and \"how\"), while UI is the tangible design (the \"what\" the user sees and interacts with).  ",
       "categoryimg": "uiux.jpg"
     },
     {
-      "id": "3d13",
-      "name": "ddok",
-      "description": "hvm",
-      "categoryimg": "uiux.jpg"
+      "id": "1ea0",
+      "name": "mobile development",
+      "description": "Mobile development is the process of creating software applications for mobile devices (smartphones, tablets) for platforms like iOS and Android, involving design, coding (Swift, Kotlin, Flutter, React Native), backend integration, and rigorous testing to leverage unique device features (sensors, touchscreens) for user-friendly, performant, and secure experiences. It covers the entire lifecycle from concept (strategy, planning) to release (deployment) and focuses on delivering value through specific platform capabilities, notes.",
+      "categoryimg": "mobiledevelopment.jpg"
     }
   ]
 }

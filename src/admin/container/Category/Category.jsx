@@ -26,8 +26,8 @@ function Category(props) {
 
     const dispatch = useDispatch();
     const categorys = useSelector(state => state.category)
-    console.log("addda",categorys.category);
-    
+    console.log("addda", categorys.category);
+
 
     console.log(categorydata);
 
@@ -70,11 +70,16 @@ function Category(props) {
         try {
             if (Object.keys(updatecategory).length > 0) {
 
-                dispatch(editcategory(values))
+                if (typeof values.categoryimg === 'object') {
+                    dispatch(editcategory({ ...values, categoryimg: values.categoryimg.name }))
+                } else {
+                    dispatch(editcategory(values))
+                }
+
                 setUpdateCategory({});
 
             } else {
-                dispatch(addcategory(values))
+                dispatch(addcategory({ ...values, categoryimg: values.categoryimg.name }))
             }
 
         } catch (error) {
@@ -95,16 +100,17 @@ function Category(props) {
 
     const columns = [
         { field: "name", headerName: 'name', width: 180 },
-        { field: "description", headerName: 'description', width: 150 },
+        { field: "description", headerName: 'description', width: 300},
         //  { field: "categoryimg", headerName: 'categoryimg', width: 150},
-        { field: "categoryimg", headerName: 'categoryimg', width: 120,
-              renderCell: (params) => (
+        {
+            field: "categoryimg", headerName: 'categoryimg', width: 120,
+            renderCell: (params) => (
                 <>
-                {console.log(params.row.categoryimg)}
-                 <img src={"../public/images/" + params.row.categoryimg} width={"50px"} height={"50px"} />
+                    {console.log(params.row.categoryimg)}
+                    <img src={"../public/images/" + params.row.categoryimg} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} />
                 </>
-              )
-         },
+            )
+        },
         {
             field: 'Action', headerName: 'Action', width: 200,
             renderCell: (params) => (
