@@ -50,7 +50,7 @@ function SubCategory(props) {
     }, [])
 
     const category_options = [
-        { value: '', label: '--Select Category' }
+        { value: '', label: '--Select Category--' }
     ]
 
     categorys.category.map((v) => (
@@ -73,7 +73,6 @@ function SubCategory(props) {
         }
     }
 
-
     function handleDelete(id) {
         dispatch(deletesubcategory(id))
     }
@@ -91,9 +90,9 @@ function SubCategory(props) {
                 console.log(params.row);
                 console.log(categorys.category)
                 const fdata = categorys.category.find((v) => v.id === params.row.category)
-                console.log(fdata)
+                //console.log(fdata.name)
                 
-                return <span>{fdata.name}</span>
+                return fdata?.name
             }
          },
         { field: "description", headerName: 'Description', width: 180 },
@@ -101,7 +100,7 @@ function SubCategory(props) {
             field: "subcategory_img", headerName: 'Subcategory_img', width: 180,
             renderCell: (params) => (
                 // console.log(params.row.subcategory_img)
-                <img src={'../public/images/' + params.row.subcategory_img} width={'50px'} height={'50px'} style={{ objectFit: 'cover' }} />
+                <img src={'../public/images/' + params.row.subcategory_img} width={'80px'} height={'50px'} style={{ objectFit: 'contain' }} />
             )
         },
         {
@@ -131,10 +130,10 @@ function SubCategory(props) {
             <h2>Sub-Category</h2>
             <React.Fragment>
                 <Button variant="outlined" onClick={handleClickOpen}>
-                    Add Category
+                    Add SubCategory
                 </Button>
                 <Dialog open={open} onClose={handleClose}>
-                    <DialogTitle>Category</DialogTitle>
+                    <DialogTitle>SubCategory</DialogTitle>
                     <DialogContent>
                         <Formik
                             initialValues={Object.keys(updatesubcat).length > 0 ? updatesubcat : {
@@ -188,7 +187,7 @@ function SubCategory(props) {
                                 <DialogActions>
                                     <Button onClick={handleClose}>Cancel</Button>
                                     <Button type="submit">
-                                        Add Category
+                                        Add SubCategory
                                     </Button>
                                 </DialogActions>
                             </Form>

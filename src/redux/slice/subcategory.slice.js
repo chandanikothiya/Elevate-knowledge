@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { act } from "react"
+import axios from "axios";
 
 const initialState = {
     isloading: false,
@@ -11,16 +11,19 @@ export const addsubcategory = createAsyncThunk(
     'subcategory/addsubcategory', //this action addsubcategory belong to subcategory slice meaning of this line 
     async (values) => {
         try {
-            const response = await fetch("http://localhost:3000/subcategory", {
-                method: "POST",
-                body: JSON.stringify(values),
-                headers: { //header is like a label on parcel,they tell what kind of data is inside requset
-                    'Content-Type': 'application/json' //i am sending data in JSON format
-                }
-            })
+            // const response = await fetch("http://localhost:3000/subcategory", {
+            //     method: "POST",
+            //     body: JSON.stringify(values),
+            //     headers: { //header is like a label on parcel,they tell what kind of data is inside requset
+            //         'Content-Type': 'application/json' //i am sending data in JSON format
+            //     }
+            // })
+            //const data = await response.json()
 
-            const data = await response.json()
-            return data;
+            const response = await axios.post('http://localhost:3000/subcategory',values)
+            console.log("response",response)
+            
+            return response.data;
         } catch (error) {
             console.log(error)
         }
@@ -33,10 +36,9 @@ export const getsubcategory = createAsyncThunk(
     async () => {
         try {
 
-            const response = await fetch("http://localhost:3000/subcategory")
-            const data = await response.json();
-            console.log(data)
-            return data;
+            const response = await axios.get("http://localhost:3000/subcategory")
+           
+            return response.data;
 
         } catch (error) {
             console.log(error)
@@ -49,11 +51,7 @@ export const deletesubcategory = createAsyncThunk(
     async (id) => {
         try {
 
-            const response = await fetch(`http://localhost:3000/subcategory/${id}`, {
-                method: 'DELETE'
-            })
-            const data = await response.json();
-            console.log(data)
+            const response = await axios.delete(`http://localhost:3000/subcategory/${id}`)
             return id;
 
         } catch (error) {
@@ -66,16 +64,11 @@ export const editsubcategory = createAsyncThunk(
     'subcategory/editsubcategory',
     async (values) => {
         try {
-            const response = await fetch(`http://localhost:3000/subcategory/${values.id}`, {
-                method: "PUT",
-                body: JSON.stringify(values),
-                headers:{
-                    'Content-Type':'application/json'
-                }
-            })
-
-            const data = await response.json();
-            return data;
+            
+            const response = await axios.put(`http://localhost:3000/subcategory/${values.id}`,values)
+            console.log("edit",response)
+            return response.data;
+            
         } catch (error) {
             console.log(error)
         }

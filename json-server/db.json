@@ -14,25 +14,66 @@
     },
     {
       "id": "1ea0",
-      "name": "mobile development",
+      "name": "software development",
       "description": "Mobile development is the process of creating software applications for mobile devices (smartphones, tablets) for platforms like iOS and Android, involving design, coding (Swift, Kotlin, Flutter, React Native), backend integration, and rigorous testing to leverage unique device features (sensors, touchscreens) for user-friendly, performant, and secure experiences. It covers the entire lifecycle from concept (strategy, planning) to release (deployment) and focuses on delivering value through specific platform capabilities, notes.",
       "categoryimg": "mobiledevelopment.jpg"
+    },
+    {
+      "id": "b405",
+      "name": "Data & Analytics",
+      "description": "Data & Analytics is the process of collecting, cleaning, transforming, and analyzing large datasets to uncover patterns, trends, and insights, enabling organizations to make informed decisions, predict future outcomes, optimize processes, and improve business performance, moving beyond basic reporting to advanced techniques like machine learning and AI. ",
+      "categoryimg": "dataanalytics.jpg"
     }
   ],
   "subcategory": [
     {
-      "id": "ab18",
-      "category": "2da5",
-      "subcategory": "ddok",
-      "description": "dd",
-      "subcategory_img": "mobiledevelopment.jpg"
+      "id": "4a69",
+      "category": "c4cd",
+      "subcategory": "Back-end Development",
+      "description": "A backend developer builds and maintains the server-side of websites and applications, focusing on the hidden logic, databases, APIs, and servers that make everything work, ensuring data is stored, processed, and delivered efficiently for the user-facing (frontend) part. ",
+      "subcategory_img": "backend.jpg"
     },
     {
-      "id": "68e3",
+      "id": "ad33",
       "category": "c4cd",
-      "subcategory": "web",
-      "description": "dd",
-      "subcategory_img": "webdvelopment.jpg"
+      "subcategory": "Full-stack Development",
+      "description": "Full Stack Development refers to the development of both front-end (client-side) and back-end (server-side) portions of web applications. They handle the complete development process, from designing user interfaces to managing databases and server-side functions, making them versatile in building end-to-end applications.",
+      "subcategory_img": "fullstack.jpg"
+    },
+    {
+      "id": "d5e1",
+      "category": "1ea0",
+      "subcategory": " Mobile App Development",
+      "description": "Mobile application development is the process of creating software (apps) for mobile devices like smartphones and tablets, involving designing, coding (using languages like Swift, Kotlin, Java), testing, and deploying them to run on operating systems such as iOS and Android, often taking advantage of unique device features like cameras or GPS",
+      "subcategory_img": "mobileapp.jpg"
+    },
+    {
+      "id": "a98e",
+      "category": "b405",
+      "subcategory": "Data Science",
+      "description": "Data science is a multidisciplinary field that uses scientific methods, algorithms, and systems to extract knowledge and insights from structured and unstructured data, combining statistics, computer science, and domain expertise to solve problems, make predictions, and guide decisions. It involves collecting, cleaning, analyzing, and visualizing vast datasets to uncover patterns, build models (like machine learning), and transform raw data into actionable information for businesses and other applications. ",
+      "subcategory_img": "datascience.jpg"
+    },
+    {
+      "id": "51ca",
+      "category": "b405",
+      "subcategory": "Machine Learning",
+      "description": "Machine learning is a branch of artificial intelligence that enables algorithms to uncover hidden patterns within datasets. It allows them to predict new, similar data without explicit programming for each task. Machine learning finds applications in diverse fields such as image and speech recognition, natural language processing, recommendation systems, fraud detection, portfolio optimization, and automating tasks.",
+      "subcategory_img": "ML.jpg"
+    },
+    {
+      "id": "1a1e",
+      "category": "c4cd",
+      "subcategory": "Front-end Development",
+      "description": "Front-end development builds the visual, interactive \"client-side\" part of websites and apps users see and touch, using HTML (structure), CSS (style), and JavaScript (interactivity) to create user interfaces (UIs) that are responsive, accessible, and user-friendly across different devices, focusing on the look, feel, and smooth user experience (UX).  ",
+      "subcategory_img": "frontend.png"
+    },
+    {
+      "id": "8e9c",
+      "category": "2da5",
+      "subcategory": "uiux",
+      "description": "xcwdwdcf",
+      "subcategory_img": "ML.jpg"
     }
   ]
 }
