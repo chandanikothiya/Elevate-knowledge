@@ -18,5 +18,21 @@
       "description": "Mobile development is the process of creating software applications for mobile devices (smartphones, tablets) for platforms like iOS and Android, involving design, coding (Swift, Kotlin, Flutter, React Native), backend integration, and rigorous testing to leverage unique device features (sensors, touchscreens) for user-friendly, performant, and secure experiences. It covers the entire lifecycle from concept (strategy, planning) to release (deployment) and focuses on delivering value through specific platform capabilities, notes.",
       "categoryimg": "mobiledevelopment.jpg"
     }
+  ],
+  "subcategory": [
+    {
+      "id": "ab18",
+      "category": "2da5",
+      "subcategory": "ddok",
+      "description": "dd",
+      "subcategory_img": "mobiledevelopment.jpg"
+    },
+    {
+      "id": "68e3",
+      "category": "c4cd",
+      "subcategory": "web",
+      "description": "dd",
+      "subcategory_img": "webdvelopment.jpg"
+    }
   ]
 }
