@@ -34,10 +34,10 @@ function Header(props) {
       <nav className="navbar navbar-expand-xl">
         <div className="container-fluid px-3 px-xl-5">
           {/* Logo START */}
-          <a className="navbar-brand" href="index.html">
+         <NavLink to="/" className="navbar-brand">
             <img className="light-mode-item navbar-brand-item" src="assets/images/logo.svg" alt="logo" />
             <img className="dark-mode-item navbar-brand-item" src="assets/images/logo-light.svg" alt="logo" />
-          </a>
+          </NavLink>
           {/* Logo END */}
           {/* Responsive navbar toggler */}
           <button className="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,11 +51,12 @@ function Header(props) {
           <div className="navbar-collapse w-100 collapse" id="navbarCollapse">
             {/* Nav category menu START */}
             <ul className="navbar-nav navbar-nav-scroll me-auto">
+              <NavLink to="/categorys" className="navitems"><i className="bi bi-ui-radios-grid me-2" />category</NavLink>
               {/* Nav item 1 Demos */}
               <li className="nav-item dropdown dropdown-menu-shadow-stacked">
-                <a className="nav-link bg-primary bg-opacity-10 rounded-3 text-primary px-3 py-3 py-xl-0" href="#" id="categoryMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i className="bi bi-ui-radios-grid me-2" /><span>Category</span></a>
+                {/* <a className="nav-link bg-primary bg-opacity-10 rounded-3 text-primary px-3 py-3 py-xl-0" href="#" id="categoryMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i className="bi bi-ui-radios-grid me-2" /><span>Category</span></a> */}
                 <ul className="dropdown-menu" aria-labelledby="categoryMenu">
-                  {
+                  {/* {
                     data.map((v) => (
                       // console.log("name",v.name.split(" ").join("").toLowerCase())
                       // <NavLink to={"/" + v.name.split(" ").join("").toLowerCase() + "/" + v.id}
@@ -67,7 +68,7 @@ function Header(props) {
                         </NavLink>
                      
                     ))
-                  }
+                  } */}
                   {/* Dropdown submenu */}
                   {/* <li className="dropdown-submenu dropend">
                     <a className="dropdown-item dropdown-toggle" href="#">Development</a>

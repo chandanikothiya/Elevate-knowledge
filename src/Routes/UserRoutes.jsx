@@ -50,6 +50,7 @@ import StudentCourseList from '../container/StudentCourseList/StudentCourseList'
 import StudentPaymentInfo from '../container/StudentPaymentInfo/StudentPaymentInfo';
 import PrivateRoutes from './PrivateRoutes';
 import CategorySingal from '../container/CategorySingal/CategorySingal';
+import Categorys from '../container/Categorys/Categorys';
 
 function UserRoutes(props) {
     return (
@@ -105,6 +106,7 @@ function UserRoutes(props) {
                 <Route path='/studentdcourses' element={<StudentCourseList />} />
                 <Route path='/studentpaymentinfo' element={<StudentPaymentInfo />} />
                 <Route path='/CategorySingal/:id' element={<CategorySingal />} />
+                <Route path='/categorys' element={<Categorys/>} />
                 <Route path='*' element={<Error404 />} />
             </Routes>
             <Footer />
