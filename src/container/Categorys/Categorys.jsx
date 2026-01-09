@@ -64,7 +64,7 @@ function Categorys(props) {
                                         style={{ position: 'absolute', top: '-8%', right: '-8%', zIndex: '9999' }}
                                         onClick={(e) => handlefav(v.id)}>
                                         {
-                                            c.favourite.includes(v.id) ? <FavoriteIcon style={{ fontSize: '35px' }} /> : <FavoriteBorderIcon style={{ fontSize: '35px' }} />
+                                            c.favourite.includes(v.id) ? <FavoriteIcon style={{ fontSize: '35px',color:'red' }} /> : <FavoriteBorderIcon style={{ fontSize: '35px' }} />
                                         }
 
                                     </IconButton>

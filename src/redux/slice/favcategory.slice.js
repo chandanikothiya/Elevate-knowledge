@@ -21,9 +21,6 @@ const favslice = createSlice({
                 state.favourite.splice(index,1)
             }
             
-        },
-        getfav(state){
-          return state
         }
     }
 })
