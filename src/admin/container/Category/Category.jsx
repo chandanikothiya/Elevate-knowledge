@@ -16,6 +16,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { DataGrid } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { addcategory, deletecategory, editcategory, getcategory } from '../../../redux/slice/category.slice';
+import { IMG_URL } from '../../../utility/url';
 
 
 function Category(props) {
@@ -54,7 +55,7 @@ function Category(props) {
     let categoryschema = object({
         name: string().required(),
         description: string().required(),
-        categoryimg: mixed().required()
+        category_img: mixed().required()
         // .test("categoryimg","only jpeg,png,jpg",function(value) {
         //     const arr = ['image/jpeg','image/png','image/jpg']
         //     console.log(value);
@@ -71,7 +72,7 @@ function Category(props) {
             if (Object.keys(updatecategory).length > 0) {
 
                 if (typeof values.categoryimg === 'object') {
-                    dispatch(editcategory({ ...values, categoryimg: values.categoryimg.name }))
+                    dispatch(editcategory(values))
                 } else {
                     dispatch(editcategory(values))
                 }
@@ -79,7 +80,10 @@ function Category(props) {
                 setUpdateCategory({});
 
             } else {
-                dispatch(addcategory({ ...values, categoryimg: values.categoryimg.name }))
+
+                console.log("vvv",values);
+                
+                dispatch(addcategory(values))
             }
 
         } catch (error) {
@@ -103,11 +107,11 @@ function Category(props) {
         { field: "description", headerName: 'description', width: 300},
         //  { field: "categoryimg", headerName: 'categoryimg', width: 150},
         {
-            field: "categoryimg", headerName: 'categoryimg', width: 120,
+            field: "category_img", headerName: 'categoryimg', width: 120,
             renderCell: (params) => (
                 <>
-                    {console.log(params.row.categoryimg)}
-                    <img src={"../public/images/" + params.row.categoryimg} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} />
+                    {console.log(params.row.category_img)}
+                    <img src={IMG_URL + params.row.category_img} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} />
                 </>
             )
         },
@@ -148,7 +152,7 @@ function Category(props) {
                             initialValues={Object.keys(updatecategory).length > 0 ? updatecategory : {
                                 name: "",
                                 description: "",
-                                categoryimg: ""
+                                category_img: ""
                             }}
                             validationSchema={categoryschema}
                             onSubmit={(values, { resetForm }) => {
@@ -174,7 +178,7 @@ function Category(props) {
                                 />
 
                                 <UploadFile
-                                    name="categoryimg"
+                                    name="category_img"
                                 />
                                 <DialogActions>
                                     <Button onClick={handleClose}>Cancel</Button>
@@ -190,6 +194,7 @@ function Category(props) {
 
             <DataGrid
                 rows={categorys.category}
+                getRowId={(row) => row._id}
                 columns={columns}
                 initialState={{ pagination: { paginationModel } }}
                 pageSizeOptions={[5, 10]}
