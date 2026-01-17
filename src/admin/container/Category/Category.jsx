@@ -119,7 +119,7 @@ function Category(props) {
             field: 'Action', headerName: 'Action', width: 200,
             renderCell: (params) => (
                 <>
-                    {console.log(params)}
+                    {console.log(params,params.id)}
                     <IconButton aria-label="delete"
                         onClick={(e) => handleEdit(params.row)}
                         color="primary"
@@ -127,7 +127,7 @@ function Category(props) {
                         <EditIcon />
                     </IconButton>
                     <IconButton aria-label="delete"
-                        onClick={(e) => handleDelete(params.row.id)}
+                        onClick={(e) => handleDelete(params.row._id)}
                         color="error"
                     >
                         <DeleteIcon />

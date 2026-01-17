@@ -16,14 +16,14 @@ export const addcategory = createAsyncThunk(
             // const c = { ...data, categoryimg: data.categoryimg.name }
 
             const formdata = new FormData();
-            formdata.append("name",data.name);
-            formdata.append("description",data.description);
-            formdata.append("category_img",data.category_img)
+            formdata.append("name", data.name);
+            formdata.append("description", data.description);
+            formdata.append("category_img", data.category_img)
 
             const response = await fetch(BASE_URL + "category/addCategory", {
                 method: "POST",
-                body:formdata,
-               
+                body: formdata,
+
             })
 
             const datar = await response.json();
@@ -55,6 +55,9 @@ export const deletecategory = createAsyncThunk(
     'category/deletecategory',
     async (id) => {
         try {
+
+            console.log("delteid", id)
+
             const response = await fetch(`${BASE_URL}category/deleteCategory/${id}`, {
                 method: "DELETE"
             })
@@ -75,16 +78,19 @@ export const editcategory = createAsyncThunk(
         try {
             console.log(data);
 
-            const response = await fetch(`${BASE_URL}category/updateCategory/${data.id}`, {
+            const formdata = new FormData();
+            formdata.append("name", data.name);
+            formdata.append("description", data.description);
+            formdata.append("category_img", data.category_img)
+
+            const response = await fetch(`${BASE_URL}category/updateCategory/${data._id}`, {
                 method: "PUT",
-                body: JSON.stringify(data),
-                headers: {
-                    "Content-Type": "application/json"
-                }
+                body:formdata,
+
             });
             const datar = await response.json()
 
-            return datar;
+            return datar.data;
         } catch (error) {
             console.log(error)
         }
@@ -106,10 +112,11 @@ const categoryslice = createSlice({
             // console.log(action.payload)
         })
         builder.addCase(deletecategory.fulfilled, (state, action) => {
-            state.category = state.category.filter((v) => v.id !== action.payload)
+            console.log("payload", action.payload, state.category)
+            state.category = state.category.filter((v) => v._id !== action.payload)
         })
         builder.addCase(editcategory.fulfilled, (state, action) => {
-            const index = state.category.findIndex((v) => v.id === action.payload.id)
+            const index = state.category.findIndex((v) => v._id === action.payload._id)
             state.category[index] = action.payload
         })
     }

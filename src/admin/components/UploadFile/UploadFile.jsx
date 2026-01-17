@@ -3,6 +3,7 @@ import React from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
 import { useField } from 'formik';
+import { IMG_URL } from '../../../utility/url';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -25,7 +26,8 @@ function UploadFile(props) {
     let fileurl = ''
 
     if (typeof field.value === 'string'){
-        fileurl = "../public/images/" + field.value
+        fileurl = IMG_URL + field.value
+        // fileurl = "../public/images/" + field.value
     } else if (typeof field.value === 'object' && field.value ) {
         fileurl = URL.createObjectURL(field.value);
         // fileurl = "../public/images/" + field.value.name //also worked
