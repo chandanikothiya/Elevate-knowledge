@@ -51,6 +51,22 @@ export const getcategory = createAsyncThunk(
     }
 )
 
+export const getparentcategory = createAsyncThunk(
+    'category/getparentcategory',
+    async () => {
+        try {
+            const response = await fetch(BASE_URL + "category/getparentCategories")
+            const data = await response.json();
+            console.log("addda", data);
+
+            return data.data;
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+)
+
 export const deletecategory = createAsyncThunk(
     'category/deletecategory',
     async (id) => {
@@ -108,6 +124,10 @@ const categoryslice = createSlice({
             // console.log(state.category)
         })
         builder.addCase(getcategory.fulfilled, (state, action) => {
+            state.category = action.payload
+            // console.log(action.payload)
+        })
+        builder.addCase(getparentcategory.fulfilled, (state, action) => {
             state.category = action.payload
             // console.log(action.payload)
         })

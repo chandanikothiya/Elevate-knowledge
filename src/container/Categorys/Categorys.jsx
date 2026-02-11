@@ -1,84 +1,87 @@
 import React, { useEffect } from 'react';
-import Container from '@mui/material/Container';
+import { useDispatch, useSelector } from 'react-redux';
+import { getcategory, getparentcategory } from '../../redux/slice/category.slice';
+import { IMG_URL } from '../../utility/url';
+import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { useDispatch, useSelector } from 'react-redux';
-import { getcategory } from '../../redux/slice/category.slice';
+import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import SkipNextIcon from '@mui/icons-material/SkipNext';
+import Container from '@mui/material/Container';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { addfavourite, getfav } from '../../redux/slice/favcategory.slice';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+
 
 function Categorys(props) {
 
     const dispatch = useDispatch();
-    const c = useSelector(state => state.favcategory)
-    console.log(c.favourite)
 
     const categorys = useSelector(state => state.category)
     console.log(categorys.category)
 
-    function getdata() {
-        dispatch(getfav())
-    }
-
     useEffect(() => {
-        dispatch(getcategory())
-        getdata()
+        dispatch(getparentcategory())
     }, [])
 
-    const handlefav = (id) => {
-        console.log("ok", id);
-        dispatch(addfavourite(id))
-    }
-
+    const theme = useTheme();
     return (
         <>
-            <Container fixed>
-                <Box
-                    sx={{
-                        width: '100%',
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fill, minmax(min(200px, 100%), 1fr))',
-                        gap: 5,
-                    }}
-                >
-                    {
-                        categorys.category.map((v) => {
+            <Container maxWidth="md">
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                    {categorys.category.map((v) => (
+                        <Card
+                            key={v._id}
+                            sx={{
+                                display: 'flex',
+                                borderRadius: 3,
+                                boxShadow: 2,
+                                overflow: 'hidden',
+                                minHeight: 250,
+                            }}
 
-                            return <Card sx={{ maxWidth: 345 }} style={{ position: 'relative', overflow: 'visible' }}>
-                                <CardMedia
-                                    component="img"
-                                    alt="green iguana"
-                                    height="200"
-                                    image={"../public/images/" + v.categoryimg}
-                                    style={{ objectFit: 'cover' }}
-                                />
+                            style={{position:'relative'}}
+                        >
+                            {/* LEFT IMAGE */}
+                            <CardMedia
+                                component="img"
+                                image={IMG_URL + v.category_img}
+                                alt={v.name}
+                                sx={{
+                                    width: 280,
+                                    height: 250,
+                                    objectFit: 'cover',
+                                }}
+                            />
+
+                            {/* RIGHT CONTENT */}
+                            <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                                 <CardContent>
-
-                                    <IconButton aria-label="fav"
-                                        style={{ position: 'absolute', top: '-8%', right: '-8%', zIndex: '9999' }}
-                                        onClick={(e) => handlefav(v.id)}>
-                                        {
-                                            c.favourite.includes(v.id) ? <FavoriteIcon style={{ fontSize: '35px',color:'red' }} /> : <FavoriteBorderIcon style={{ fontSize: '35px' }} />
-                                        }
-
-                                    </IconButton>
-
-                                    <Typography gutterBottom variant="h5" component="div" style={{ fontSize: '22px' }}>
+                                    <Typography variant="h5" fontWeight="600">
                                         {v.name}
                                     </Typography>
-                                </CardContent>
 
-                            </Card>
-                        })
-                    }
+                                    <IconButton style={{position:'absolute',top:'10px',right:'0'}}>
+                                        <FavoriteBorderIcon />
+                                    </IconButton>
+
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ color: 'text.secondary', mt: 1 }}
+                                    >
+                                        {v.description}
+                                    </Typography>
+
+                                </CardContent>
+                            </Box>
+                        </Card>
+                    ))}
                 </Box>
             </Container>
+
         </>
     );
 }
