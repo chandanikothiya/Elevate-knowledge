@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { io } from 'socket.io-client';
 import MyTextField from '../../admin/components/MyTextField/MyTextField';
 import { Button, TextField } from '@mui/material';
@@ -6,8 +6,17 @@ import { Button, TextField } from '@mui/material';
 function Chat(props) {
 
     const [formdata, setFormData] = useState({ socketid: '', message: '' })
+    const [recivemsg, setReciveMsg] = useState([])
+    const [groupname, setGroupName] = useState('')
 
-    const socket = io('http://localhost:4000');
+    const socket = useMemo(() => io('http://localhost:4000'), [])  //io('http://localhost:4000');
+
+    useEffect(() => {
+        socket.on("recive_msg", (message) => {
+            //console.log(message)
+            setReciveMsg((prev) => [...prev, message])
+        })
+    }, [])
 
     socket.on('connect', () => {
         console.log("soketID:", socket.id)
@@ -24,48 +33,81 @@ function Chat(props) {
 
     function handlesubmit() {
         event.preventDefault();
-        console.log("ok")
+        console.log("ok", formdata.socketid, formdata.message)
         //console.log(formdata)
-       socket.emit("sendmsg",{id:formdata.socketid,message:formdata.message})
+        //socket.emit("sendmsg",{id:formdata.socketid,message:formdata.message})
+        socket.emit("send_msg", { id: formdata.socketid, message: formdata.message })
     }
 
-    socket.on('recivemessage', (message) => {
-        console.log(message);
-    })
+    // socket.on('recivemessage', (message) => {
+    //     console.log(message);
+    // })
+
+    function handlegroupsubmit() {
+        event.preventDefault();
+        socket.emit("groupname", groupname)
+    }
+
 
     return (
+        <>
+            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                <form
+                    style={{ display: 'flex', flexDirection: 'column', width: '400px', padding: '30px', boxShadow: '0 0 4px 0 rgba(0,0,0,0.25)', margin: '20px 0 0 0', borderRadius: '5px' }}
+                    onSubmit={handlesubmit}
+                >
 
-        <form
-            style={{ display: 'flex', flexDirection: 'column', width: '400px', padding: '30px', boxShadow: '0 0 4px 0 rgba(0,0,0,0.25)', margin: '20px auto 0 auto', borderRadius: '5px' }}
-            onSubmit={handlesubmit}
-        >
+                    <h3>Send Message</h3>
 
-            <h3>Send Message</h3>
+                    <TextField
+                        variant='standard'
+                        label="Socket ID"
+                        name='socketid'
+                        id='socketid'
+                        value={formdata.socketid}
+                        onChange={handleChange}
+                    />
 
-            <TextField
-                variant='standard'
-                label="Socket ID"
-                name='socketid'
-                id='socketid'
-                value={formdata.socketid}
-                onChange={handleChange}
-            />
+                    <TextField
+                        variant='standard'
+                        label="Enter Message"
+                        name='message'
+                        id='message'
+                        multiline
+                        rows={4}
+                        style={{ marginTop: '20px' }}
+                        value={formdata.message}
+                        onChange={handleChange}
+                    />
 
-            <TextField
-                variant='standard'
-                label="Enter Message"
-                name='message'
-                id='message'
-                multiline
-                rows={4}
-                style={{ marginTop: '20px' }}
-                value={formdata.message}
-                onChange={handleChange}
-            />
+                    <Button type='submit' variant='contained' style={{ marginTop: '30px' }}>Send Message</Button>
+                </form>
 
-            <Button type='submit' variant='contained' style={{ marginTop: '30px' }}>Send Message</Button>
-        </form>
+                <div style={{ width: '600px', boxShadow: '0 0 4px 0 rgba(0,0,0,0.25)', marginTop: '20px', backgroundColor: '#d7e8fd', padding: '20px' }}>
+                    {/* <p>{form}</p> */}
+                    {
+                        recivemsg.map((m) => <p style={{ width: 'fit-content', padding: '3px 8px', backgroundColor: 'white' }}>{m}</p>)
+                    }
+                </div>
+            </div>
 
+            <form
+                style={{ display: 'flex', flexDirection: 'column', width: '400px', padding: '30px', boxShadow: '0 0 4px 0 rgba(0,0,0,0.25)', margin: '60px 0 0 60px ', borderRadius: '5px' }}
+                onSubmit={handlegroupsubmit}>
+
+                <h3>Join Group</h3>
+
+                <TextField
+                    variant='standard'
+                    label="Group Name"
+                    name='groupname'
+                    id='groupname'
+                    onChange={(e) => setGroupName(e.target.value)} />
+
+                <Button type='submit' variant='contained' style={{ marginTop: '30px' }}>Join Group</Button>
+
+            </form>
+        </>
     );
 }
 
