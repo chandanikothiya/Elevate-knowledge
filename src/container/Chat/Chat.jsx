@@ -5,7 +5,7 @@ import { Button, TextField } from '@mui/material';
 
 function Chat(props) {
 
-    const [formdata, setFormData] = useState({ socketid: '', message: '' })
+    const [formdata, setFormData] = useState({ to: '', message: '' })
     const [recivemsg, setReciveMsg] = useState([])
     const [groupname, setGroupName] = useState('')
 
@@ -33,10 +33,10 @@ function Chat(props) {
 
     function handlesubmit() {
         event.preventDefault();
-        console.log("ok", formdata.socketid, formdata.message)
+        console.log("ok", formdata.to, formdata.message)
         //console.log(formdata)
         //socket.emit("sendmsg",{id:formdata.socketid,message:formdata.message})
-        socket.emit("send_msg", { id: formdata.socketid, message: formdata.message })
+        socket.emit("send_msg", { to: formdata.to, message: formdata.message })
     }
 
     // socket.on('recivemessage', (message) => {
@@ -62,9 +62,9 @@ function Chat(props) {
                     <TextField
                         variant='standard'
                         label="Socket ID"
-                        name='socketid'
-                        id='socketid'
-                        value={formdata.socketid}
+                        name='to'
+                        id='to'
+                        value={formdata.to}
                         onChange={handleChange}
                     />
 
