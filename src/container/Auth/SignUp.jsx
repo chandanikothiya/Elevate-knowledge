@@ -1,6 +1,41 @@
+import { useFormik } from 'formik';
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import { boolean, object, string } from 'yup';
+import { registeruser } from '../../redux/slice/auth.slice';
+
 
 function SignUp(props) {
+
+    const dispatch = useDispatch()
+
+    let signupSchem = object({
+        name: string().required(),
+        email: string().email().required(),
+        password: string().required(),
+        cpassword: string().required(),
+        terms:boolean().required().oneOf([true],'please select terms')
+    })
+
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            email: '',
+            password: '',
+            cpassword: '',
+            terms:false
+        },
+        validationSchema: signupSchem,
+        onSubmit: values => {
+            console.log(values)
+            dispatch(registeruser(values))
+        },
+    });
+
+    const { handleSubmit,handleBlur, handleChange, values, touched, errors } = formik;
+    console.log(errors, touched)
+
     return (
         <main>
             <section className="p-0 d-flex align-items-center position-relative overflow-hidden">
@@ -38,13 +73,40 @@ function SignUp(props) {
                                     <h2>Sign up for your account!</h2>
                                     <p className="lead mb-4">Nice to see you! Please Sign up with your account.</p>
                                     {/* Form START */}
-                                    <form>
+                                    <form onSubmit={handleSubmit}>
+                                        <div className="mb-4">
+                                            <label htmlFor="exampleInputName" className="form-label">Name</label>
+                                            <div className="input-group input-group-lg">
+                                                <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="bi bi-envelope-fill" /></span>
+                                                <input
+                                                    type="text"
+                                                    name="name"
+                                                    className="form-control border-0 bg-light rounded-end ps-1"
+                                                    placeholder="name"
+                                                    id="exampleInputname"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    value={values.name}
+                                                />
+                                                {errors.name && touched.name ? <span>{errors.name}</span> : ""}
+                                            </div>
+                                        </div>
                                         {/* Email */}
                                         <div className="mb-4">
                                             <label htmlFor="exampleInputEmail1" className="form-label">Email address *</label>
                                             <div className="input-group input-group-lg">
                                                 <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="bi bi-envelope-fill" /></span>
-                                                <input type="email" className="form-control border-0 bg-light rounded-end ps-1" placeholder="E-mail" id="exampleInputEmail1" />
+                                                <input
+                                                    type="email"
+                                                    name="email"
+                                                    className="form-control border-0 bg-light rounded-end ps-1"
+                                                    placeholder="E-mail"
+                                                    id="exampleInputEmail1"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    value={values.email}
+                                                />
+                                                {errors.email && touched.email ? <span>{errors.email}</span> : ""}
                                             </div>
                                         </div>
                                         {/* Password */}
@@ -52,7 +114,17 @@ function SignUp(props) {
                                             <label htmlFor="inputPassword5" className="form-label">Password *</label>
                                             <div className="input-group input-group-lg">
                                                 <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="fas fa-lock" /></span>
-                                                <input type="password" className="form-control border-0 bg-light rounded-end ps-1" placeholder="*********" id="inputPassword5" />
+                                                <input
+                                                    type="password"
+                                                    name="password"
+                                                    className="form-control border-0 bg-light rounded-end ps-1"
+                                                    placeholder="*********"
+                                                    id="inputPassword5"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    value={values.password}
+                                                />
+                                                {errors.password && touched.password ? <span>{errors.password}</span> : ""}
                                             </div>
                                         </div>
                                         {/* Confirm Password */}
@@ -60,20 +132,39 @@ function SignUp(props) {
                                             <label htmlFor="inputPassword6" className="form-label">Confirm Password *</label>
                                             <div className="input-group input-group-lg">
                                                 <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="fas fa-lock" /></span>
-                                                <input type="password" className="form-control border-0 bg-light rounded-end ps-1" placeholder="*********" id="inputPassword6" />
+                                                <input
+                                                    type="password"
+                                                    name="cpassword"
+                                                    className="form-control border-0 bg-light rounded-end ps-1"
+                                                    placeholder="*********"
+                                                    id="inputPassword6"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    value={values.cpassword}
+                                                />
+                                                {errors.cpassword && touched.cpassword ? <span>{errors.cpassword}</span> : ""}
                                             </div>
                                         </div>
                                         {/* Check box */}
                                         <div className="mb-4">
                                             <div className="form-check">
-                                                <input type="checkbox" className="form-check-input" id="checkbox-1" />
+                                                <input
+                                                    type="checkbox"
+                                                    name='terms'
+                                                    className="form-check-input"
+                                                    id="checkbox-1"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    checked={values.terms}
+                                                />
                                                 <label className="form-check-label" htmlFor="checkbox-1">By signing up, you agree to the<a href="#"> terms of service</a></label>
+                                                {errors.terms && touched.terms ? <span>{errors.terms}</span> : ""}
                                             </div>
                                         </div>
                                         {/* Button */}
                                         <div className="align-items-center mt-0">
                                             <div className="d-grid">
-                                                <button className="btn btn-primary mb-0" type="button">Sign Up</button>
+                                                <button className="btn btn-primary mb-0" type="submit">Sign Up</button>
                                             </div>
                                         </div>
                                     </form>
@@ -96,7 +187,7 @@ function SignUp(props) {
                                     </div>
                                     {/* Sign up link */}
                                     <div className="mt-4 text-center">
-                                        <span>Already have an account?<a href="sign-in.html"> Sign in here</a></span>
+                                        <span>Already have an account?<NavLink to={"/signin"}> Sign in here</NavLink></span>
                                     </div>
                                 </div>
                             </div>

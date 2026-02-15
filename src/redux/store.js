@@ -2,6 +2,8 @@ import { combineReducers, configureStore, createReducer } from "@reduxjs/toolkit
 import categoryreducer from "./slice/category.slice"
 import subcategoryreducre from "./slice/subcategory.slice"
 import favcategoryreducre from "./slice/favcategory.slice"
+import authreducre from "./slice/auth.slice"
+
 import storage from "redux-persist/lib/storage"
 import persistReducer from "redux-persist/es/persistReducer"
 import persistStore from "redux-persist/es/persistStore"
@@ -11,7 +13,8 @@ export const storeconfig = () => {
         reducer: {
             category: categoryreducer,
             subcategory: subcategoryreducre,
-            favcategory: favcategoryreducre
+            favcategory: favcategoryreducre,
+            auth:authreducre
         }
     })
 

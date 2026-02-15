@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 function SignIn(props) {
     return (
@@ -105,7 +106,7 @@ function SignIn(props) {
                                     </div>
                                     {/* Sign up link */}
                                     <div className="mt-4 text-center">
-                                        <span>Don't have an account? <a href="sign-up.html">Signup here</a></span>
+                                        <span>Don't have an account? <NavLink to={"/signup"}>Signup here</NavLink></span>
                                     </div>
                                 </div>
                             </div> {/* Row END */}
