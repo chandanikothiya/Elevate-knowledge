@@ -1,46 +1,83 @@
 import { useFormik } from 'formik';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { boolean, object, string } from 'yup';
-import { registeruser } from '../../redux/slice/auth.slice';
+import { boolean, number, object, string } from 'yup';
+import { loginuser, registeruser, verifyuser } from '../../redux/slice/auth.slice';
 
 
 function SignUp(props) {
 
+    const [type, setType] = useState('signup');
     const dispatch = useDispatch()
-    const navigate = useNavigate()
+    //const navigate = useNavigate()
 
-    const user = useSelector(state => state.auth.auth);
-    console.log(user.auth)
+    // const user = useSelector(state => state.auth.auth);
+    // console.log(user.auth)
 
-    useEffect(() => {
-        if (user) {
-            navigate('/verifyuser')
-        }
-    }, [user])
+    // useEffect(() => {
+    //     if (user) {
+    //         navigate('/verifyuser')
+    //     }
+    // }, [user])
 
+    let initvalues = {}, auth = {};
 
-    let signupSchem = object({
-        name: string().required(),
-        email: string().email().required(),
-        password: string().required(),
-        cpassword: string().required(),
-        terms: boolean().required().oneOf([true], 'please select terms')
-    })
+    if (type === 'signup') {
 
-    const formik = useFormik({
-        initialValues: {
+        initvalues = {
             name: '',
             email: '',
             password: '',
             cpassword: '',
             terms: false
-        },
-        validationSchema: signupSchem,
+        }
+
+        auth = {
+            name: string().required(),
+            email: string().email().required(),
+            password: string().required(),
+            cpassword: string().required(),
+            terms: boolean().required().oneOf([true], 'please select terms')
+        }
+
+    } else if (type === 'verify OTP') {
+        initvalues = {
+            otp: 0
+        }
+
+        auth = {
+            otp: number().required()
+        }
+    } else if (type === 'login') {
+        initvalues = {
+            email: '',
+            password: '',
+            terms: false
+        }
+
+        auth = {
+            email: string().email().required(),
+            password: string().required(),
+            terms: boolean().required().oneOf([true], 'please select terms')
+        }
+    }
+
+    const formik = useFormik({
+        initialValues: initvalues,
+        validationSchema: object(auth),
         onSubmit: values => {
             console.log(values)
-            dispatch(registeruser(values))
+            if (type === 'signup') {
+                localStorage.setItem("email", values.email)
+                dispatch(registeruser(values))
+                setType('verify OTP')
+            } else if (type === 'verify OTP') {
+                dispatch(verifyuser({ email: localStorage.getItem("email"), otp: values.otp }))
+                setType('login')
+            } else if (type === 'login') {
+                dispatch(loginuser(values))
+            }
         },
     });
 
@@ -81,101 +118,131 @@ function SignUp(props) {
                                 <div className="col-sm-10 col-xl-8 m-auto">
                                     {/* Title */}
                                     <img src="assets/images/element/03.svg" className="h-40px mb-2" alt />
-                                    <h2>Sign up for your account!</h2>
-                                    <p className="lead mb-4">Nice to see you! Please Sign up with your account.</p>
+                                    <h2>{type} for your account!</h2>
+                                    <p className="lead mb-4">Nice to see you! Please {type} with your account.</p>
                                     {/* Form START */}
                                     <form onSubmit={handleSubmit}>
-                                        <div className="mb-4">
-                                            <label htmlFor="exampleInputName" className="form-label">Name</label>
-                                            <div className="input-group input-group-lg">
-                                                <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="bi bi-envelope-fill" /></span>
-                                                <input
-                                                    type="text"
-                                                    name="name"
-                                                    className="form-control border-0 bg-light rounded-end ps-1"
-                                                    placeholder="name"
-                                                    id="exampleInputname"
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    value={values.name}
-                                                />
-                                                {errors.name && touched.name ? <span>{errors.name}</span> : ""}
-                                            </div>
-                                        </div>
-                                        {/* Email */}
-                                        <div className="mb-4">
-                                            <label htmlFor="exampleInputEmail1" className="form-label">Email address *</label>
-                                            <div className="input-group input-group-lg">
-                                                <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="bi bi-envelope-fill" /></span>
-                                                <input
-                                                    type="email"
-                                                    name="email"
-                                                    className="form-control border-0 bg-light rounded-end ps-1"
-                                                    placeholder="E-mail"
-                                                    id="exampleInputEmail1"
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    value={values.email}
-                                                />
-                                                {errors.email && touched.email ? <span>{errors.email}</span> : ""}
-                                            </div>
-                                        </div>
-                                        {/* Password */}
-                                        <div className="mb-4">
-                                            <label htmlFor="inputPassword5" className="form-label">Password *</label>
-                                            <div className="input-group input-group-lg">
-                                                <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="fas fa-lock" /></span>
-                                                <input
-                                                    type="password"
-                                                    name="password"
-                                                    className="form-control border-0 bg-light rounded-end ps-1"
-                                                    placeholder="*********"
-                                                    id="inputPassword5"
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    value={values.password}
-                                                />
-                                                {errors.password && touched.password ? <span>{errors.password}</span> : ""}
-                                            </div>
-                                        </div>
-                                        {/* Confirm Password */}
-                                        <div className="mb-4">
-                                            <label htmlFor="inputPassword6" className="form-label">Confirm Password *</label>
-                                            <div className="input-group input-group-lg">
-                                                <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="fas fa-lock" /></span>
-                                                <input
-                                                    type="password"
-                                                    name="cpassword"
-                                                    className="form-control border-0 bg-light rounded-end ps-1"
-                                                    placeholder="*********"
-                                                    id="inputPassword6"
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    value={values.cpassword}
-                                                />
-                                                {errors.cpassword && touched.cpassword ? <span>{errors.cpassword}</span> : ""}
-                                            </div>
-                                        </div>
-                                        {/* Check box */}
-                                        <div className="mb-4">
-                                            <div className="form-check">
-                                                <input
-                                                    type="checkbox"
-                                                    name='terms'
-                                                    className="form-check-input"
-                                                    id="checkbox-1"
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    checked={values.terms}
-                                                />
-                                                <label className="form-check-label" htmlFor="checkbox-1">By signing up, you agree to the<a href="#"> terms of service</a></label>
-                                                {errors.terms && touched.terms ? <span>{errors.terms}</span> : ""}
-                                            </div>
-                                        </div>
-                                        {/* Button */}
+                                        {
+                                            type === 'signup' || type === 'login' ?
+                                                <>
+                                                    {
+                                                        type === 'signup' &&
+                                                        <div className="mb-4">
+                                                            <label htmlFor="exampleInputName" className="form-label">Name</label>
+                                                            <div className="input-group input-group-lg">
+                                                                <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="bi bi-envelope-fill" /></span>
+                                                                <input
+                                                                    type="text"
+                                                                    name="name"
+                                                                    className="form-control border-0 bg-light rounded-end ps-1"
+                                                                    placeholder="name"
+                                                                    id="exampleInputname"
+                                                                    onChange={handleChange}
+                                                                    onBlur={handleBlur}
+                                                                    value={values.name}
+                                                                />
+                                                                {errors.name && touched.name ? <span>{errors.name}</span> : ""}
+                                                            </div>
+                                                        </div>
+                                                    }
+
+                                                    {/* Email */}
+                                                    <div className="mb-4">
+                                                        <label htmlFor="exampleInputEmail1" className="form-label">Email address *</label>
+                                                        <div className="input-group input-group-lg">
+                                                            <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="bi bi-envelope-fill" /></span>
+                                                            <input
+                                                                type="email"
+                                                                name="email"
+                                                                className="form-control border-0 bg-light rounded-end ps-1"
+                                                                placeholder="E-mail"
+                                                                id="exampleInputEmail1"
+                                                                onChange={handleChange}
+                                                                onBlur={handleBlur}
+                                                                value={values.email}
+                                                            />
+                                                            {errors.email && touched.email ? <span>{errors.email}</span> : ""}
+                                                        </div>
+                                                    </div>
+                                                    {/* Password */}
+                                                    <div className="mb-4">
+                                                        <label htmlFor="inputPassword5" className="form-label">Password *</label>
+                                                        <div className="input-group input-group-lg">
+                                                            <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="fas fa-lock" /></span>
+                                                            <input
+                                                                type="password"
+                                                                name="password"
+                                                                className="form-control border-0 bg-light rounded-end ps-1"
+                                                                placeholder="*********"
+                                                                id="inputPassword5"
+                                                                onChange={handleChange}
+                                                                onBlur={handleBlur}
+                                                                value={values.password}
+                                                            />
+                                                            {errors.password && touched.password ? <span>{errors.password}</span> : ""}
+                                                        </div>
+                                                    </div>
+
+                                                    {
+                                                        type === 'signup' &&
+                                                        <div div className="mb-4">
+                                                            <label htmlFor="inputPassword6" className="form-label">Confirm Password *</label>
+                                                            <div className="input-group input-group-lg">
+                                                                <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="fas fa-lock" /></span>
+                                                                <input
+                                                                    type="password"
+                                                                    name="cpassword"
+                                                                    className="form-control border-0 bg-light rounded-end ps-1"
+                                                                    placeholder="*********"
+                                                                    id="inputPassword6"
+                                                                    onChange={handleChange}
+                                                                    onBlur={handleBlur}
+                                                                    value={values.cpassword}
+                                                                />
+                                                                {errors.cpassword && touched.cpassword ? <span>{errors.cpassword}</span> : ""}
+                                                            </div>
+                                                        </div>
+                                                    }
+
+                                                    {/* Check box */}
+                                                    <div className="mb-4">
+                                                        <div className="form-check">
+                                                            <input
+                                                                type="checkbox"
+                                                                name='terms'
+                                                                className="form-check-input"
+                                                                id="checkbox-1"
+                                                                onChange={handleChange}
+                                                                onBlur={handleBlur}
+                                                                checked={values.terms}
+                                                            />
+                                                            <label className="form-check-label" htmlFor="checkbox-1">By signing up, you agree to the<a href="#"> terms of service</a></label>
+                                                            {errors.terms && touched.terms ? <span>{errors.terms}</span> : ""}
+                                                        </div>
+                                                    </div>
+
+                                                </> :
+                                                <div className="mb-4">
+                                                    <label htmlFor="inputPassword5" className="form-label">OTP *</label>
+                                                    <div className="input-group input-group-lg">
+                                                        <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="fas fa-lock" /></span>
+                                                        <input
+                                                            type="otp"
+                                                            name="otp"
+                                                            className="form-control border-0 bg-light rounded-end ps-1"
+                                                            placeholder="****"
+                                                            id="inputotp5"
+                                                            onChange={handleChange}
+                                                            onBlur={handleBlur}
+                                                        />
+                                                        {errors.otp && touched.otp ? <span>{errors.otp}</span> : ""}
+                                                    </div>
+                                                </div>
+                                        }
+
                                         <div className="align-items-center mt-0">
                                             <div className="d-grid">
-                                                <button className="btn btn-primary mb-0" type="submit">Sign Up</button>
+                                                <button className="btn btn-primary mb-0" type="submit">{type}</button>
                                             </div>
                                         </div>
                                     </form>
@@ -196,17 +263,25 @@ function SignUp(props) {
                                             <a href="#" className="btn bg-facebook mb-0"><i className="fab fa-fw fa-facebook-f me-2" />Signup with Facebook</a>
                                         </div>
                                     </div>
+
+                                    {
+                                        type === 'signup' ?
+                                            <div className="mt-4 text-center">
+                                                <span>Already have an account?<a href='#' onClick={() => setType('login')}> Sign in here</a></span>
+                                            </div> :
+                                            <div className="mt-4 text-center">
+                                                <span>Already have an account?<a href='#' onClick={() => setType('signup')}> Signup here</a></span>
+                                            </div>
+                                    }
                                     {/* Sign up link */}
-                                    <div className="mt-4 text-center">
-                                        <span>Already have an account?<NavLink to={"/signin"}> Sign in here</NavLink></span>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
-        </main>
+            </section >
+        </main >
 
     );
 }
