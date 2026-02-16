@@ -52,6 +52,7 @@ import PrivateRoutes from './PrivateRoutes';
 import CategorySingal from '../container/CategorySingal/CategorySingal';
 import Categorys from '../container/Categorys/Categorys';
 import Chat from '../container/chat/chat';
+import Verifyuser from '../container/Auth/verifyuser';
 
 
 function UserRoutes(props) {
@@ -110,6 +111,7 @@ function UserRoutes(props) {
                 <Route path='/CategorySingal/:id' element={<CategorySingal />} />
                 <Route path='/categorys' element={<Categorys/>} />
                 <Route path='/chat' element={<Chat/>} />
+                <Route path='/verifyuser' element={<Verifyuser/>} />
                 <Route path='*' element={<Error404 />} />
             </Routes>
             <Footer />

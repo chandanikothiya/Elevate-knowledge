@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { boolean, object, string } from 'yup';
 import { registeruser } from '../../redux/slice/auth.slice';
 
@@ -9,13 +9,24 @@ import { registeruser } from '../../redux/slice/auth.slice';
 function SignUp(props) {
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const user = useSelector(state => state.auth.auth);
+    console.log(user.auth)
+
+    useEffect(() => {
+        if (user) {
+            navigate('/verifyuser')
+        }
+    }, [user])
+
 
     let signupSchem = object({
         name: string().required(),
         email: string().email().required(),
         password: string().required(),
         cpassword: string().required(),
-        terms:boolean().required().oneOf([true],'please select terms')
+        terms: boolean().required().oneOf([true], 'please select terms')
     })
 
     const formik = useFormik({
@@ -24,7 +35,7 @@ function SignUp(props) {
             email: '',
             password: '',
             cpassword: '',
-            terms:false
+            terms: false
         },
         validationSchema: signupSchem,
         onSubmit: values => {
@@ -33,7 +44,7 @@ function SignUp(props) {
         },
     });
 
-    const { handleSubmit,handleBlur, handleChange, values, touched, errors } = formik;
+    const { handleSubmit, handleBlur, handleChange, values, touched, errors } = formik;
     console.log(errors, touched)
 
     return (
