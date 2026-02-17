@@ -6,11 +6,11 @@ import { boolean, number, object, string } from 'yup';
 import { loginuser, registeruser, verifyuser } from '../../redux/slice/auth.slice';
 
 
-function SignUp(props) {
+function Auth(props) {
 
-    const [type, setType] = useState('signup');
+    const [type, setType] = useState('login');
     const dispatch = useDispatch()
-    //const navigate = useNavigate()
+    const navigate = useNavigate()
 
     // const user = useSelector(state => state.auth.auth);
     // console.log(user.auth)
@@ -77,6 +77,7 @@ function SignUp(props) {
                 setType('login')
             } else if (type === 'login') {
                 dispatch(loginuser(values))
+                navigate("/")
             }
         },
     });
@@ -286,4 +287,4 @@ function SignUp(props) {
     );
 }
 
-export default SignUp;
+export default Auth;

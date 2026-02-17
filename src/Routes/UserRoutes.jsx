@@ -26,7 +26,7 @@ import Instructorslist from '../components/Instructorslist/Instructorslist';
 import InstructorSingle from '../container/InstructorSingle/InstructorSingle';
 import BecomeInstructor from '../container/BecomeInstructor/BecomeInstructor';
 import SignIn from '../container/Auth/SignIn';
-import SignUp from '../container/Auth/SignUp';
+// import auth from '../container/Auth/Auth';
 import ForgetPassword from '../container/ForgetPassword/ForgetPassword';
 import FAQ from '../container/FAQ/FAQ';
 import Error404 from '../container/Error404/Error404';
@@ -53,6 +53,7 @@ import CategorySingal from '../container/CategorySingal/CategorySingal';
 import Categorys from '../container/Categorys/Categorys';
 import Chat from '../container/chat/chat';
 import Verifyuser from '../container/Auth/verifyuser';
+import Auth from '../container/Auth/Auth';
 
 
 function UserRoutes(props) {
@@ -84,7 +85,7 @@ function UserRoutes(props) {
                 <Route path='/instructorsinglet' element={<InstructorSingle />} />
                 <Route path='/becomeinstructor' element={<BecomeInstructor />} />
                 <Route path='/signin' element={<SignIn />} />
-                <Route path='/signup' element={<SignUp />} />
+                <Route path='/auth' element={<Auth/>} />
                 <Route path='/forgetpassword' element={<ForgetPassword />} />
                 <Route path='/faq' element={<FAQ />} />
                 <Route path='/error404' element={<Error404 />} />

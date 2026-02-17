@@ -3,18 +3,21 @@ import { NavLink } from 'react-router-dom';
 import ListItem from '@mui/material/ListItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { getcategory, getparentcategory } from '../../redux/slice/category.slice';
+import { logoutuser } from '../../redux/slice/auth.slice';
 
 
 function Header(props) {
 
   const dispatch = useDispatch();
   const categorys = useSelector(state => state.category)
+  const auth = useSelector(state => state.auth)
+  console.log(auth)
 
   useEffect(() => {
     dispatch(getparentcategory());
-  },[])
+  }, [])
 
-  console.log("category",categorys.category)
+  console.log("category", categorys.category)
 
   return (
     <header className="navbar-light navbar-sticky header-static">
@@ -22,7 +25,7 @@ function Header(props) {
       <nav className="navbar navbar-expand-xl">
         <div className="container-fluid px-3 px-xl-5">
           {/* Logo START */}
-         <NavLink to="/" className="navbar-brand">
+          <NavLink to="/" className="navbar-brand">
             <img className="light-mode-item navbar-brand-item" src="assets/images/logo.svg" alt="logo" />
             <img className="dark-mode-item navbar-brand-item" src="assets/images/logo-light.svg" alt="logo" />
           </NavLink>
@@ -41,17 +44,17 @@ function Header(props) {
             {/* Nav category menu START */}
             <ul className="navbar-nav navbar-nav-scroll me-auto">
               <li className="nav-item dropdown">
-                
+
                 <a className="nav-link dropdown-toggle active" href="#" id="demoMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i className="bi bi-ui-radios-grid me-2" />categorys</a>
                 <ul className="dropdown-menu " aria-labelledby="demoMenu">
                   {
-                    categorys.category.map((v) => (                     
-                       <li><a className="dropdown-item">{v.name}</a></li>                     
+                    categorys.category.map((v) => (
+                      <li><a className="dropdown-item">{v.name}</a></li>
                     ))
                   }
                   <li>
                     <NavLink to="/categorys" className="dropdown-item fw-bold">
-                    Display all
+                      Display all
                     </NavLink>
                   </li>
                 </ul>
@@ -393,7 +396,15 @@ function Header(props) {
               <li><a className="dropdown-item" href="#"><i className="bi bi-person fa-fw me-2" />Edit Profile</a></li>
               <li><a className="dropdown-item" href="#"><i className="bi bi-gear fa-fw me-2" />Account Settings</a></li>
               <li><a className="dropdown-item" href="#"><i className="bi bi-info-circle fa-fw me-2" />Help</a></li>
-              <li><NavLink to={"/signin"} className="dropdown-item bg-danger-soft-hover" href="#"><i className="bi bi-power fa-fw me-2" />Sign In</NavLink></li>
+
+              {/* logic for display sigin and signout after signin */}
+              {
+                auth.user ?
+                  <li><a href="#" className="dropdown-item bg-danger-soft-hover" onClick={() => dispatch(logoutuser(auth.user))}><i className="bi bi-power fa-fw me-2" />Sign Out</a></li>
+                  :
+                  <li><NavLink to={"/Auth"} className="dropdown-item" href="#"><i class="bi bi-box-arrow-in-right me-2"></i>Sign In</NavLink></li>
+              }
+
               <li> <hr className="dropdown-divider" /></li>
               {/* Dark mode switch START */}
               <li>

@@ -1,37 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import axios from "axios"
+import { axiosInstance } from "../../utility/axiosInstance"
 
 
 const initialState = {
-    user: {},
-    auth: false
+    isloading: false,
+    user: null,
+    errors: null
 }
-
-const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8080/api/v1/user',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-})
-
-//before sending request run this code (in config url,data,headers,method)
-axiosInstance.interceptors.request.use(function (config) {
-    const token = localStorage.getItem("token");
-    console.log(token)
-
-    //console.log("getItem length:", localStorage.getItem.length);
-    //console.log(config)
-    return config;
-    
-}, function (error) {
-    return Promise.reject(error);
-})
-
-axiosInstance.interceptors.response.use(function (response) {
-    return response;
-}, function (error) {
-    return Promise.reject(error);
-})
 
 
 export const registeruser = createAsyncThunk(
@@ -40,7 +15,7 @@ export const registeruser = createAsyncThunk(
         console.log(data)
         try {
 
-            const response = await axiosInstance.post('/addRegister', data)
+            const response = await axiosInstance.post('user/addRegister', data)
             console.log(response.data.data)
             return response.data.data;
         } catch (error) {
@@ -53,7 +28,7 @@ export const verifyuser = createAsyncThunk(
     'auth/verifyuser',
     async (data) => {
         try {
-            const response = await axiosInstance.post('/verifyuser', data);
+            const response = await axiosInstance.post('user/verifyuser', data);
             console.log(response);
             return response.data.data;
         } catch (error) {
@@ -66,7 +41,22 @@ export const loginuser = createAsyncThunk(
     'auth/loginuser',
     async (data) => {
         try {
-            const response = await axiosInstance.post('/loginuser', data, { withCredentials: true })
+            const response = await axiosInstance.post('user/loginuser', data)
+            console.log(response)
+
+            return response.data.data;
+        } catch (error) {
+            console.log(error)
+            throw error
+        }
+    }
+)
+
+export const logoutuser = createAsyncThunk(
+    'auth/logoutuser',
+    async (_id) => {
+        try {
+            const response = await axiosInstance.post('user/logout', { _id })
             console.log(response)
 
             return response.data.data;
@@ -91,10 +81,14 @@ const authSlice = createSlice({
             console.log(state.user)
         })
         builder.addCase(loginuser.fulfilled, (state, action) => {
-            //console.log(action.payload.refreshtoken)
-            localStorage.setItem("token", action.payload.refreshtoken)
+            state.isloading = false;
             state.user = action.payload;
-            state.auth = true
+            state.errors = null
+        });
+        builder.addCase(logoutuser.fulfilled, (state, action) => {
+            state.isloading = false;
+            state.user = action.payload;
+            state.errors = null
         });
     }
 })
