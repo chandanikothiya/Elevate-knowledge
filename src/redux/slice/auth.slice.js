@@ -8,9 +8,9 @@ const initialState = {
 }
 
 const axiosInstance = axios.create({
-    baseURL:'http://localhost:8080/api/v1/user',
-    headers:{
-        'Content-Type':'application/json',
+    baseURL: 'http://localhost:8080/api/v1/user',
+    headers: {
+        'Content-Type': 'application/json',
     },
 })
 
@@ -18,11 +18,11 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(function (config) {
     const token = localStorage.getItem("token");
     console.log(token)
-   
-        //console.log("getItem length:", localStorage.getItem.length);
-        console.log(config)
 
+    //console.log("getItem length:", localStorage.getItem.length);
+    //console.log(config)
     return config;
+    
 }, function (error) {
     return Promise.reject(error);
 })
@@ -68,7 +68,7 @@ export const loginuser = createAsyncThunk(
         try {
             const response = await axiosInstance.post('/loginuser', data, { withCredentials: true })
             console.log(response)
-            
+
             return response.data.data;
         } catch (error) {
             console.log(error)
@@ -92,7 +92,7 @@ const authSlice = createSlice({
         })
         builder.addCase(loginuser.fulfilled, (state, action) => {
             //console.log(action.payload.refreshtoken)
-            localStorage.setItem("token",action.payload.refreshtoken)
+            localStorage.setItem("token", action.payload.refreshtoken)
             state.user = action.payload;
             state.auth = true
         });
