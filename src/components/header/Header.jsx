@@ -11,6 +11,7 @@ function Header(props) {
   const dispatch = useDispatch();
   const categorys = useSelector(state => state.category)
   const auth = useSelector(state => state.auth)
+  
   console.log(auth)
 
   useEffect(() => {

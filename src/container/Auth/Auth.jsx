@@ -11,7 +11,9 @@ function Auth(props) {
     const [type, setType] = useState('login');
     const dispatch = useDispatch()
     const navigate = useNavigate()
-
+    const auths = useSelector(state => state.auth)
+    console.log(auths)
+    
     // const user = useSelector(state => state.auth.auth);
     // console.log(user.auth)
 

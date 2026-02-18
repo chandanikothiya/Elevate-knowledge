@@ -1,0 +1,30 @@
+import { useSnackbar } from 'notistack';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+
+function Alert(props) {
+
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+    const alert = useSelector(state => state.alert)
+    console.log(alert)
+
+    useEffect(() => {
+        if (alert.text !== '') {
+            enqueueSnackbar(alert.text, {
+                anchorOrigin: {
+                    vertical: 'top',
+                    horizontal: 'right'
+                },
+                variant: alert.variant
+            })
+        }
+    }, [alert.text])
+
+    return (
+        <>
+
+        </>
+    );
+}
+
+export default Alert;

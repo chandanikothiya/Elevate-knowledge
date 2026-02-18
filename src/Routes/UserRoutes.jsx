@@ -54,8 +54,6 @@ import Categorys from '../container/Categorys/Categorys';
 import Chat from '../container/chat/chat';
 import Verifyuser from '../container/Auth/verifyuser';
 import Auth from '../container/Auth/Auth';
-import Notistack from '../container/Notistack/Notistack';
-
 
 function UserRoutes(props) {
     return (
@@ -114,7 +112,6 @@ function UserRoutes(props) {
                 <Route path='/categorys' element={<Categorys/>} />
                 <Route path='/chat' element={<Chat/>} />
                 <Route path='/verifyuser' element={<Verifyuser/>} />
-                <Route path='/notistack' element={<Notistack/>} />                
                 <Route path='*' element={<Error404 />} />
             </Routes>
             <Footer />
