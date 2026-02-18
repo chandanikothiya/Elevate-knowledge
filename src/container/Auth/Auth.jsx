@@ -68,7 +68,7 @@ function Auth(props) {
     const formik = useFormik({
         initialValues: initvalues,
         validationSchema: object(auth),
-        onSubmit: values => {
+        onSubmit:async values => {
             console.log(values)
             if (type === 'signup') {
                 localStorage.setItem("email", values.email)
@@ -78,8 +78,12 @@ function Auth(props) {
                 dispatch(verifyuser({ email: localStorage.getItem("email"), otp: values.otp }))
                 setType('login')
             } else if (type === 'login') {
-                dispatch(loginuser(values))
-                navigate("/")
+                const res = await dispatch(loginuser(values))
+                console.log(res)
+
+                if (res.type == 'auth/loginuser/fulfilled') {
+                    navigate("/")
+                }
             }
         },
     });
@@ -124,6 +128,9 @@ function Auth(props) {
                                     <h2>{type} for your account!</h2>
                                     <p className="lead mb-4">Nice to see you! Please {type} with your account.</p>
                                     {/* Form START */}
+                                    {/* {
+                                        auth.errors && <p>{auth.errors}</p>
+                                    } */}
                                     <form onSubmit={handleSubmit}>
                                         {
                                             type === 'signup' || type === 'login' ?

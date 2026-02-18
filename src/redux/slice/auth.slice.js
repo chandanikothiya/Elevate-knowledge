@@ -56,6 +56,7 @@ export const loginuser = createAsyncThunk(
 
         } catch (error) {
             console.log("error", error.response)
+            dispatch(setalert({ text: error.response.data.message, variant: 'error' }))
             return rejectWithValue(error.response.data.message)
         }
     }
