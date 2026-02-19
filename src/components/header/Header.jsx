@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import ListItem from '@mui/material/ListItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { getcategory, getparentcategory } from '../../redux/slice/category.slice';
-import { checkauth, logoutuser } from '../../redux/slice/auth.slice';
+import { logoutuser } from '../../redux/slice/auth.slice';
 
 
 function Header(props) {
@@ -16,9 +16,6 @@ function Header(props) {
 
   useEffect(() => {
     dispatch(getparentcategory());
-    if (auth.user === null){
-      dispatch(checkauth())
-    }
   }, [])
 
   console.log("category", categorys.category)

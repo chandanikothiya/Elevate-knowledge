@@ -11,7 +11,7 @@ const initialState = {
 
 export const registeruser = createAsyncThunk(
     'auth/registeruser',
-    async (data,{ rejectWithValue }) => {
+    async (data, { rejectWithValue }) => {
         console.log(data)
         try {
 
@@ -21,7 +21,7 @@ export const registeruser = createAsyncThunk(
         } catch (error) {
             console.log(error)
             dispatch(setalert({ text: error.response.data.message, variant: 'error' }))
-             return rejectWithValue(error.response.data.message)
+            return rejectWithValue(error.response.data.message)
         }
     }
 )
@@ -68,7 +68,7 @@ export const loginuser = createAsyncThunk(
 
 export const logoutuser = createAsyncThunk(
     'auth/logoutuser',
-    async (_id, { dispatch,rejectWithValue}) => {
+    async (_id, { dispatch, rejectWithValue }) => {
         try {
             const response = await axiosInstance.post('user/logout', { _id })
             console.log(response)
@@ -87,7 +87,7 @@ export const logoutuser = createAsyncThunk(
 
 export const checkauth = createAsyncThunk(
     'auth/checkauth',
-    async () => {
+    async (_,{rejectWithValue}) => {
         try {
             const response = await axiosInstance.get('user/checkauth')
             console.log(response)
@@ -97,6 +97,7 @@ export const checkauth = createAsyncThunk(
             }
         } catch (error) {
             console.log(error)
+            return rejectWithValue(error.response.data.message)
         }
     }
 )
@@ -118,6 +119,7 @@ const authSlice = createSlice({
             state.errors = action.payload
         })
 
+
         builder.addCase(verifyuser.fulfilled, (state, action) => {
             state.user = action.payload
             console.log(state.user)
@@ -127,6 +129,7 @@ const authSlice = createSlice({
             state.user = null;
             state.errors = action.payload
         })
+
 
         builder.addCase(loginuser.fulfilled, (state, action) => {
             state.isloading = false;
@@ -140,23 +143,30 @@ const authSlice = createSlice({
             state.errors = action.payload
         })
 
+
         builder.addCase(logoutuser.fulfilled, (state, action) => {
             state.isloading = false;
             state.user = action.payload;
             state.errors = null
         });
-         builder.addCase(logoutuser.rejected, (state, action) => {
+        builder.addCase(logoutuser.rejected, (state, action) => {
             console.log(action.payload)
             state.isloading = false;
             state.user = null;
             state.errors = action.payload
         })
 
+
         builder.addCase(checkauth.fulfilled, (state, action) => {
             state.isloading = false;
             state.user = action.payload;
             state.errors = null
         });
+        builder.addCase(checkauth.rejected, (state, action) => {
+            state.isloading = false;
+            state.user = null;
+            state.errors = action.payload
+        })
     }
 })
 

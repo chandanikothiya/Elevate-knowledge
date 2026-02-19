@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { boolean, number, object, string } from 'yup';
 import { loginuser, registeruser, verifyuser } from '../../redux/slice/auth.slice';
+import { GridNoColumnsOverlay } from '@mui/x-data-grid';
 
 
 function Auth(props) {
@@ -97,6 +98,15 @@ function Auth(props) {
 
     const { handleSubmit, handleBlur, handleChange, values, touched, errors } = formik;
     console.log(errors, touched)
+
+    const handlegooglelogin = () => {
+        try {
+            //console.log("ok")
+            window.location.href = 'http://localhost:8080/api/v1/user/auth/google'
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <main>
@@ -273,7 +283,7 @@ function Auth(props) {
                                         </div>
                                         {/* Social btn */}
                                         <div className="col-xxl-6 d-grid">
-                                            <a href="#" className="btn bg-google mb-2 mb-xxl-0"><i className="fab fa-fw fa-google text-white me-2" />Signup with Google</a>
+                                            <a href="#" onClick={handlegooglelogin} className="btn bg-google mb-2 mb-xxl-0"><i className="fab fa-fw fa-google text-white me-2" />Signup with Google</a>
                                         </div>
                                         {/* Social btn */}
                                         <div className="col-xxl-6 d-grid">

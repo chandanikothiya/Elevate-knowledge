@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Header from '../components/header/Header';
 import Footer from '../components/footer/Footer';
@@ -54,8 +54,18 @@ import Categorys from '../container/Categorys/Categorys';
 import Chat from '../container/chat/chat';
 import Verifyuser from '../container/Auth/verifyuser';
 import Auth from '../container/Auth/Auth';
+import { useDispatch } from 'react-redux';
+import { checkauth } from '../redux/slice/auth.slice';
 
 function UserRoutes(props) {
+
+    const dispatch =useDispatch()
+
+    useEffect(() => {
+        dispatch(checkauth())
+    },[])
+
+
     return (
         <>
             <Header />
