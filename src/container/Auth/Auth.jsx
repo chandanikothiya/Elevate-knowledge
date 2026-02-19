@@ -78,12 +78,12 @@ function Auth(props) {
                     setType('verify OTP')
                 }
                 console.log(res)
-                
+
             } else if (type === 'verify OTP') {
                 const res = await dispatch(verifyuser({ email: localStorage.getItem("email"), otp: values.otp }))
                 console.log(res)
                 if (res.type == 'auth/verifyuser/fulfilled') {
-                     setType('login')
+                    setType('login')
                 }
             } else if (type === 'login') {
                 const res = await dispatch(loginuser(values))
@@ -278,10 +278,17 @@ function Auth(props) {
                                         </div>
                                     </form>
                                     {/* Form END */}
+
+                                    {/* forget password link*/}
+
+                                    <div className="mt-3">
+                                        <span><NavLink to={'/forgetpassword'}>Forget Password?</NavLink></span>
+                                    </div>
+
                                     {/* Social buttons */}
                                     <div className="row">
                                         {/* Divider with text */}
-                                        <div className="position-relative my-4">
+                                        <div className="position-relative mt-3 mb-4">
                                             <hr />
                                             <p className="small position-absolute top-50 start-50 translate-middle bg-body px-5">Or</p>
                                         </div>
@@ -301,7 +308,7 @@ function Auth(props) {
                                                 <span>Already have an account?<a href='#' onClick={() => setType('login')}> Sign in here</a></span>
                                             </div> :
                                             <div className="mt-4 text-center">
-                                                <span>Already have an account?<a href='#' onClick={() => setType('signup')}> Signup here</a></span>
+                                                <span>don't have an account?<a href='#' onClick={() => setType('signup')}> Signup here</a></span>
                                             </div>
                                     }
                                     {/* Sign up link */}

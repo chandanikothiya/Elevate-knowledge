@@ -87,7 +87,7 @@ export const logoutuser = createAsyncThunk(
 
 export const checkauth = createAsyncThunk(
     'auth/checkauth',
-    async (_,{rejectWithValue}) => {
+    async (_, { rejectWithValue }) => {
         try {
             const response = await axiosInstance.get('user/checkauth')
             console.log(response)
@@ -97,6 +97,54 @@ export const checkauth = createAsyncThunk(
             }
         } catch (error) {
             console.log(error)
+            return rejectWithValue(error.response.data.message)
+        }
+    }
+)
+
+export const forgetpassword = createAsyncThunk(
+    'auth/forgetpassword',
+    async (data, { rejectWithValue }) => {
+        try {
+
+            const response = await axiosInstance.post('user/forgetpass', data)
+            console.log(response)
+
+        } catch (error) {
+            console.log(error)
+            return rejectWithValue(error.response.data.message)
+        }
+    }
+)
+
+export const verifyemail = createAsyncThunk(
+    'auth/verifyemail',
+    async (data, {dispatch, rejectWithValue }) => {
+        try {
+
+            const response = await axiosInstance.post('user/verifyemail', data)
+            console.log(response)
+
+        } catch (error) {
+            console.log(error)
+            dispatch(setalert({ text: error.response.data.message, variant: 'error' }))
+            return rejectWithValue(error.response.data.message)
+        }
+    }
+)
+
+export const resetpassword = createAsyncThunk(
+    'auth/resetpassword',
+    async (data, {dispatch, rejectWithValue }) => {
+        try {
+
+            const response = await axiosInstance.post('user/resetpassword', data)
+              dispatch(setalert({ text: response.data.message, variant: 'success' }))
+            console.log(response)
+
+        } catch (error) {
+            console.log(error)
+            dispatch(setalert({ text: error.response.data.message, variant: 'error' }))
             return rejectWithValue(error.response.data.message)
         }
     }
@@ -138,7 +186,7 @@ const authSlice = createSlice({
             state.errors = action.payload
         })
 
-         builder.addCase(loginuser.pending, (state, action) => {
+        builder.addCase(loginuser.pending, (state, action) => {
             state.isloading = true;
             state.user = null
             state.errors = null;
@@ -179,6 +227,39 @@ const authSlice = createSlice({
             state.errors = null
         });
         builder.addCase(checkauth.rejected, (state, action) => {
+            state.isloading = false;
+            state.user = null;
+            state.errors = action.payload
+        })
+
+        builder.addCase(forgetpassword.fulfilled, (state, action) => {
+            state.isloading = false;
+            state.user = action.payload;
+            state.errors = null
+        });
+        builder.addCase(forgetpassword.rejected, (state, action) => {
+            state.isloading = false;
+            state.user = null;
+            state.errors = action.payload
+        })
+
+        builder.addCase(verifyemail.fulfilled, (state, action) => {
+            state.isloading = false;
+            state.user = action.payload;
+            state.errors = null
+        });
+        builder.addCase(verifyemail.rejected, (state, action) => {
+            state.isloading = false;
+            state.user = null;
+            state.errors = action.payload
+        })
+
+        builder.addCase(resetpassword.fulfilled, (state, action) => {
+            state.isloading = false;
+            state.user = action.payload;
+            state.errors = null
+        });
+        builder.addCase(resetpassword.rejected, (state, action) => {
             state.isloading = false;
             state.user = null;
             state.errors = action.payload
