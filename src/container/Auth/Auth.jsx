@@ -13,7 +13,7 @@ function Auth(props) {
     const navigate = useNavigate()
     const auths = useSelector(state => state.auth)
     console.log(auths)
-    
+
     // const user = useSelector(state => state.auth.auth);
     // console.log(user.auth)
 
@@ -68,15 +68,22 @@ function Auth(props) {
     const formik = useFormik({
         initialValues: initvalues,
         validationSchema: object(auth),
-        onSubmit:async values => {
+        onSubmit: async values => {
             console.log(values)
             if (type === 'signup') {
                 localStorage.setItem("email", values.email)
-                dispatch(registeruser(values))
-                setType('verify OTP')
+                const res = await dispatch(registeruser(values))
+                if (res.type == 'auth/registeruser/fulfilled') {
+                    setType('verify OTP')
+                }
+                console.log(res)
+                
             } else if (type === 'verify OTP') {
-                dispatch(verifyuser({ email: localStorage.getItem("email"), otp: values.otp }))
-                setType('login')
+                const res = await dispatch(verifyuser({ email: localStorage.getItem("email"), otp: values.otp }))
+                console.log(res)
+                if (res.type == 'auth/verifyuser/fulfilled') {
+                     setType('login')
+                }
             } else if (type === 'login') {
                 const res = await dispatch(loginuser(values))
                 console.log(res)
