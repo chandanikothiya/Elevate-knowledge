@@ -108,6 +108,10 @@ function Auth(props) {
         }
     }
 
+    if (auths.isloading) {
+        return <p>Loading...</p>
+    }
+
     return (
         <main>
             <section className="p-0 d-flex align-items-center position-relative overflow-hidden">

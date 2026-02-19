@@ -106,20 +106,28 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     extraReducers: (builder) => {
+        builder.addCase(registeruser.pending, (state, action) => {
+            state.isloading = true;
+            state.user = null
+            state.errors = null;
+        })
         builder.addCase(registeruser.fulfilled, (state, action) => {
             state.isloading = false;
             state.user = action.payload
             state.errors = null;
             console.log(state.user)
         })
-
         builder.addCase(registeruser.rejected, (state, action) => {
             state.isloading = false;
             state.user = null;
             state.errors = action.payload
         })
 
-
+        builder.addCase(verifyuser.pending, (state, action) => {
+            state.isloading = true;
+            state.user = null
+            state.errors = null;
+        })
         builder.addCase(verifyuser.fulfilled, (state, action) => {
             state.user = action.payload
             console.log(state.user)
@@ -130,7 +138,11 @@ const authSlice = createSlice({
             state.errors = action.payload
         })
 
-
+         builder.addCase(loginuser.pending, (state, action) => {
+            state.isloading = true;
+            state.user = null
+            state.errors = null;
+        })
         builder.addCase(loginuser.fulfilled, (state, action) => {
             state.isloading = false;
             state.user = action.payload;
@@ -143,7 +155,11 @@ const authSlice = createSlice({
             state.errors = action.payload
         })
 
-
+        builder.addCase(logoutuser.pending, (state, action) => {
+            state.isloading = true;
+            state.user = null
+            state.errors = null;
+        })
         builder.addCase(logoutuser.fulfilled, (state, action) => {
             state.isloading = false;
             state.user = action.payload;
