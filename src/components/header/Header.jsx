@@ -11,8 +11,8 @@ function Header(props) {
   const dispatch = useDispatch();
   const categorys = useSelector(state => state.category)
   const auth = useSelector(state => state.auth)
-  
-  console.log(auth)
+
+  console.log("auth", auth)
 
   useEffect(() => {
     dispatch(getparentcategory());
@@ -400,10 +400,17 @@ function Header(props) {
 
               {/* logic for display sigin and signout after signin */}
               {
-                auth.user ?
+                auth.user && auth.user.role === 'user'?
                   <li><a href="#" className="dropdown-item bg-danger-soft-hover" onClick={() => dispatch(logoutuser(auth.user))}><i className="bi bi-power fa-fw me-2" />Sign Out</a></li>
                   :
                   <li><NavLink to={"/Auth"} className="dropdown-item" href="#"><i class="bi bi-box-arrow-in-right me-2"></i>Sign In</NavLink></li>
+              }
+
+              {
+                auth.user && auth.user.role === 'instructore' ?
+                  <li><a href="#" className="dropdown-item bg-danger-soft-hover" onClick={() => dispatch(logoutuser(auth.user))}><i className="bi bi-power fa-fw me-2" />Sign Out</a></li>
+                  :
+                  <li><NavLink to={"/Auth/instructore"} className="dropdown-item" href="#"><i class="bi bi-box-arrow-in-right me-2"></i>Instructore SignIn</NavLink></li>
               }
 
               <li> <hr className="dropdown-divider" /></li>

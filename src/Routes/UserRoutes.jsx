@@ -27,7 +27,6 @@ import InstructorSingle from '../container/InstructorSingle/InstructorSingle';
 import BecomeInstructor from '../container/BecomeInstructor/BecomeInstructor';
 import SignIn from '../container/Auth/SignIn';
 // import auth from '../container/Auth/Auth';
-import ForgetPassword from '../container/ForgetPassword/ForgetPassword';
 import FAQ from '../container/FAQ/FAQ';
 import Error404 from '../container/Error404/Error404';
 import ComingSoon from '../container/ComingSoon/ComingSoon';
@@ -94,8 +93,10 @@ function UserRoutes(props) {
                 <Route path='/instructorsinglet' element={<InstructorSingle />} />
                 <Route path='/becomeinstructor' element={<BecomeInstructor />} />
                 <Route path='/signin' element={<SignIn />} />
+
                 <Route path='/auth' element={<Auth/>} />
-                <Route path='/forgetpassword' element={<ForgetPassword />} />
+                <Route path='/auth/:roletype' element={<Auth/>} />
+
                 <Route path='/faq' element={<FAQ />} />
                 <Route path='/error404' element={<Error404 />} />
                 <Route path='/comingsoon' element={<ComingSoon />} />

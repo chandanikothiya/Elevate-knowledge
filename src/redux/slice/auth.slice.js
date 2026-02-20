@@ -119,10 +119,10 @@ export const forgetpassword = createAsyncThunk(
 
 export const verifyemail = createAsyncThunk(
     'auth/verifyemail',
-    async (data, {dispatch, rejectWithValue }) => {
+    async (data, { dispatch, rejectWithValue }) => {
         try {
 
-            const response = await axiosInstance.post('user/verifyemail', data)
+            const response = await axiosInstance.post('user/verifyuser', data)
             console.log(response)
 
         } catch (error) {
@@ -135,11 +135,11 @@ export const verifyemail = createAsyncThunk(
 
 export const resetpassword = createAsyncThunk(
     'auth/resetpassword',
-    async (data, {dispatch, rejectWithValue }) => {
+    async (data, { dispatch, rejectWithValue }) => {
         try {
 
             const response = await axiosInstance.post('user/resetpassword', data)
-              dispatch(setalert({ text: response.data.message, variant: 'success' }))
+            dispatch(setalert({ text: response.data.message, variant: 'success' }))
             console.log(response)
 
         } catch (error) {
@@ -177,6 +177,7 @@ const authSlice = createSlice({
             state.errors = null;
         })
         builder.addCase(verifyuser.fulfilled, (state, action) => {
+            state.isloading = false;
             state.user = action.payload
             console.log(state.user)
         })

@@ -1,9 +1,9 @@
 import { useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { boolean, number, object, string } from 'yup';
-import { loginuser, registeruser, verifyuser } from '../../redux/slice/auth.slice';
+import { forgetpassword, loginuser, registeruser, resetpassword, verifyemail, verifyuser } from '../../redux/slice/auth.slice';
 import { GridNoColumnsOverlay } from '@mui/x-data-grid';
 
 
@@ -14,15 +14,9 @@ function Auth(props) {
     const navigate = useNavigate()
     const auths = useSelector(state => state.auth)
     console.log(auths)
+    const { roletype } = useParams();
+    console.log(roletype)
 
-    // const user = useSelector(state => state.auth.auth);
-    // console.log(user.auth)
-
-    // useEffect(() => {
-    //     if (user) {
-    //         navigate('/verifyuser')
-    //     }
-    // }, [user])
 
     let initvalues = {}, auth = {};
 
@@ -64,33 +58,92 @@ function Auth(props) {
             password: string().required(),
             terms: boolean().required().oneOf([true], 'please select terms')
         }
+    } else if (type === 'sent OTP') {
+        initvalues = {
+            email: ''
+        }
+
+        auth = {
+            email: string().email().required()
+        }
+    } else if (type === 'OTP Verify') {
+        initvalues = {
+            fotp: ''
+        }
+
+        auth = {
+            fotp: number().required()
+        }
+    } else if (type === 'reset password') {
+        initvalues = {
+            password: '',
+            cfpassword: ''
+        }
+
+        auth = {
+            password: string().required(),
+            cfpassword: string().required()
+        }
     }
+
 
     const formik = useFormik({
         initialValues: initvalues,
         validationSchema: object(auth),
         onSubmit: async values => {
-            console.log(values)
+            console.log("val", values)
             if (type === 'signup') {
                 localStorage.setItem("email", values.email)
-                const res = await dispatch(registeruser(values))
+
+                let res = ''
+
+                if (roletype === 'instructore') {
+                    res = await dispatch(registeruser({ ...values, role: 'instructore' }))
+                } else if (roletype === undefined) {
+                    res = await dispatch(registeruser(values))
+                }
+
                 if (res.type == 'auth/registeruser/fulfilled') {
                     setType('verify OTP')
                 }
                 console.log(res)
 
             } else if (type === 'verify OTP') {
+
+
                 const res = await dispatch(verifyuser({ email: localStorage.getItem("email"), otp: values.otp }))
                 console.log(res)
                 if (res.type == 'auth/verifyuser/fulfilled') {
                     setType('login')
+                    //navigate('/Auth')
                 }
             } else if (type === 'login') {
+
                 const res = await dispatch(loginuser(values))
+
                 console.log(res)
 
                 if (res.type == 'auth/loginuser/fulfilled') {
                     navigate("/")
+                }
+            } else if (type === 'sent OTP') {
+                localStorage.setItem("email", values.email)
+                const res = await dispatch(forgetpassword(values))
+                console.log(res)
+                if (res.type == 'auth/forgetpassword/fulfilled') {
+                    setType('OTP Verify')
+                }
+            } else if (type === 'OTP Verify') {
+                console.log("fotp", { email: localStorage.getItem("email"), otp: values.fotp })
+
+                const res = await dispatch(verifyemail({ email: localStorage.getItem("email"), otp: values.fotp }))
+                if (res.type == 'auth/verifyemail/fulfilled') {
+                    setType('reset password')
+                }
+            } else if (type === 'reset password') {
+                const res = await dispatch(resetpassword({ email: localStorage.getItem("email"), password: values.password }))
+                if (res.type == 'auth/resetpassword/fulfilled') {
+                    setType('login')
                 }
             }
         },
@@ -111,6 +164,8 @@ function Auth(props) {
     if (auths.isloading) {
         return <p>Loading...</p>
     }
+
+    console.log(type)
 
     return (
         <main>
@@ -154,122 +209,211 @@ function Auth(props) {
                                     } */}
                                     <form onSubmit={handleSubmit}>
                                         {
-                                            type === 'signup' || type === 'login' ?
+                                            type === 'signup' || type === 'login' || type === 'verify OTP' ?
                                                 <>
                                                     {
-                                                        type === 'signup' &&
+                                                        type === 'signup' || type === 'login' ?
+                                                            <>
+                                                                {
+                                                                    type === 'signup' &&
+                                                                    <div className="mb-4">
+                                                                        <label htmlFor="exampleInputName" className="form-label">Name</label>
+                                                                        <div className="input-group input-group-lg">
+                                                                            <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="bi bi-envelope-fill" /></span>
+                                                                            <input
+                                                                                type="text"
+                                                                                name="name"
+                                                                                className="form-control border-0 bg-light rounded-end ps-1"
+                                                                                placeholder="name"
+                                                                                id="exampleInputname"
+                                                                                onChange={handleChange}
+                                                                                onBlur={handleBlur}
+                                                                                value={values.name}
+                                                                            />
+                                                                            {errors.name && touched.name ? <span>{errors.name}</span> : ""}
+                                                                        </div>
+                                                                    </div>
+                                                                }
+
+                                                                {/* Email */}
+                                                                <div className="mb-4">
+                                                                    <label htmlFor="exampleInputEmail1" className="form-label">Email address *</label>
+                                                                    <div className="input-group input-group-lg">
+                                                                        <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="bi bi-envelope-fill" /></span>
+                                                                        <input
+                                                                            type="email"
+                                                                            name="email"
+                                                                            className="form-control border-0 bg-light rounded-end ps-1"
+                                                                            placeholder="E-mail"
+                                                                            id="exampleInputEmail1"
+                                                                            onChange={handleChange}
+                                                                            onBlur={handleBlur}
+                                                                            value={values.email}
+                                                                        />
+                                                                        {errors.email && touched.email ? <span>{errors.email}</span> : ""}
+                                                                    </div>
+                                                                </div>
+                                                                {/* Password */}
+                                                                <div className="mb-4">
+                                                                    <label htmlFor="inputPassword5" className="form-label">Password *</label>
+                                                                    <div className="input-group input-group-lg">
+                                                                        <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="fas fa-lock" /></span>
+                                                                        <input
+                                                                            type="password"
+                                                                            name="password"
+                                                                            className="form-control border-0 bg-light rounded-end ps-1"
+                                                                            placeholder="*********"
+                                                                            id="inputPassword5"
+                                                                            onChange={handleChange}
+                                                                            onBlur={handleBlur}
+                                                                            value={values.password}
+                                                                        />
+                                                                        {errors.password && touched.password ? <span>{errors.password}</span> : ""}
+                                                                    </div>
+                                                                </div>
+
+                                                                {
+                                                                    type === 'signup' &&
+                                                                    <div div className="mb-4">
+                                                                        <label htmlFor="inputPassword6" className="form-label">Confirm Password *</label>
+                                                                        <div className="input-group input-group-lg">
+                                                                            <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="fas fa-lock" /></span>
+                                                                            <input
+                                                                                type="password"
+                                                                                name="cpassword"
+                                                                                className="form-control border-0 bg-light rounded-end ps-1"
+                                                                                placeholder="*********"
+                                                                                id="inputPassword6"
+                                                                                onChange={handleChange}
+                                                                                onBlur={handleBlur}
+                                                                                value={values.cpassword}
+                                                                            />
+                                                                            {errors.cpassword && touched.cpassword ? <span>{errors.cpassword}</span> : ""}
+                                                                        </div>
+                                                                    </div>
+                                                                }
+
+                                                                {/* Check box */}
+                                                                <div className="mb-4">
+                                                                    <div className="form-check">
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            name='terms'
+                                                                            className="form-check-input"
+                                                                            id="checkbox-1"
+                                                                            onChange={handleChange}
+                                                                            onBlur={handleBlur}
+                                                                            checked={values.terms}
+                                                                        />
+                                                                        <label className="form-check-label" htmlFor="checkbox-1">By signing up, you agree to the<a href="#"> terms of service</a></label>
+                                                                        {errors.terms && touched.terms ? <span>{errors.terms}</span> : ""}
+                                                                    </div>
+                                                                </div>
+
+                                                            </> :
+                                                            <div className="mb-4">
+                                                                <label htmlFor="inputPassword5" className="form-label">OTP *</label>
+                                                                <div className="input-group input-group-lg">
+                                                                    <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="fas fa-lock" /></span>
+                                                                    <input
+                                                                        type="otp"
+                                                                        name="otp"
+                                                                        className="form-control border-0 bg-light rounded-end ps-1"
+                                                                        placeholder="****"
+                                                                        id="inputotp5"
+                                                                        onChange={handleChange}
+                                                                        onBlur={handleBlur}
+                                                                    />
+                                                                    {errors.otp && touched.otp ? <span>{errors.otp}</span> : ""}
+                                                                </div>
+                                                            </div>
+                                                    }
+                                                </> :
+                                                type === 'sent OTP' || type === 'OTP Verify' ?
+                                                    <>
+                                                        {
+                                                            type === 'sent OTP' &&
+                                                            <div className="mb-4">
+                                                                <label htmlFor="exampleInputEmail1" className="form-label">Email address *</label>
+                                                                <div className="input-group input-group-lg">
+                                                                    <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="bi bi-envelope-fill" /></span>
+                                                                    <input
+                                                                        type="email"
+                                                                        name='email'
+                                                                        className="form-control border-0 bg-light rounded-end ps-1"
+                                                                        placeholder="E-mail"
+                                                                        id="exampleInputEmail1"
+                                                                        value={values.email}
+                                                                        onChange={handleChange}
+                                                                        onBlur={handleBlur}
+                                                                    />
+                                                                    {errors.email && touched.email ? <span>{errors.email}</span> : ""}
+
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                        {
+                                                            type === 'OTP Verify' &&
+                                                            <div className="mb-4">
+                                                                <label htmlFor="exampleInputEmail1" className="form-label">OTP *</label>
+                                                                <div className="input-group input-group-lg">
+                                                                    <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="bi bi-envelope-fill" /></span>
+                                                                    <input
+                                                                        type="number"
+                                                                        name='fotp'
+                                                                        className="form-control border-0 bg-light rounded-end ps-1"
+                                                                        placeholder="OTP"
+                                                                        id="exampleInputotp"
+                                                                        value={values.fotp}
+                                                                        onChange={handleChange}
+                                                                        onBlur={handleBlur}
+                                                                    />
+                                                                    {errors.fotp && touched.fotp ? <span>{errors.fotp}</span> : ""}
+
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </> :
+                                                    <>
                                                         <div className="mb-4">
-                                                            <label htmlFor="exampleInputName" className="form-label">Name</label>
+                                                            <label htmlFor="exampleInputEmail1" className="form-label">New Password *</label>
                                                             <div className="input-group input-group-lg">
                                                                 <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="bi bi-envelope-fill" /></span>
                                                                 <input
-                                                                    type="text"
-                                                                    name="name"
+                                                                    type="password"
+                                                                    name='password'
                                                                     className="form-control border-0 bg-light rounded-end ps-1"
-                                                                    placeholder="name"
-                                                                    id="exampleInputname"
+                                                                    placeholder="New Password"
+                                                                    id="exampleInputpassword"
+                                                                    value={values.password}
                                                                     onChange={handleChange}
                                                                     onBlur={handleBlur}
-                                                                    value={values.name}
                                                                 />
-                                                                {errors.name && touched.name ? <span>{errors.name}</span> : ""}
+                                                                {errors.password && touched.password ? <span>{errors.password}</span> : ""}
+
                                                             </div>
                                                         </div>
-                                                    }
-
-                                                    {/* Email */}
-                                                    <div className="mb-4">
-                                                        <label htmlFor="exampleInputEmail1" className="form-label">Email address *</label>
-                                                        <div className="input-group input-group-lg">
-                                                            <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="bi bi-envelope-fill" /></span>
-                                                            <input
-                                                                type="email"
-                                                                name="email"
-                                                                className="form-control border-0 bg-light rounded-end ps-1"
-                                                                placeholder="E-mail"
-                                                                id="exampleInputEmail1"
-                                                                onChange={handleChange}
-                                                                onBlur={handleBlur}
-                                                                value={values.email}
-                                                            />
-                                                            {errors.email && touched.email ? <span>{errors.email}</span> : ""}
-                                                        </div>
-                                                    </div>
-                                                    {/* Password */}
-                                                    <div className="mb-4">
-                                                        <label htmlFor="inputPassword5" className="form-label">Password *</label>
-                                                        <div className="input-group input-group-lg">
-                                                            <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="fas fa-lock" /></span>
-                                                            <input
-                                                                type="password"
-                                                                name="password"
-                                                                className="form-control border-0 bg-light rounded-end ps-1"
-                                                                placeholder="*********"
-                                                                id="inputPassword5"
-                                                                onChange={handleChange}
-                                                                onBlur={handleBlur}
-                                                                value={values.password}
-                                                            />
-                                                            {errors.password && touched.password ? <span>{errors.password}</span> : ""}
-                                                        </div>
-                                                    </div>
-
-                                                    {
-                                                        type === 'signup' &&
-                                                        <div div className="mb-4">
-                                                            <label htmlFor="inputPassword6" className="form-label">Confirm Password *</label>
+                                                        <div className="mb-4">
+                                                            <label htmlFor="exampleInputEmail1" className="form-label">Confirm Password *</label>
                                                             <div className="input-group input-group-lg">
-                                                                <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="fas fa-lock" /></span>
+                                                                <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="bi bi-envelope-fill" /></span>
                                                                 <input
                                                                     type="password"
-                                                                    name="cpassword"
+                                                                    name='cfpassword'
                                                                     className="form-control border-0 bg-light rounded-end ps-1"
-                                                                    placeholder="*********"
-                                                                    id="inputPassword6"
+                                                                    placeholder="Confirm Password"
+                                                                    id="exampleInputpassword"
+                                                                    value={values.cpassword}
                                                                     onChange={handleChange}
                                                                     onBlur={handleBlur}
-                                                                    value={values.cpassword}
                                                                 />
-                                                                {errors.cpassword && touched.cpassword ? <span>{errors.cpassword}</span> : ""}
+                                                                {errors.cfpassword && touched.cfpassword ? <span>{errors.cfpassword}</span> : ""}
+
                                                             </div>
                                                         </div>
-                                                    }
-
-                                                    {/* Check box */}
-                                                    <div className="mb-4">
-                                                        <div className="form-check">
-                                                            <input
-                                                                type="checkbox"
-                                                                name='terms'
-                                                                className="form-check-input"
-                                                                id="checkbox-1"
-                                                                onChange={handleChange}
-                                                                onBlur={handleBlur}
-                                                                checked={values.terms}
-                                                            />
-                                                            <label className="form-check-label" htmlFor="checkbox-1">By signing up, you agree to the<a href="#"> terms of service</a></label>
-                                                            {errors.terms && touched.terms ? <span>{errors.terms}</span> : ""}
-                                                        </div>
-                                                    </div>
-
-                                                </> :
-                                                <div className="mb-4">
-                                                    <label htmlFor="inputPassword5" className="form-label">OTP *</label>
-                                                    <div className="input-group input-group-lg">
-                                                        <span className="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i className="fas fa-lock" /></span>
-                                                        <input
-                                                            type="otp"
-                                                            name="otp"
-                                                            className="form-control border-0 bg-light rounded-end ps-1"
-                                                            placeholder="****"
-                                                            id="inputotp5"
-                                                            onChange={handleChange}
-                                                            onBlur={handleBlur}
-                                                        />
-                                                        {errors.otp && touched.otp ? <span>{errors.otp}</span> : ""}
-                                                    </div>
-                                                </div>
+                                                    </>
                                         }
+
 
                                         <div className="align-items-center mt-0">
                                             <div className="d-grid">
@@ -279,10 +423,17 @@ function Auth(props) {
                                     </form>
                                     {/* Form END */}
 
+
                                     {/* forget password link*/}
 
-                                    <div className="mt-3">
+                                    {/* when forget password work in diffrent componet */}
+                                    {/* <div className="mt-3">
                                         <span><NavLink to={'/forgetpassword'}>Forget Password?</NavLink></span>
+                                    </div> */}
+
+
+                                    <div className="mt-3">
+                                        <span><a href="#" onClick={() => setType('sent OTP')}>Forget Password?</a></span>
                                     </div>
 
                                     {/* Social buttons */}

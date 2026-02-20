@@ -62,12 +62,13 @@ function ForgetPassword(props) {
                 }
 
             } else if (type === 'verify OTP') {
+                console.log("data",{ email: localStorage.getItem("email"), otp: values.otp })
                 const res = await dispatch(verifyemail({ email: localStorage.getItem("email"), otp: values.otp }))
                 if (res.type == 'auth/verifyemail/fulfilled') {
                     Settype('reset password')
                 }
             } else if (type === 'reset password') {
-                const res = await dispatch(resetpassword({ email: localStorage.getItem("email"), password:values.password}))
+                const res = await dispatch(resetpassword({ email: localStorage.getItem("email"), password: values.password }))
                 if (res.type == 'auth/resetpassword/fulfilled') {
                     navigate("/auth")
                 }
