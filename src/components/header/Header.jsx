@@ -4,7 +4,7 @@ import ListItem from '@mui/material/ListItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { getcategory, getparentcategory } from '../../redux/slice/category.slice';
 import { logoutuser } from '../../redux/slice/auth.slice';
-
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 function Header(props) {
 
@@ -15,11 +15,13 @@ function Header(props) {
   console.log("auth", auth)
 
   useEffect(() => {
-    dispatch(getparentcategory());
+    dispatch(getcategory());
   }, [])
 
   console.log("category", categorys.category)
-
+  const x = categorys.category.filter((v) => v.parent_category_id === null)
+  const yy = categorys.category.filter((vv) => vv.parent_category_id === "69992ff6e420eb019b34b5be")
+  console.log('category', categorys.category.filter((vv) => vv.parent_category_id === "69992ff6e420eb019b34b5be"))
   return (
     <header className="navbar-light navbar-sticky header-static">
       {/* Logo Nav START */}
@@ -49,9 +51,64 @@ function Header(props) {
                 <a className="nav-link dropdown-toggle active" href="#" id="demoMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i className="bi bi-ui-radios-grid me-2" />categorys</a>
                 <ul className="dropdown-menu " aria-labelledby="demoMenu">
                   {
-                    categorys.category.map((v) => (
-                      <li><a className="dropdown-item">{v.name}</a></li>
-                    ))
+                    x.map((v) => {
+                      const subchild = categorys.category.filter((vv) => vv.parent_category_id === v._id).map((v1) => {
+                      })
+                      return <li><a className="dropdown-item">
+                        <>
+                          <li className="dropdown-submenu dropend">
+                            <a className={subchild.length > 0 ? "dropdown-item dropdown-toggle" : "navitems"} style={{ padding: '0' }} href="#">{v.name}</a>
+
+                            {
+                              subchild.length > 0 &&
+
+                              <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none" style={{ padding:'4px' }}>
+                                {
+
+                                  categorys.category.filter((vv) => vv.parent_category_id === v._id).map((v1) => {
+                                    const subsubchild = categorys.category.filter((vv2) => vv2.parent_category_id === v1._id);
+                                    console.log(v1);
+
+                                    return <li className="dropdown-submenu dropend">
+                                      <a href="#" className={subsubchild.length > 0 ? "dropdown-item dropdown-toggle" : "navitems"}>{v1.name}</a>
+                                      {subsubchild.length > 0 &&
+                                        <ul className="dropdown-menu dropdown-menu-start" style={{ padding:'4px' }} data-bs-popper="none">
+                                          {
+                                            categorys.category.filter((vv2) => vv2.parent_category_id === v1._id).map((v2) => (
+                                              <li>
+                                                <a href="#" className="navitems" >{v2.name}</a>
+                                              </li>
+                                            ))
+                                          }
+                                        </ul>
+                                      }
+                                    </li>
+
+
+                                  })
+                                }
+                              </ul>
+                            }
+                            {/* {categorys.category.map((v1) => {
+                              if (v1.parent_category_id === v._id) {
+                                console.log(v.name)
+                                return <>
+                                  <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none">
+                                    <a href="#" className="navitems">{v1.name}</a>
+                                  </ul>
+                                </>
+
+                              } */}
+                            {/* }) */}
+                            {/* } */}
+                          </li>
+                        </>
+
+
+                      </a></li>
+
+
+                    })
                   }
                   <li>
                     <NavLink to="/categorys" className="dropdown-item fw-bold">
@@ -400,7 +457,7 @@ function Header(props) {
 
               {/* logic for display sigin and signout after signin */}
               {
-                auth.user && auth.user.role === 'user'?
+                auth.user && auth.user.role === 'user' ?
                   <li><a href="#" className="dropdown-item bg-danger-soft-hover" onClick={() => dispatch(logoutuser(auth.user))}><i className="bi bi-power fa-fw me-2" />Sign Out</a></li>
                   :
                   <li><NavLink to={"/Auth"} className="dropdown-item" href="#"><i class="bi bi-box-arrow-in-right me-2"></i>Sign In</NavLink></li>
@@ -428,9 +485,9 @@ function Header(props) {
           </div>
           {/* Profile START */}
         </div>
-      </nav>
+      </nav >
       {/* Logo Nav END */}
-    </header>
+    </header >
 
   );
 }

@@ -18,12 +18,17 @@ export const addcategory = createAsyncThunk(
             const formdata = new FormData();
             formdata.append("name", data.name);
             formdata.append("description", data.description);
-            formdata.append("category_img", data.category_img)
+            formdata.append("category_img", data.category_img);
+
+            if (data.parentcategory) {
+      formdata.append("parent_category_id", data.parentcategory);
+    }
+            //formdata.append("parent_category_id", data.parentcategory);
+
 
             const response = await fetch(BASE_URL + "category/addCategory", {
                 method: "POST",
                 body: formdata,
-
             })
 
             const datar = await response.json();
@@ -101,7 +106,7 @@ export const editcategory = createAsyncThunk(
 
             const response = await fetch(`${BASE_URL}category/updateCategory/${data._id}`, {
                 method: "PUT",
-                body:formdata,
+                body: formdata,
 
             });
             const datar = await response.json()

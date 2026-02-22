@@ -29,8 +29,23 @@ function Category(props) {
     const categorys = useSelector(state => state.category)
     console.log("addda", categorys.category);
 
-
     console.log(categorydata);
+
+    let data = [
+        { value:'', label: 'Select Parent Category' }
+    ];
+
+    categorys.category.map((v, i) => {
+
+        if (v !== null) {
+            console.log(v._id)
+
+            data.push({ value: v._id, label: v.name })
+        }
+    })
+
+    console.log(data)
+
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -55,13 +70,14 @@ function Category(props) {
     let categoryschema = object({
         name: string().required(),
         description: string().required(),
-        category_img: mixed().required()
+        category_img: mixed().required(),
         // .test("categoryimg","only jpeg,png,jpg",function(value) {
         //     const arr = ['image/jpeg','image/png','image/jpg']
         //     console.log(value);
         //     return value.includes(arr);
 
-        // })
+        // }),
+        // parentcategory:string().required()
     })
 
     // console.log(categoryschema);
@@ -81,8 +97,8 @@ function Category(props) {
 
             } else {
 
-                console.log("vvv",values);
-                
+                console.log("vvv", values);
+
                 dispatch(addcategory(values))
             }
 
@@ -104,7 +120,7 @@ function Category(props) {
 
     const columns = [
         { field: "name", headerName: 'name', width: 180 },
-        { field: "description", headerName: 'description', width: 300},
+        { field: "description", headerName: 'description', width: 300 },
         //  { field: "categoryimg", headerName: 'categoryimg', width: 150},
         {
             field: "category_img", headerName: 'categoryimg', width: 120,
@@ -119,7 +135,7 @@ function Category(props) {
             field: 'Action', headerName: 'Action', width: 200,
             renderCell: (params) => (
                 <>
-                    {console.log(params,params.id)}
+                    {console.log(params, params.id)}
                     <IconButton aria-label="delete"
                         onClick={(e) => handleEdit(params.row)}
                         color="primary"
@@ -132,6 +148,18 @@ function Category(props) {
                     >
                         <DeleteIcon />
                     </IconButton>
+                </>
+            )
+        },
+        {
+            field: "parent_category_id", headerName: 'parentcategory', width: 300,
+            renderCell: (params) => (
+                <>
+                    {console.log(params, params.row.parent_category_id)}
+                    {params.row.parent_category_id !== null ? categorys.category.find((v) => v._id === params.row.parent_category_id).name :'no parent category'}
+                    {/* {
+                       categorys.category.find((v) => v._id === params.row.parent_category_id)
+                    } */}
                 </>
             )
         }
@@ -152,7 +180,8 @@ function Category(props) {
                             initialValues={Object.keys(updatecategory).length > 0 ? updatecategory : {
                                 name: "",
                                 description: "",
-                                category_img: ""
+                                category_img: "",
+                                parentcategory: ""
                             }}
                             validationSchema={categoryschema}
                             onSubmit={(values, { resetForm }) => {
@@ -180,6 +209,21 @@ function Category(props) {
                                 <UploadFile
                                     name="category_img"
                                 />
+
+                                <MyTextField
+                                    name="parentcategory"
+                                    id="parentcategory"
+                                    label="Select Parent Category"
+                                    select
+                                    data={data}
+                                    slotProps={{
+                                        select: {
+                                            native: true,
+                                        },
+                                    }}
+
+                                />
+
                                 <DialogActions>
                                     <Button onClick={handleClose}>Cancel</Button>
                                     <Button type="submit">
