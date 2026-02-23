@@ -52,8 +52,7 @@ function Header(props) {
                 <ul className="dropdown-menu " aria-labelledby="demoMenu">
                   {
                     x.map((v) => {
-                      const subchild = categorys.category.filter((vv) => vv.parent_category_id === v._id).map((v1) => {
-                      })
+                      const subchild = categorys.category.filter((vv) => vv.parent_category_id === v._id)
                       return <li><a className="dropdown-item">
                         <>
                           <li className="dropdown-submenu dropend">
@@ -65,7 +64,7 @@ function Header(props) {
                               <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none" style={{ padding:'4px' }}>
                                 {
 
-                                  categorys.category.filter((vv) => vv.parent_category_id === v._id).map((v1) => {
+                                  subchild.map((v1) => {
                                     const subsubchild = categorys.category.filter((vv2) => vv2.parent_category_id === v1._id);
                                     console.log(v1);
 
@@ -74,7 +73,7 @@ function Header(props) {
                                       {subsubchild.length > 0 &&
                                         <ul className="dropdown-menu dropdown-menu-start" style={{ padding:'4px' }} data-bs-popper="none">
                                           {
-                                            categorys.category.filter((vv2) => vv2.parent_category_id === v1._id).map((v2) => (
+                                            subsubchild.map((v2) => (
                                               <li>
                                                 <a href="#" className="navitems" >{v2.name}</a>
                                               </li>
