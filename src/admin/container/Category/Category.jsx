@@ -37,11 +37,11 @@ function Category(props) {
 
     categorys.category.map((v, i) => {
 
-        if (v !== null) {
+        // if (v !== null) {
             console.log(v._id)
 
             data.push({ value: v._id, label: v.name })
-        }
+        // }
     })
 
     console.log(data)

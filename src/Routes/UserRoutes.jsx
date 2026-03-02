@@ -49,20 +49,22 @@ import StudentCourseList from '../container/StudentCourseList/StudentCourseList'
 import StudentPaymentInfo from '../container/StudentPaymentInfo/StudentPaymentInfo';
 import PrivateRoutes from './PrivateRoutes';
 import CategorySingal from '../container/CategorySingal/CategorySingal';
-import Categorys from '../container/Categorys/Categorys';
 import Chat from '../container/chat/chat';
 import Verifyuser from '../container/Auth/verifyuser';
 import Auth from '../container/Auth/Auth';
 import { useDispatch } from 'react-redux';
 import { checkauth } from '../redux/slice/auth.slice';
+import Categories from '../container/Categories/Categories';
+import InstructoreAddCourse from '../container/Instructotr_create_course/InstructoreAddCourse';
+import InstructorManageCourse from '../container/Instructor-manage-course/InstructorManageCourse';
 
 function UserRoutes(props) {
 
-    const dispatch =useDispatch()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(checkauth())
-    },[])
+    }, [])
 
 
     return (
@@ -94,8 +96,8 @@ function UserRoutes(props) {
                 <Route path='/becomeinstructor' element={<BecomeInstructor />} />
                 <Route path='/signin' element={<SignIn />} />
 
-                <Route path='/auth' element={<Auth/>} />
-                <Route path='/auth/:roletype' element={<Auth/>} />
+                <Route path='/auth' element={<Auth />} />
+                <Route path='/auth/:roletype' element={<Auth />} />
 
                 <Route path='/faq' element={<FAQ />} />
                 <Route path='/error404' element={<Error404 />} />
@@ -120,9 +122,11 @@ function UserRoutes(props) {
                 <Route path='/studentdcourses' element={<StudentCourseList />} />
                 <Route path='/studentpaymentinfo' element={<StudentPaymentInfo />} />
                 <Route path='/CategorySingal/:id' element={<CategorySingal />} />
-                <Route path='/categorys' element={<Categorys/>} />
-                <Route path='/chat' element={<Chat/>} />
-                <Route path='/verifyuser' element={<Verifyuser/>} />
+                <Route path='/categories' element={<Categories />} />
+                <Route path='/chat' element={<Chat />} />
+                <Route path='/verifyuser' element={<Verifyuser />} />
+                <Route path='/instructoreaddcourese' element={<InstructoreAddCourse />} />
+                <Route path='/instructorManageCourse' element={<InstructorManageCourse />} />
                 <Route path='*' element={<Error404 />} />
             </Routes>
             <Footer />

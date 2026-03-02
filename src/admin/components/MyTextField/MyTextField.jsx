@@ -9,7 +9,7 @@ import { useField } from 'formik';
 //type is extracted, and id, label,name are collected into the rest 
 // object and then spread onto the <TextField> element.
 
-function MyTextField({ type = "text", data = [], ...props }) {
+function MyTextField({ type = "text",variant="standard", data = [], ...props }) {
 
     const [field, meta] = useField(props);
     console.log("Fieldqqq", field);
@@ -25,7 +25,7 @@ function MyTextField({ type = "text", data = [], ...props }) {
             margin="dense"
             type={type}
             fullWidth
-            variant="standard"
+            variant={variant}
             error={meta.error && meta.touched}
             helperText={meta.error && meta.touched ? meta.error : ""}
         >

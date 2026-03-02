@@ -21,8 +21,8 @@ export const addcategory = createAsyncThunk(
             formdata.append("category_img", data.category_img);
 
             if (data.parentcategory) {
-      formdata.append("parent_category_id", data.parentcategory);
-    }
+                formdata.append("parent_category_id", data.parentcategory);
+            }
             //formdata.append("parent_category_id", data.parentcategory);
 
 

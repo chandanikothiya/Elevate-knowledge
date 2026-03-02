@@ -121,9 +121,11 @@ function Auth(props) {
 
                 const res = await dispatch(loginuser(values))
 
-                console.log(res)
+                console.log(res,auth)
 
-                if (res.type == 'auth/loginuser/fulfilled') {
+                if (res.type == 'auth/loginuser/fulfilled' && res.payload.role == 'instructore') {
+                    navigate("/instructordashboard")
+                } else if (res.type == 'auth/loginuser/fulfilled' && res.payload.role == 'user'){
                     navigate("/")
                 }
             } else if (type === 'sent OTP') {
@@ -201,7 +203,7 @@ function Auth(props) {
                                 <div className="col-sm-10 col-xl-8 m-auto">
                                     {/* Title */}
                                     <img src="assets/images/element/03.svg" className="h-40px mb-2" alt />
-                                    <h2>{type} for your account!</h2>
+                                    <h2>{roletype ? roletype+' ': null}{type} for your account!</h2>
                                     <p className="lead mb-4">Nice to see you! Please {type} with your account.</p>
                                     {/* Form START */}
                                     {/* {

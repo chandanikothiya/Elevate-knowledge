@@ -110,7 +110,7 @@ function Header(props) {
                     })
                   }
                   <li>
-                    <NavLink to="/categorys" className="dropdown-item fw-bold">
+                    <NavLink to="/categories" className="dropdown-item fw-bold">
                       Display all
                     </NavLink>
                   </li>

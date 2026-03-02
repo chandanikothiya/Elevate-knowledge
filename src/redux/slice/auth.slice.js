@@ -53,8 +53,10 @@ export const loginuser = createAsyncThunk(
 
             if (response.data.success) {
                 dispatch(setalert({ text: response.data.message, variant: 'success' }))
+                localStorage.setItem("loginuser",JSON.stringify(response.data.data))
                 return response.data.data;
             }
+        
 
             console.log(response)
 

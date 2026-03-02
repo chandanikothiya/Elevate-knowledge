@@ -3,11 +3,13 @@ import categoryreducer from "./slice/category.slice"
 import subcategoryreducre from "./slice/subcategory.slice"
 import favcategoryreducre from "./slice/favcategory.slice"
 import authreducre from "./slice/auth.slice"
-import  alertreducre  from "./slice/alert.slice"
+import alertreducre from "./slice/alert.slice"
+import courseReducer from "./slice/course.slice"
+import { courseApi } from "./api/course.api"
+// import storage from "redux-persist/lib/storage"
+// import persistReducer from "redux-persist/es/persistReducer"
+// import persistStore from "redux-persist/es/persistStore"
 
-import storage from "redux-persist/lib/storage"
-import persistReducer from "redux-persist/es/persistReducer"
-import persistStore from "redux-persist/es/persistStore"
 
 export const storeconfig = () => {
     const store = configureStore({
@@ -15,9 +17,15 @@ export const storeconfig = () => {
             category: categoryreducer,
             subcategory: subcategoryreducre,
             favcategory: favcategoryreducre,
-            auth:authreducre,
-            alert:alertreducre
-        }
+            auth: authreducre,
+            alert: alertreducre,
+            //course:courseReducer,
+            [courseApi.reducerPath]: courseApi.reducer
+        },
+        middleware: (getDefaultMiddleware) =>
+            getDefaultMiddleware().concat(
+                courseApi.middleware
+            ),
     })
 
     return store

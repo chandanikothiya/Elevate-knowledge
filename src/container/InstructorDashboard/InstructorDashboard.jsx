@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 function InstructorDashboard(props) {
     return (
@@ -35,7 +36,7 @@ Page Banner START */}
                                         </div>
                                         {/* Button */}
                                         <div className="d-flex align-items-center mt-2 mt-md-0">
-                                            <a href="instructor-create-course.html" className="btn btn-success mb-0">Create a course</a>
+                                            <NavLink to={'/instructoreaddcourese'} className="btn btn-success mb-0">Create a course</NavLink>
                                         </div>
                                     </div>
                                 </div>
