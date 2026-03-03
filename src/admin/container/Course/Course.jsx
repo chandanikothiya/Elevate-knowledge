@@ -18,7 +18,7 @@ import { IMG_URL } from '../../../utility/url';
 import { IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useAddCourseMutation, useGetCourseQuery } from '../../../redux/api/course.api';
+import { useAddCourseMutation, useDeleteCourseMutation, useGetCourseQuery, useUpdateCourseMutation } from '../../../redux/api/course.api';
 
 function Course(props) {
 
@@ -35,6 +35,8 @@ function Course(props) {
     console.log(data)
 
     const [ addcourse ] = useAddCourseMutation();
+    const [ editcourse ] = useUpdateCourseMutation();
+    const [ deletecourse ] = useDeleteCourseMutation();
 
     const getdata = async () => {
         dispatch(getcategory())
@@ -74,11 +76,12 @@ function Course(props) {
     })
 
     function handledelete(id) {
-        dispatch(deletecoures(id))
+        //dispatch(deletecoures(id))
+        deletecourse(id)
     }
 
     function handleedit(data) {
-        console.log(data)
+        console.log("edata",data)
         handleClickOpen();
         setUpdateCourse(data)
     }
@@ -86,6 +89,7 @@ function Course(props) {
     function handlesubmit(values) {
         if (Object.keys(updatecourse).length > 0) {
             //dispatch(editcoures(values))
+            editcourse(values)
         } else {
             //dispatch(addcourse(values))
             addcourse(values)

@@ -19,16 +19,20 @@ export const courseApi = createApi({
         }),
         updateCourse: build.mutation({
             query: (data) => ({
-                url: `/course/addCourse/${data._id}`,
+                url: `/course/updateCourse/${data._id}`,
                 method: 'PUT',
                 body: data
             }),
             invalidatesTags: ['course']
         }),
         deleteCourse:build.mutation({
-            
+            query: (id) => ({
+                url: `/course/deleteCourse/${id}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: ['course']
         })
     })
 })
 
-export const { useGetCourseQuery, useAddCourseMutation } = courseApi;
+export const { useGetCourseQuery, useAddCourseMutation, useUpdateCourseMutation,useDeleteCourseMutation } = courseApi;
