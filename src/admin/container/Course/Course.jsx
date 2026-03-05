@@ -31,12 +31,12 @@ function Course(props) {
     // const coures = useSelector(state => state.course)
     // console.log("addda", coures.course);
 
-    const {data,error,isLoading} = useGetCourseQuery();
+    const { data, error, isLoading } = useGetCourseQuery();
     console.log(data)
 
-    const [ addcourse ] = useAddCourseMutation();
-    const [ editcourse ] = useUpdateCourseMutation();
-    const [ deletecourse ] = useDeleteCourseMutation();
+    const [addcourse] = useAddCourseMutation();
+    const [editcourse] = useUpdateCourseMutation();
+    const [deletecourse] = useDeleteCourseMutation();
 
     const getdata = async () => {
         dispatch(getcategory())
@@ -72,27 +72,49 @@ function Course(props) {
         description: string().required(),
         price: string().required(),
         week_no: string().required(),
-        // course_img: mixed().required()
+        course_img: mixed().required()
     })
 
     function handledelete(id) {
+        console.log(id)
         //dispatch(deletecoures(id))
         deletecourse(id)
     }
 
     function handleedit(data) {
-        console.log("edata",data)
+        console.log("edata", data)
         handleClickOpen();
         setUpdateCourse(data)
     }
 
     function handlesubmit(values) {
+
+        const formdata = new FormData();
+        formdata.append("category", values.category);
+        formdata.append("name", values.name);
+        formdata.append("description", values.description);
+        formdata.append("price", values.price);
+        formdata.append("week_no", values.week_no);
+        formdata.append("course_img", values.course_img);
+
         if (Object.keys(updatecourse).length > 0) {
+
+            if (typeof values.course_img === 'object') {
+                formdata.append("_id", values._id);
+                editcourse(formdata)
+            } else {
+                editcourse(values)
+            }
+
             //dispatch(editcoures(values))
-            editcourse(values)
+            console.log("uval", values);
+
+            editcourse({ _id: values._id, formdata })
+
+
         } else {
             //dispatch(addcourse(values))
-            addcourse(values)
+            addcourse(formdata)
         }
     }
 
@@ -106,15 +128,15 @@ function Course(props) {
         },
         { field: "name", headerName: 'name', width: 180 },
         { field: "description", headerName: 'description', width: 250 },
-        // {
-        //     field: "course_img", headerName: 'coures image', width: 120,
-        //     renderCell: (params) => (
-        //         <>
-        //             {console.log(params.row.course_img)}
-        //             <img src={IMG_URL + params.row.course_img} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} />
-        //         </>
-        //     )
-        // },
+        {
+            field: "course_img", headerName: 'coures image', width: 120,
+            renderCell: (params) => (
+                <>
+                    {console.log(params.row.course_img)}
+                    <img src={IMG_URL + params.row.course_img} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} />
+                </>
+            )
+        },
         { field: "price", headerName: 'price', width: 120 },
         { field: "week_no", headerName: 'week_no', width: 150 },
         {
@@ -156,11 +178,11 @@ function Course(props) {
                             description: '',
                             price: '',
                             week_no: '',
-                            // course_img: ''
+                            course_img: ''
                         }}
                         validationSchema={courseSchema}
                         onSubmit={(values, { resetForm }) => {
-                            console.log("val",values)
+                            console.log("fval", values)
                             handlesubmit(values)
 
                             handleClose();
@@ -207,9 +229,9 @@ function Course(props) {
                                 label="Enter Week No"
                             />
 
-                            {/* <UploadFile
+                            <UploadFile
                                 name='course_img'
-                            /> */}
+                            />
 
                         </Form>
                     </Formik>
