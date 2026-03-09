@@ -18,7 +18,8 @@ import { IMG_URL } from '../../../utility/url';
 import { IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useAddCourseMutation, useDeleteCourseMutation, useGetCourseQuery, useUpdateCourseMutation } from '../../../redux/api/course.api';
+import Switch from '@mui/material/Switch';
+import { useAddCourseMutation, useDeleteCourseMutation, useGetCourseQuery, useUpdateCourseMutation, useUpdateStatusMutation } from '../../../redux/api/course.api';
 
 function Course(props) {
 
@@ -37,6 +38,7 @@ function Course(props) {
     const [addcourse] = useAddCourseMutation();
     const [editcourse] = useUpdateCourseMutation();
     const [deletecourse] = useDeleteCourseMutation();
+    const [updatestatus] = useUpdateStatusMutation();
 
     const getdata = async () => {
         dispatch(getcategory())
@@ -87,6 +89,11 @@ function Course(props) {
         setUpdateCourse(data)
     }
 
+    function handletoggle(data) {
+        //console.log(!data.isactive,data)
+        updatestatus(data)
+    }
+
     function handlesubmit(values) {
 
         const formdata = new FormData();
@@ -98,20 +105,15 @@ function Course(props) {
         formdata.append("course_img", values.course_img);
 
         if (Object.keys(updatecourse).length > 0) {
-
+            formdata.append("_id", values._id);
             if (typeof values.course_img === 'object') {
-                formdata.append("_id", values._id);
                 editcourse(formdata)
             } else {
-                editcourse(values)
+                editcourse(formdata)
             }
 
             //dispatch(editcoures(values))
             console.log("uval", values);
-
-            editcourse({ _id: values._id, formdata })
-
-
         } else {
             //dispatch(addcourse(values))
             addcourse(formdata)
@@ -133,12 +135,27 @@ function Course(props) {
             renderCell: (params) => (
                 <>
                     {console.log(params.row.course_img)}
-                    <img src={IMG_URL + params.row.course_img} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} />
+                    <img src={params.row.course_img?.includes('blob') ? params.row.course_img :
+                        IMG_URL + params.row.course_img} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} />
                 </>
             )
         },
         { field: "price", headerName: 'price', width: 120 },
         { field: "week_no", headerName: 'week_no', width: 150 },
+        {
+            field: 'isactive', headerName: 'isactive', width: 100,
+            renderCell: (params) => (
+                <>
+                    {console.log(params, params.id)}
+                    <IconButton aria-label="delete"
+                        color="primary"
+                        onClick={(e) => handletoggle(params.row)}
+                    >
+                        <Switch  checked={params.row.isactive}/>
+                    </IconButton>
+                </>
+            )
+        },
         {
             field: 'Action', headerName: 'Action', width: 100,
             renderCell: (params) => (
@@ -159,6 +176,7 @@ function Course(props) {
                 </>
             )
         }
+
     ]
     const paginationModel = { page: 0, pageSize: 5 };
 

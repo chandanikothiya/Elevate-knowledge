@@ -1,12 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import ListItem from '@mui/material/ListItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { getcategory, getparentcategory } from '../../redux/slice/category.slice';
 import { logoutuser } from '../../redux/slice/auth.slice';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { ThemeContext } from '../../Context/ThemeContext';
+import Switch from '@mui/material/Switch';
+
 
 function Header(props) {
+
+  const themecontext = useContext(ThemeContext);
+  
+  const [checked, setChecked] = React.useState(false);
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+
+    themecontext.toggleTheme(themecontext.theme)
+  };
+
+  console.log(themecontext)
 
   const dispatch = useDispatch();
   const categorys = useSelector(state => state.category)
@@ -20,8 +35,9 @@ function Header(props) {
 
   console.log("category", categorys.category)
   const x = categorys.category.filter((v) => v.parent_category_id === null)
-  const yy = categorys.category.filter((vv) => vv.parent_category_id === "69992ff6e420eb019b34b5be")
-  console.log('category', categorys.category.filter((vv) => vv.parent_category_id === "69992ff6e420eb019b34b5be"))
+  //const yy = categorys.category.filter((vv) => vv.parent_category_id === "69992ff6e420eb019b34b5be")
+  //console.log('category', categorys?.category?.filter((vv) => vv.parent_category_id === "69992ff6e420eb019b34b5be"))
+  
   return (
     <header className="navbar-light navbar-sticky header-static">
       {/* Logo Nav START */}
@@ -51,7 +67,7 @@ function Header(props) {
                 <a className="nav-link dropdown-toggle active" href="#" id="demoMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i className="bi bi-ui-radios-grid me-2" />categorys</a>
                 <ul className="dropdown-menu " aria-labelledby="demoMenu">
                   {
-                    x.map((v) => {
+                    x?.map((v) => {
                       const subchild = categorys.category.filter((vv) => vv.parent_category_id === v._id)
                       return <li><a className="dropdown-item">
                         <>
@@ -61,7 +77,7 @@ function Header(props) {
                             {
                               subchild.length > 0 &&
 
-                              <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none" style={{ padding:'4px' }}>
+                              <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none" style={{ padding: '4px' }}>
                                 {
 
                                   subchild.map((v1) => {
@@ -71,7 +87,7 @@ function Header(props) {
                                     return <li className="dropdown-submenu dropend">
                                       <a href="#" className={subsubchild.length > 0 ? "dropdown-item dropdown-toggle" : "navitems"}>{v1.name}</a>
                                       {subsubchild.length > 0 &&
-                                        <ul className="dropdown-menu dropdown-menu-start" style={{ padding:'4px' }} data-bs-popper="none">
+                                        <ul className="dropdown-menu dropdown-menu-start" style={{ padding: '4px' }} data-bs-popper="none">
                                           {
                                             subsubchild.map((v2) => (
                                               <li>
@@ -473,9 +489,11 @@ function Header(props) {
               {/* Dark mode switch START */}
               <li>
                 <div className="modeswitch-wrap" id="darkModeSwitch">
-                  <div className="modeswitch-item">
-                    <div className="modeswitch-icon" />
-                  </div>
+                  <Switch
+                    checked={checked}
+                    onChange={handleChange}
+                    slotProps={{ input: { 'aria-label': 'controlled' } }}
+                  />
                   <span>Dark mode</span>
                 </div>
               </li>

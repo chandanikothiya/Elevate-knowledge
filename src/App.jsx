@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { storeconfig } from './redux/store';
 import { SnackbarProvider } from 'notistack';
 import Alert from './components/Alert/Alert';
+import { ThemeProvider } from './Context/ThemeContext';
 
 
 function App(props) {
@@ -14,15 +15,17 @@ function App(props) {
   const store = storeconfig()
   return (
     <SnackbarProvider>
-      <Provider store={store}>
-        <Alert/>
-        <Routes>
-          <Route path='/*' element={<UserRoutes />} />
-          <Route element={<PrivateRoutes />}>
-            <Route path='/admin/*' element={<AdminRoutes />} />
-          </Route>
-        </Routes>
-      </Provider>
+      <ThemeProvider>
+        <Provider store={store}>
+          <Alert />
+          <Routes>
+            <Route path='/*' element={<UserRoutes />} />
+            <Route element={<PrivateRoutes />}>
+              <Route path='/admin/*' element={<AdminRoutes />} />
+            </Route>
+          </Routes>
+        </Provider>
+      </ThemeProvider>
     </SnackbarProvider>
   );
 }

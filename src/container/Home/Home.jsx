@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css/navigation';
+import { ThemeContext } from '../../Context/ThemeContext';
 
 function Home(props) {
+
+    const themecontext = useContext(ThemeContext);
+    console.log("themecontext", themecontext)
+
+    const isdark = themecontext.theme === 'dark'
+
     return (
         <main>
             {/* =======================
@@ -141,7 +148,7 @@ Main Banner START */}
                                 </svg>
                             </figure>
                             {/* Title */}
-                            <h1 className="mb-0 display-6">Limitless learning at your
+                            <h1 className={`${isdark ? 'text-white' : ''} mb-0 display-6`}>Limitless learning at your
                                 <span className="position-relative">fingertips
                                     {/* SVG START */}
                                     <span className="position-absolute top-50 start-50 translate-middle ms-3 z-index-n1">
@@ -162,7 +169,7 @@ Main Banner START */}
                             </ul>
                             <div className="d-sm-flex align-items-center justify-content-center justify-content-lg-start">
                                 {/* Button */}
-                                <a href="#" className="btn btn-lg btn-danger-soft me-2 mb-4 mb-sm-0">Get Started</a>
+                                <a h1href="#" className="btn btn-lg btn-danger-soft me-2 mb-4 mb-sm-0">Get Started</a>
                                 {/* Video button */}
                                 <a data-glightbox data-gallery="office-tour" href="https://www.youtube.com/embed/tXHviS-4ygo" className="ms-0 ms-sm-4 d-block">
                                     <div className="btn btn-round btn-primary-shadow mb-0 me-3 align-middle d-inline-block"> <i className="fas fa-play" /></div>

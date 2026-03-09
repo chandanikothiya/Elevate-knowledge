@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Header from '../components/header/Header';
 import Footer from '../components/footer/Footer';
@@ -57,6 +57,7 @@ import { checkauth } from '../redux/slice/auth.slice';
 import Categories from '../container/Categories/Categories';
 import InstructoreAddCourse from '../container/Instructotr_create_course/InstructoreAddCourse';
 import InstructorManageCourse from '../container/Instructor-manage-course/InstructorManageCourse';
+import { ThemeContext } from '../Context/ThemeContext';
 
 function UserRoutes(props) {
 
@@ -66,9 +67,10 @@ function UserRoutes(props) {
         dispatch(checkauth())
     }, [])
 
-
+    const themecontext = useContext(ThemeContext);
+    console.log("themecontext",themecontext)
     return (
-        <>
+        <div className={themecontext.theme}>
             <Header />
             <Routes>
                 <Route path='/' element={<Home />} />
@@ -130,7 +132,7 @@ function UserRoutes(props) {
                 <Route path='*' element={<Error404 />} />
             </Routes>
             <Footer />
-        </>
+        </div>
     );
 }
 

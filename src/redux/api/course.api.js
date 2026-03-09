@@ -45,32 +45,58 @@ export const courseApi = createApi({
                 body: data
             }),
             async onQueryStarted(data, { dispatch, queryFulfilled }) {
+                console.log("uudata", data)
                 const patchResult = dispatch(
                     courseApi.util.updateQueryData('getCourse', undefined, (draft) => {
-                        const index = draft.data.findIndex((v) => v._id === data._id)
-
+                        console.log("uudata", draft.data)
+                        const index = draft.data.findIndex((v) => v._id === data.get("_id"))
+                        console.log("uudata", index)
                         if (index !== -1) {
-                            draft.data[index] = data;
+                            draft.data[index] = ({
+                                _id: data.get("_id"),
+                                category: data.get("category"),
+                                name: data.get("name"),
+                                description: data.get("description"),
+                                price: data.get("price"),
+                                week_no: data.get("week_no"),
+                                course_img: typeof data.get("course_img") === 'string' ? data.get("course_img") : URL.createObjectURL(data.get("course_img"))
+                            });
                         }
                     }),
                 )
                 try {
-                    const {data} = await queryFulfilled
-                    console.log("udata",data.data._id);
-                    dispatch(
-                    courseApi.util.updateQueryData('getCourse', undefined, (draft) => {
-                        const index = draft.data.findIndex((v) => v._id === data.data._id)
-                        console.log(index)
-                        if (index !== -1) {
-                            draft.data[index] = data;
-                        }
-                    }),
-                )
+                    await queryFulfilled
                 } catch {
                     patchResult.undo()
                 }
             },
             //invalidatesTags: ['course']
+        }),
+        updateStatus: build.mutation({
+            query: (data) => ({
+                url: `course/updateStatus/${data._id}`,
+                method: 'PUT',
+                body: data
+            }),
+            async onQueryStarted(data, { dispatch, queryFulfilled }) {
+                console.log("uudata", data)
+                const patchResult = dispatch(
+                    courseApi.util.updateQueryData('getCourse', undefined, (draft) => {
+                        console.log("uudata", draft.data)
+                        const index = draft.data.findIndex((v) => v._id === data._id)
+                        console.log("uudata", index)
+                        if (index !== -1) {
+                            draft.data[index].isactive = !data.isactive;
+                        }
+                    }),
+                )
+                try {
+                    await queryFulfilled
+                } catch {
+                    patchResult.undo()
+                }
+            },
+           //invalidatesTags: ['course']
         }),
         deleteCourse: build.mutation({
             query: (_id) => ({
@@ -96,8 +122,8 @@ export const courseApi = createApi({
                 }
             },
             //invalidatesTags: ['course']
-        })
+        }),
     })
 })
 
-export const { useGetCourseQuery, useAddCourseMutation, useUpdateCourseMutation, useDeleteCourseMutation } = courseApi;
+export const { useGetCourseQuery, useAddCourseMutation, useUpdateCourseMutation, useUpdateStatusMutation, useDeleteCourseMutation } = courseApi;

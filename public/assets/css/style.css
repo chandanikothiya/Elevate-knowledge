@@ -20854,14 +20854,12 @@ body {
   position: relative;
 }
 
-main {
-  background-color: #fff;
-}
+
 
 header {
   position: relative;
   z-index: 1020;
-  background: #fff;
+
 }
 
 a {
@@ -22333,3 +22331,13 @@ html[dir=rtl] .choices__input {
 }
 
 /*User CSS*/
+
+.ligth {
+  background-color: white !important;
+  color: #000 !important;
+}
+
+.dark {
+   background-color:#000 !important;
+  color: white !important;
+}
