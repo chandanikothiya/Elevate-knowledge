@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import LineChartData from './LineChartData';
+import BarChartData from './BarChartData';
 
 const stats = [
     {
@@ -110,7 +110,7 @@ function Dashboard(props) {
                     }
 
                     <Grid size={12}>
-                        <LineChartData/>
+                        <BarChartData/>
                     </Grid>
                 </Grid>
             </Box>
