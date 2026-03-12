@@ -94,8 +94,8 @@ export const checkauth = createAsyncThunk(
             const response = await axiosInstance.get('user/checkauth')
             console.log(response)
 
-            if (response.data.success) {
-                return response.data.data;
+            if (response?.data?.success) {
+                return response?.data?.data;
             }
         } catch (error) {
             console.log(error)

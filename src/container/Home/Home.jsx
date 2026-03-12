@@ -11,7 +11,7 @@ function Home(props) {
     console.log("themecontext", themecontext)
 
     const isdark = themecontext.theme === 'dark'
-
+    console.log("isdark",isdark)
     return (
         <main>
             {/* =======================
@@ -163,9 +163,9 @@ Main Banner START */}
                             <p className="my-4 lead">Online learning and teaching marketplace with 5K+ courses &amp; 10M students. Taught by experts to help you acquire new skills.</p>
                             {/* Info */}
                             <ul className="list-inline position-relative justify-content-center justify-content-lg-start mb-4">
-                                <li className="list-inline-item me-2"> <i className="bi bi-patch-check-fill h6 me-1" />Learn with experts</li>
-                                <li className="list-inline-item me-2"> <i className="bi bi-patch-check-fill h6 me-1" />Get certificate</li>
-                                <li className="list-inline-item"> <i className="bi bi-patch-check-fill h6 me-1" />Get membership</li>
+                                <li className="list-inline-item me-2"> <i className={`${isdark ? 'text-white' : ''} bi bi-patch-check-fill h6 me-1`} />Learn with experts</li>
+                                <li className="list-inline-item me-2"> <i className={`${isdark ? 'text-white' : ''} bi bi-patch-check-fill h6 me-1`} />Get certificate</li>
+                                <li className="list-inline-item"> <i className={`${isdark ? 'text-white' : ''} bi bi-patch-check-fill h6 me-1`} />Get membership</li>
                             </ul>
                             <div className="d-sm-flex align-items-center justify-content-center justify-content-lg-start">
                                 {/* Button */}
@@ -174,7 +174,7 @@ Main Banner START */}
                                 <a data-glightbox data-gallery="office-tour" href="https://www.youtube.com/embed/tXHviS-4ygo" className="ms-0 ms-sm-4 d-block">
                                     <div className="btn btn-round btn-primary-shadow mb-0 me-3 align-middle d-inline-block"> <i className="fas fa-play" /></div>
                                     <div className="align-middle d-inline-block">
-                                        <h6 className="mb-0 fw-normal">Watch video</h6>
+                                        <h6 className={`${isdark ? 'text-white' : ''} mb-0 fw-normal`}>Watch video</h6>
                                     </div>
                                 </a>
                             </div>
@@ -279,46 +279,46 @@ Counter START */}
                     <div className="row g-4">
                         {/* Counter item */}
                         <div className="col-sm-6 col-xl-3">
-                            <div className="d-flex justify-content-center align-items-center p-4 bg-warning bg-opacity-15 rounded-3">
+                            <div className={`${isdark ? 'bg-secondary text-white' : 'bg-warning'} d-flex justify-content-center align-items-center p-4  bg-opacity-15 rounded-3`}>
                                 <span className="display-6 lh-1 text-warning mb-0"><i className="fas fa-tv" /></span>
                                 <div className="ms-4 h6 fw-normal">
                                     <div className="d-flex">
                                         <h5 className="purecounter mb-0 fw-bold" data-purecounter-start={0} data-purecounter-end={10} data-purecounter-delay={200}>0</h5>
                                         <span className="mb-0 h5">K</span>
                                     </div>
-                                    <p className="mb-0">Online Courses</p>
+                                    <p className={`${isdark ? 'text-white' : ''} mb-0`}>Online Courses</p>
                                 </div>
                             </div>
                         </div>
                         {/* Counter item */}
                         <div className="col-sm-6 col-xl-3">
-                            <div className="d-flex justify-content-center align-items-center p-4 bg-blue bg-opacity-10 rounded-3">
-                                <span className="display-6 lh-1 text-blue mb-0"><i className="fas fa-user-tie" /></span>
+                            <div className={`${isdark ? 'bg-secondary text-white' : 'bg-blue'} d-flex justify-content-center align-items-center p-4  bg-opacity-15 rounded-3`}>
+                                <span className={`${isdark ? 'text-success' : 'text-blue'} display-6 lh-1  mb-0`}><i className="fas fa-user-tie" /></span>
                                 <div className="ms-4 h6 fw-normal">
                                     <div className="d-flex">
                                         <h5 className="purecounter mb-0 fw-bold" data-purecounter-start={0} data-purecounter-end={200} data-purecounter-delay={200}>0</h5>
                                         <span className="mb-0 h5">+</span>
                                     </div>
-                                    <p className="mb-0">Expert Tutors</p>
+                                    <p className={`${isdark ? 'text-white' : ''} mb-0`}>Expert Tutors</p>
                                 </div>
                             </div>
                         </div>
                         {/* Counter item */}
                         <div className="col-sm-6 col-xl-3">
-                            <div className="d-flex justify-content-center align-items-center p-4 bg-purple bg-opacity-10 rounded-3">
+                            <div className={`${isdark ? 'bg-secondary text-white' : 'bg-purple'} d-flex justify-content-center align-items-center p-4  bg-opacity-15 rounded-3`}>
                                 <span className="display-6 lh-1 text-purple mb-0"><i className="fas fa-user-graduate" /></span>
                                 <div className="ms-4 h6 fw-normal">
                                     <div className="d-flex">
                                         <h5 className="purecounter mb-0 fw-bold" data-purecounter-start={0} data-purecounter-end={60} data-purecounter-delay={200}>0</h5>
                                         <span className="mb-0 h5">K+</span>
                                     </div>
-                                    <p className="mb-0">Online Students</p>
+                                    <p className={`${isdark ? 'text-white' : ''} mb-0`}>Online Students</p>
                                 </div>
                             </div>
                         </div>
                         {/* Counter item */}
                         <div className="col-sm-6 col-xl-3">
-                            <div className="d-flex justify-content-center align-items-center p-4 bg-info bg-opacity-10 rounded-3">
+                            <div className={`${isdark ? 'bg-secondary text-white' : 'bg-info'} d-flex justify-content-center align-items-center p-4  bg-opacity-15 rounded-3`}>
                                 <span className="display-6 lh-1 text-info mb-0"><i className="bi bi-patch-check-fill" /></span>
                                 <div className="ms-4 h6 fw-normal">
                                     <div className="d-flex">
@@ -341,7 +341,7 @@ Popular course START */}
                     {/* Title */}
                     <div className="row mb-4">
                         <div className="col-lg-8 mx-auto text-center">
-                            <h2 className="fs-1">Most Popular Courses</h2>
+                            <h2 className={`${isdark ? 'text-white' : ''} fs-1`}>Most Popular Courses</h2>
                             <p className="mb-0">Choose from hundreds of courses from specialist organizations</p>
                         </div>
                     </div>
@@ -387,7 +387,7 @@ Popular course START */}
                                                 <a href="#" className="h6 mb-0"><i className="far fa-heart" /></a>
                                             </div>
                                             {/* Title */}
-                                            <h5 className="card-title fw-normal"><a href="#">Sketch from A to Z: for app designer</a></h5>
+                                            <h5 className="card-title fw-normal"><a className={`${isdark ? 'text-white' : ''}`} href="#">Sketch from A to Z: for app designer</a></h5>
                                             <p className="mb-2 text-truncate-2">Proposal indulged no do sociable he throwing settling.</p>
                                             {/* Rating star */}
                                             <ul className="list-inline mb-0">
@@ -396,7 +396,7 @@ Popular course START */}
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="far fa-star text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">4.0/5.0</li>
+                                                <li className={`${isdark ? 'text-white' : ''} list-inline-item ms-2 h6 fw-light mb-0`}>4.0/5.0</li>
                                             </ul>
                                         </div>
                                         {/* Card footer */}
@@ -422,7 +422,7 @@ Popular course START */}
                                                 <a href="#" className="text-danger"><i className="fas fa-heart" /></a>
                                             </div>
                                             {/* Title */}
-                                            <h5 className="card-title fw-normal"><a href="#">Graphic Design Masterclass</a></h5>
+                                            <h5 className="card-title fw-normal"><a className={`${isdark ? 'text-white' : ''}`} href="#">Graphic Design Masterclass</a></h5>
                                             <p className="mb-2 text-truncate-2">Rooms oh fully taken by worse do Points afraid but may end Rooms Points afraid but may end Rooms</p>
                                             {/* Rating star */}
                                             <ul className="list-inline mb-0">
@@ -431,7 +431,7 @@ Popular course START */}
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star-half-alt text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">4.5/5.0</li>
+                                                <li className={`${isdark ? 'text-white' : ''} list-inline-item ms-2 h6 fw-light mb-0`}>4.5/5.0</li>
                                             </ul>
                                         </div>
                                         {/* Card footer */}
@@ -457,7 +457,7 @@ Popular course START */}
                                                 <a href="#" className="h6 fw-light mb-0"><i className="far fa-heart" /></a>
                                             </div>
                                             {/* Title */}
-                                            <h5 className="card-title fw-normal"><a href="#">Create a Design System in Figma</a></h5>
+                                            <h5 className="card-title fw-normal"><a className={`${isdark ? 'text-white' : ''}`} href="#">Create a Design System in Figma</a></h5>
                                             <p className="mb-2 text-truncate-2">Rooms oh fully taken by worse do. Points afraid but may end afraid but may end.</p>
                                             {/* Rating star */}
                                             <ul className="list-inline mb-0">
@@ -466,7 +466,7 @@ Popular course START */}
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star-half-alt text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">4.5/5.0</li>
+                                                <li className={`${isdark ? 'text-white' : ''} list-inline-item ms-2 h6 fw-light mb-0`}>4.5/5.0</li>
                                             </ul>
                                         </div>
                                         {/* Card footer */}
@@ -492,7 +492,7 @@ Popular course START */}
                                                 <a href="#" className="text-danger"><i className="fas fa-heart" /></a>
                                             </div>
                                             {/* Title */}
-                                            <h5 className="card-title fw-normal"><a href="#">Deep Learning with React-Native </a></h5>
+                                            <h5 className="card-title fw-normal"><a  className={`${isdark ? 'text-white' : ''}`} href="#">Deep Learning with React-Native </a></h5>
                                             <p className="mb-2 text-truncate-2">Far advanced settling say finished raillery. Offered chiefly farther</p>
                                             {/* Rating star */}
                                             <ul className="list-inline mb-0">
@@ -501,7 +501,7 @@ Popular course START */}
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="far fa-star text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">4.0/5.0</li>
+                                                <li className={`${isdark ? 'text-white' : ''} list-inline-item ms-2 h6 fw-light mb-0`}>4.0/5.0</li>
                                             </ul>
                                         </div>
                                         {/* Card footer */}
@@ -527,7 +527,7 @@ Popular course START */}
                                                 <a href="#" className="text-danger"><i className="fas fa-heart" /></a>
                                             </div>
                                             {/* Title */}
-                                            <h5 className="card-title fw-normal"><a href="#">Build Responsive Websites with HTML</a></h5>
+                                            <h5 className="card-title fw-normal"><a  className={`${isdark ? 'text-white' : ''}`} href="#">Build Responsive Websites with HTML</a></h5>
                                             <p className="mb-2 text-truncate-2">Far advanced settling say finished raillery. Offered chiefly farther</p>
                                             {/* Rating star */}
                                             <ul className="list-inline mb-0">
@@ -536,7 +536,7 @@ Popular course START */}
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="far fa-star text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">4.0/5.0</li>
+                                                <li className={`${isdark ? 'text-white' : ''} list-inline-item ms-2 h6 fw-light mb-0`}>4.0/5.0</li>
                                             </ul>
                                         </div>
                                         {/* Card footer */}
@@ -562,7 +562,7 @@ Popular course START */}
                                                 <a href="#" className="h6 fw-light mb-0"><i className="far fa-heart" /></a>
                                             </div>
                                             {/* Title */}
-                                            <h5 className="card-title fw-normal"><a href="#">Build Websites with CSS</a></h5>
+                                            <h5 className="card-title fw-normal"><a className={`${isdark ? 'text-white' : ''}`} href="#">Build Websites with CSS</a></h5>
                                             <p className="text-truncate-2 mb-2">Far advanced settling say finished raillery. Offered chiefly farther</p>
                                             {/* Rating star */}
                                             <ul className="list-inline mb-0">
@@ -571,7 +571,7 @@ Popular course START */}
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star-half-alt text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">4.5/5.0</li>
+                                                <li className={`${isdark ? 'text-white' : ''} list-inline-item ms-2 h6 fw-light mb-0`}>4.5/5.0</li>
                                             </ul>
                                         </div>
                                         {/* Card footer */}
@@ -597,7 +597,7 @@ Popular course START */}
                                                 <a href="#" className="text-danger"><i className="fas fa-heart" /></a>
                                             </div>
                                             {/* Title */}
-                                            <h5 className="card-title fw-normal"><a href="#">Learn Invision</a></h5>
+                                            <h5 className="card-title fw-normal"><a className={`${isdark ? 'text-white' : ''}`} href="#">Learn Invision</a></h5>
                                             <p className="mb-2">Arrived off she elderly beloved him Course regard to up he hardly.</p>
                                             {/* Rating star */}
                                             <ul className="list-inline mb-0">
@@ -606,7 +606,7 @@ Popular course START */}
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star-half-alt text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="far fa-star text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">3.5/5.0</li>
+                                                <li className={`${isdark ? 'text-white' : ''} list-inline-item ms-2 h6 fw-light mb-0`}>3.5/5.0</li>
                                             </ul>
                                         </div>
                                         {/* Card footer */}
@@ -632,7 +632,7 @@ Popular course START */}
                                                 <a href="#" className="h6 fw-light mb-0"><i className="far fa-heart" /></a>
                                             </div>
                                             {/* Title */}
-                                            <h5 className="card-title fw-normal"><a href="#">JavaScript: Full Understanding</a></h5>
+                                            <h5 className="card-title fw-normal"><a className={`${isdark ? 'text-white' : ''}`} href="#">JavaScript: Full Understanding</a></h5>
                                             <p className="text-truncate-2 mb-2">Far advanced settling say finished raillery. Offered chiefly farther.</p>
                                             {/* Rating star */}
                                             <ul className="list-inline mb-0">
@@ -641,7 +641,7 @@ Popular course START */}
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">5.0/5.0</li>
+                                                <li className={`${isdark ? 'text-white' : ''} list-inline-item ms-2 h6 fw-light mb-0`}>5.0/5.0</li>
                                             </ul>
                                         </div>
                                         {/* Card footer */}
@@ -673,7 +673,7 @@ Popular course START */}
                                                 <a href="#" className="h6 fw-light mb-0"><i className="far fa-heart" /></a>
                                             </div>
                                             {/* Title */}
-                                            <h5 className="card-title fw-normal"><a href="#">The Complete Web Development in python</a></h5>
+                                            <h5 className="card-title fw-normal"><a className={`${isdark ? 'text-white' : ''}`} href="#">The Complete Web Development in python</a></h5>
                                             <p className="text-truncate-2 mb-2">Mention Mr manners opinion if garrets enabled.</p>
                                             {/* Rating star */}
                                             <ul className="list-inline mb-0">
@@ -682,7 +682,7 @@ Popular course START */}
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star-half-alt text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">4.5/5.0</li>
+                                                <li className={`${isdark ? 'text-white' : ''} list-inline-item ms-2 h6 fw-light mb-0`}>4.5/5.0</li>
                                             </ul>
                                         </div>
                                         {/* Card footer */}
@@ -708,7 +708,7 @@ Popular course START */}
                                                 <a href="#" className="h6 fw-light mb-0"><i className="far fa-heart" /></a>
                                             </div>
                                             {/* Title */}
-                                            <h5 className="card-title fw-normal"><a href="#">Angular – The Complete Guider</a></h5>
+                                            <h5 className="card-title fw-normal"><a className={`${isdark ? 'text-white' : ''}`} href="#">Angular – The Complete Guider</a></h5>
                                             <p className="text-truncate-2 mb-2">Rooms oh fully taken by worse do. Points afraid but may end.</p>
                                             {/* Rating star */}
                                             <ul className="list-inline mb-0">
@@ -717,7 +717,7 @@ Popular course START */}
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star-half-alt text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">4.5/5.0</li>
+                                                <li className={`${isdark ? 'text-white' : ''} list-inline-item ms-2 h6 fw-light mb-0`}>4.5/5.0</li>
                                             </ul>
                                         </div>
                                         {/* Card footer */}
@@ -733,7 +733,7 @@ Popular course START */}
                                 {/* Card item END */}
                                 {/* Card item START */}
                                 <div className="col-sm-6 col-lg-4 col-xl-3">
-                                    <div className="card shadow">
+                                    <div className="card shadow h-100">
                                         {/* Image */}
                                         <img src="assets/images/courses/4by3/07.jpg" className="card-img-top" alt="course image" />
                                         <div className="card-body pb-0">
@@ -743,7 +743,7 @@ Popular course START */}
                                                 <a href="#" className="text-danger"><i className="fas fa-heart" /></a>
                                             </div>
                                             {/* Title */}
-                                            <h5 className="card-title fw-normal"><a href="#">Deep Learning with React-Native</a></h5>
+                                            <h5 className="card-title fw-normal"><a className={`${isdark ? 'text-white' : ''}`} href="#">Deep Learning with React-Native</a></h5>
                                             <p className="text-truncate-2 mb-2">Far advanced settling say finished raillery. Offered chiefly farther</p>
                                             {/* Rating star */}
                                             <ul className="list-inline mb-0">
@@ -752,7 +752,7 @@ Popular course START */}
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="far fa-star text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">4.0/5.0</li>
+                                                <li className={`${isdark ? 'text-white' : ''} list-inline-item ms-2 h6 fw-light mb-0`}>4.0/5.0</li>
                                             </ul>
                                         </div>
                                         {/* Card footer */}
@@ -778,7 +778,7 @@ Popular course START */}
                                                 <a href="#" className="h6 fw-light mb-0"><i className="far fa-heart" /></a>
                                             </div>
                                             {/* Title */}
-                                            <h5 className="card-title fw-normal"><a href="#">JavaScript: Full Understanding</a></h5>
+                                            <h5 className="card-title fw-normal"><a className={`${isdark ? 'text-white' : ''}`} href="#">JavaScript: Full Understanding</a></h5>
                                             <p className="text-truncate-2 mb-2">Far advanced settling say finished raillery. Offered chiefly farther</p>
                                             {/* Rating star */}
                                             <ul className="list-inline mb-0">
@@ -787,7 +787,7 @@ Popular course START */}
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">5.0/5.0</li>
+                                                <li className={`${isdark ? 'text-white' : ''} list-inline-item ms-2 h6 fw-light mb-0`}>5.0/5.0</li>
                                             </ul>
                                         </div>
                                         {/* Card footer */}
@@ -813,7 +813,7 @@ Popular course START */}
                                                 <a href="#" className="text-danger"><i className="fas fa-heart" /></a>
                                             </div>
                                             {/* Title */}
-                                            <h5 className="card-title fw-normal"><a href="#">Bootstrap 5 From Scratch</a></h5>
+                                            <h5 className="card-title fw-normal"><a className={`${isdark ? 'text-white' : ''}`} href="#">Bootstrap 5 From Scratch</a></h5>
                                             <p className="text-truncate-2 mb-2">Far advanced settling say finished raillery. Offered chiefly farther</p>
                                             {/* Rating star */}
                                             <ul className="list-inline mb-0">
@@ -822,7 +822,7 @@ Popular course START */}
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star-half-alt text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">4.5/5.0</li>
+                                                <li className={`${isdark ? 'text-white' : ''} list-inline-item ms-2 h6 fw-light mb-0`}>4.5/5.0</li>
                                             </ul>
                                         </div>
                                         {/* Card footer */}
@@ -848,7 +848,7 @@ Popular course START */}
                                                 <a href="#" className="h6 fw-light mb-0"><i className="far fa-heart" /></a>
                                             </div>
                                             {/* Title */}
-                                            <h5 className="card-title fw-normal"><a href="#">PHP with - CMS Project</a></h5>
+                                            <h5 className="card-title fw-normal"><a className={`${isdark ? 'text-white' : ''}`} href="#">PHP with - CMS Project</a></h5>
                                             <p className="text-truncate-2 mb-2">Far advanced settling say finished raillery. Offered chiefly farther</p>
                                             {/* Rating star */}
                                             <ul className="list-inline mb-0">
@@ -857,7 +857,7 @@ Popular course START */}
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="far fa-star text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">4.0/5.0</li>
+                                                <li className={`${isdark ? 'text-white' : ''} list-inline-item ms-2 h6 fw-light mb-0`}>4.0/5.0</li>
                                             </ul>
                                         </div>
                                         {/* Card footer */}
@@ -889,7 +889,7 @@ Popular course START */}
                                                 <a href="#" className="h6 fw-light mb-0"><i className="far fa-heart" /></a>
                                             </div>
                                             {/* Title */}
-                                            <h5 className="card-title fw-normal"><a href="#">Sketch from A to Z: for app designer</a></h5>
+                                            <h5 className="card-title fw-normal"><a className={`${isdark ? 'text-white' : ''}`} href="#">Sketch from A to Z: for app designer</a></h5>
                                             <p className="text-truncate-2 mb-2">Proposal indulged no do sociable he throwing settling</p>
                                             {/* Rating star */}
                                             <ul className="list-inline mb-0">
@@ -898,7 +898,7 @@ Popular course START */}
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="far fa-star text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">4.0/5.0</li>
+                                                <li className={`${isdark ? 'text-white' : ''} list-inline-item ms-2 h6 fw-light mb-0`}>4.0/5.0</li>
                                             </ul>
                                         </div>
                                         {/* Card footer */}
@@ -933,7 +933,7 @@ Popular course START */}
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="fas fa-star-half-alt text-warning" /></li>
                                                 <li className="list-inline-item me-0 small"><i className="far fa-star text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">3.5/5.0</li>
+                                                <li className={`${isdark ? 'text-white' : ''} list-inline-item ms-2 h6 fw-light mb-0`}>3.5/5.0</li>
                                             </ul>
                                         </div>
                                         {/* Card footer */}
@@ -1035,7 +1035,7 @@ Popular course START */}
                                                 <a href="#" className="text-danger"><i className="fas fa-heart" /></a>
                                             </div>
                                             {/* Title */}
-                                            <h5 className="card-title fw-normal"><a href="#">Digital Marketing Masterclass</a></h5>
+                                            <h5 className="card-title fw-normal"><a className={`${isdark ? 'text-white' : ''}`} href="#">Digital Marketing Masterclass</a></h5>
                                             <p className="text-truncate-2 mb-2">Delivered dejection necessary objection do Mr prevailed.</p>
                                             {/* Rating star */}
                                             <ul className="list-inline mb-0">
@@ -1111,7 +1111,7 @@ Popular course START */}
                                                 <a href="#" className="text-danger"><i className="fas fa-heart" /></a>
                                             </div>
                                             {/* Title */}
-                                            <h5 className="card-title fw-normal"><a href="#">Learn Invision</a></h5>
+                                            <h5 className="card-title fw-normal"><a className={`${isdark ? 'text-white' : ''}`} href="#">Learn Invision</a></h5>
                                             <p className="text-truncate-2 mb-2">Arrived off she elderly beloved him Course regard to up he hardly.</p>
                                             {/* Rating star */}
                                             <ul className="list-inline mb-0">
@@ -1136,7 +1136,7 @@ Popular course START */}
                                 {/* Card item END */}
                                 {/* Card item START */}
                                 <div className="col-sm-6 col-lg-4 col-xl-3">
-                                    <div className="card shadow h-100">
+                                    <div className={`${themecontext.theme === 'ligth' ? 'crd-ligth' : 'crd-dark'} card  shadow h-100`}>
                                         {/* Image */}
                                         <img src="assets/images/courses/4by3/09.jpg" className="card-img-top" alt="course image" />
                                         <div className="card-body pb-0">

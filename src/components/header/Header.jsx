@@ -34,7 +34,7 @@ function Header(props) {
   }, [])
 
   console.log("category", categorys.category)
-  const x = categorys.category.filter((v) => v.parent_category_id === null)
+  const x = categorys?.category?.filter((v) => v.parent_category_id === null)
   //const yy = categorys.category.filter((vv) => vv.parent_category_id === "69992ff6e420eb019b34b5be")
   //console.log('category', categorys?.category?.filter((vv) => vv.parent_category_id === "69992ff6e420eb019b34b5be"))
   

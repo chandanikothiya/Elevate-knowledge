@@ -6131,7 +6131,6 @@ fieldset:disabled .btn {
 
 .card-footer {
   padding: 1rem 1rem;
-  background-color: #fff;
   border-top: 0 solid rgba(0, 0, 0, 0.1);
 }
 
@@ -22338,6 +22337,23 @@ html[dir=rtl] .choices__input {
 }
 
 .dark {
-   background-color:#000 !important;
+   background-color:#141A21 !important;
   color: white !important;
 }
+
+.dark .dropdown-menu {
+  background-color: #1B252E !important;
+}
+
+.dark .dropdown-item ,
+.dark .h1,.dark .h2,.dark .h3,.dark .h4,.dark .h5,.dark .h6,
+.dark h1,.dark h2,.dark h3,.dark h4,.dark h5,.dark h6,
+.dark .dropdown-menu
+{
+  color: white !important;
+}
+
+.dark .card {
+  background-color: #282E34 !important;
+}
+/* # */

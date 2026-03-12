@@ -11,7 +11,7 @@ function AdminRoutes(props) {
     return (
         <Layout>
             <Routes>
-                <Route path='/dashboard' element={<Dashboard />}></Route>
+                <Route path='/' element={<Dashboard />}></Route>
                 <Route path='/category' element={<Category />}></Route>
                 <Route path='/subcategory' element={<SubCategory />}></Route>
                 <Route path='/course' element={<Course />}></Route>

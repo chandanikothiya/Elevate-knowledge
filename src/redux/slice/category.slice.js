@@ -45,10 +45,10 @@ export const getcategory = createAsyncThunk(
     async () => {
         try {
             const response = await fetch(BASE_URL + "category/getallCategory")
-            const data = await response.json();
-            console.log("addda", data);
+            const data = await response?.json();
+            //console.log("addda", data);
 
-            return data.data;
+            return data?.data;
         } catch (error) {
             console.log(error)
         }

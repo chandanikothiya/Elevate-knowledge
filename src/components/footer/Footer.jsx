@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../Context/ThemeContext';
 
 function Footer(props) {
+
+    const themecontext = useContext(ThemeContext);
+    console.log("themecontext", themecontext)
+
+    const isdark = themecontext.theme === 'dark'
+    console.log("isdark", isdark)
+
     return (
         <footer className="pt-5">
             <div className="container">
@@ -28,9 +36,9 @@ function Footer(props) {
                         <div className="row g-4">
                             {/* Link block */}
                             <div className="col-6 col-md-4">
-                                <h5 className="mb-2 mb-md-4">Company</h5>
+                                <h5 className={`${isdark ? 'text-white' : ''} mb-2 mb-md-4`}>Company</h5>
                                 <ul className="nav flex-column">
-                                    <li className="nav-item"><a className="nav-link" href="#">About us</a></li>
+                                    <li className="nav-item"><a className={`nav-link`} href="#">About us</a></li>
                                     <li className="nav-item"><a className="nav-link" href="#">Contact us</a></li>
                                     <li className="nav-item"><a className="nav-link" href="#">News and Blogs</a></li>
                                     <li className="nav-item"><a className="nav-link" href="#">Library</a></li>
@@ -39,7 +47,7 @@ function Footer(props) {
                             </div>
                             {/* Link block */}
                             <div className="col-6 col-md-4">
-                                <h5 className="mb-2 mb-md-4">Community</h5>
+                                <h5 className={`${isdark ? 'text-white' : ''} mb-2 mb-md-4`}>Community</h5>
                                 <ul className="nav flex-column">
                                     <li className="nav-item"><a className="nav-link" href="#">Documentation</a></li>
                                     <li className="nav-item"><a className="nav-link" href="#">Faq</a></li>
@@ -49,7 +57,7 @@ function Footer(props) {
                             </div>
                             {/* Link block */}
                             <div className="col-6 col-md-4">
-                                <h5 className="mb-2 mb-md-4">Teaching</h5>
+                                <h5 className={`${isdark ? 'text-white' : ''} mb-2 mb-md-4`}>Teaching</h5>
                                 <ul className="nav flex-column">
                                     <li className="nav-item"><a className="nav-link" href="#">Become a teacher</a></li>
                                     <li className="nav-item"><a className="nav-link" href="#">How to guide</a></li>
@@ -61,7 +69,7 @@ function Footer(props) {
                     {/* Widget 2 END */}
                     {/* Widget 3 START */}
                     <div className="col-lg-3">
-                        <h5 className="mb-2 mb-md-4">Contact</h5>
+                        <h5 className={`${isdark ? 'text-white' : ''} mb-2 mb-md-4`}>Contact</h5>
                         {/* Time */}
                         <p className="mb-2">
                             Toll free:<span className="h6 fw-light ms-2">+1234 568 963</span>
