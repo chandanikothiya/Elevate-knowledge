@@ -1,5 +1,8 @@
 import { Paper, Typography } from '@mui/material';
 import React from 'react';
+import { BarChart } from '@mui/x-charts/BarChart';
+// import { addLabels, balanceSheet, valueFormatter } from './netflixsBalanceSheet';
+
 
 function BarChartData(props) {
     const Fruits = [
@@ -38,9 +41,30 @@ function BarChartData(props) {
             <Typography variant='h6'>
                 Sells of diffrent category
             </Typography>
+
             <Typography variant='subtitle1' sx={{ color: 'grey' }}>
                 (+43%) than last year
             </Typography>
+
+            <BarChart
+                height={350}
+                xAxis={[{ scaleType: 'band', data: xLabels }]}
+                yAxis={[{ width: 50}]}
+                series={[
+                    { data: Fruits, label: "Fruits", stack: 'sells' },
+                    { data: Vegitables, label: "Vegetables", stack: 'sells' },
+                    { data: DayFruits, label: "DayFruits", stack: 'sells' },
+                    { data: OrganicItems, label: "OrganicItems", stack: 'sells' }
+                ]}
+               
+                slotProps={{
+                    legend: {
+                        axisDirection: 'x',
+                        markType: 'square',
+                        labelPosition: 'inline-start',
+                    },
+                }}
+            />
         </Paper>
     );
 }

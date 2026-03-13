@@ -5,6 +5,8 @@ import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import BarChartData from './BarChartData';
+import LineChartData from './LineChartData';
+import PieChartData from './PieChartData';
 
 const stats = [
     {
@@ -60,12 +62,12 @@ const Statscard = ({ title, value, change, status, color, data, dataColor }) => 
 
 
     return (
-        <Paper elevation={3} sx={{ p: 3, borderRadius:3}}>
+        <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
             <Typography variant='subtitle2'>
                 {title}
             </Typography>
 
-            <Grid container sx={{alignItems:'end'}}>
+            <Grid container sx={{ alignItems: 'end' }}>
                 <Grid size={8}>
                     <Typography variant='h4' sx={{ fontWeight: 'bold' }}>
                         {value}
@@ -83,10 +85,10 @@ const Statscard = ({ title, value, change, status, color, data, dataColor }) => 
                 </Grid>
             </Grid>
 
-            <Box sx={{display:'flex',color:status ? 'green' : 'black',mt:1}}>
-                {status ? <ArrowUpwardIcon/> : <ArrowDownwardIcon/>}
+            <Box sx={{ display: 'flex', color: status ? 'green' : 'black', mt: 1 }}>
+                {status ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
 
-                <Typography sx={{ml:1}} >
+                <Typography sx={{ ml: 1 }} >
                     {change} last 7 days
                 </Typography>
             </Box>
@@ -101,7 +103,7 @@ function Dashboard(props) {
             <Box sx={{ p: 2 }}>
                 <Grid container spacing={2}>
                     {
-                        stats.map((v) => (
+                        stats?.map((v) => (
                             // <Statscard data={v} />
                             <Grid size={{ xs: 12, md: 6, lg: 3 }}>
                                 <Statscard {...v} />
@@ -110,8 +112,19 @@ function Dashboard(props) {
                     }
 
                     <Grid size={12}>
-                        <BarChartData/>
+                        <BarChartData />
                     </Grid>
+
+
+                    <Grid container spacing={2} size={12} > 
+                        <Grid size={{xs:12,md:6,lg:8}}>
+                            <LineChartData />
+                        </Grid>
+                        <Grid size={{xs:12,md:6,lg:4}} sx={{alignItems:'center'}}>
+                            <PieChartData />
+                        </Grid>
+                    </Grid>
+
                 </Grid>
             </Box>
         </>
