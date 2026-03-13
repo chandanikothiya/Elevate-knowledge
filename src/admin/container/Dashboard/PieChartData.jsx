@@ -14,11 +14,10 @@ function PieChartData(props) {
         margin: { right: 5 },
         width: 200,
         height: 200,
-        hideLegend: true,
     };
 
     return (
-        <Paper sx={{p:2,height:'100%'}}>
+        <Paper sx={{ p: 2, height: '100%' }}>
             <Typography variant='h6'>
                 Order status distribution
             </Typography>
@@ -30,7 +29,15 @@ function PieChartData(props) {
             <PieChart
                 series={[{ innerRadius: 50, outerRadius: 100, data: orderDistribution, arcLabel: 'value' }]}
                 {...settings}
-                sx={{mt:6}}
+                sx={{ mt: 6 }}
+                slotProps={{
+                    legend: {
+                        direction: 'row',
+                        position: { vertical: 'bottom', horizontal: 'middle' },
+                        sx:{mt:10,fontSize:15,borderTop:'1.5px solid grey',paddingTop:4}
+                    },
+                    
+                }}
             />
         </Paper>
     );
