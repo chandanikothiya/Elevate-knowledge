@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import { createTheme, styled, ThemeProvider, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
@@ -21,6 +21,8 @@ import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import CastForEducationIcon from '@mui/icons-material/CastForEducation';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { NavLink } from 'react-router-dom';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import { ThemeContext } from '@emotion/react';
 
 const drawerWidth = 240;
 
@@ -121,99 +123,115 @@ export default function Layout({ children }) {
         { label: "Course", icone: <CastForEducationIcon />, to: "/admin/course" }
     ]
 
+    const { mode } = React.useContext(ThemeContext);
+
+    const themes = createTheme({
+        palette: {
+            mode: mode
+        }
+    });
     return (
-        <Box sx={{ display: 'flex' }}>
-            <CssBaseline />
-            <AppBar position="fixed" open={open}>
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        sx={[
-                            {
-                                marginRight: 5,
-                            },
-                            open && { display: 'none' },
-                        ]}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        Mini variant drawer
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-            <Drawer variant="permanent" open={open}>
-                <DrawerHeader>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                    </IconButton>
-                </DrawerHeader>
-                <Divider />
-                <List>
-                    {menulist.map((v, index) => (
-                        <ListItem
-                            key={index}
-                            disablePadding sx={{ display: 'block' }}
-                            component={NavLink}
-                            to={v.to}
+        <ThemeProvider theme={themes}>
+            {children}
+            <Box sx={{ display: 'flex' }}>
+                <CssBaseline />
+                <AppBar position="fixed" open={open}>
+                    <Toolbar>
+                        <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            onClick={handleDrawerOpen}
+                            edge="start"
+                            sx={[
+                                {
+                                    marginRight: 5,
+                                },
+                                open && { display: 'none' },
+                            ]}
                         >
-                            <ListItemButton
-                                sx={[
-                                    {
-                                        minHeight: 48,
-                                        px: 2.5,
-                                    },
-                                    open
-                                        ? {
-                                            justifyContent: 'initial',
-                                        }
-                                        : {
-                                            justifyContent: 'center',
-                                        },
-                                ]}
+                            <MenuIcon />
+                        </IconButton>
+                        <Box sx={{ display: 'flex', width: '100%' }}>
+                            <Typography variant="h6" noWrap component="div">
+                                Mini variant drawer
+                            </Typography>
+                            <Typography variant="h6" noWrap component="div" sx={{ ml: "auto" }}>
+                                <DarkModeIcon/>
+                            </Typography>
+                        </Box>
+
+                    </Toolbar>
+                </AppBar>
+                <Drawer variant="permanent" open={open}>
+                    <DrawerHeader>
+                        <IconButton onClick={handleDrawerClose}>
+                            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                        </IconButton>
+                    </DrawerHeader>
+                    <Divider />
+                    <List>
+                        {menulist.map((v, index) => (
+                            <ListItem
+                                key={index}
+                                disablePadding sx={{ display: 'block' }}
+                                component={NavLink}
+                                to={v.to}
                             >
-                                <ListItemIcon
+                                <ListItemButton
                                     sx={[
                                         {
-                                            minWidth: 0,
-                                            justifyContent: 'center',
+                                            minHeight: 48,
+                                            px: 2.5,
                                         },
                                         open
                                             ? {
-                                                mr: 3,
+                                                justifyContent: 'initial',
                                             }
                                             : {
-                                                mr: 'auto',
+                                                justifyContent: 'center',
                                             },
                                     ]}
                                 >
-                                    {v.icone}
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary={v.label}
-                                    sx={[
-                                        open
-                                            ? {
-                                                opacity: 1,
-                                            }
-                                            : {
-                                                opacity: 0,
+                                    <ListItemIcon
+                                        sx={[
+                                            {
+                                                minWidth: 0,
+                                                justifyContent: 'center',
                                             },
-                                    ]}
-                                />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                </List>
+                                            open
+                                                ? {
+                                                    mr: 3,
+                                                }
+                                                : {
+                                                    mr: 'auto',
+                                                },
+                                        ]}
+                                    >
+                                        {v.icone}
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={v.label}
+                                        sx={[
+                                            open
+                                                ? {
+                                                    opacity: 1,
+                                                }
+                                                : {
+                                                    opacity: 0,
+                                                },
+                                        ]}
+                                    />
+                                </ListItemButton>
+                            </ListItem>
+                        ))}
+                    </List>
 
-            </Drawer>
-            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                <DrawerHeader />
-                {children}
+                </Drawer>
+                <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+                    <DrawerHeader />
+                    {children}
+                </Box>
             </Box>
-        </Box>
+        </ThemeProvider>
     );
 }

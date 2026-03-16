@@ -13,7 +13,10 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-
+import PieChartOutlineIcon from '@mui/icons-material/PieChartOutline';
+import LinearProgress from '@mui/joy/LinearProgress';
+import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
+import { PieChart } from '@mui/x-charts/PieChart';
 
 const stats = [
     {
@@ -283,13 +286,13 @@ const Latestproducts = ({ data }) => (
                                         sx={{
                                             fontSize: '10px',
                                             '& .MuiAvatar-circular': {
-                                                width: '20px', height: '20px',fontSize:'10px'
+                                                width: '20px', height: '20px', fontSize: '10px'
                                             },
                                         }}
                                     >
                                         {
                                             v.colors.map((v1) => (
-                                                <Avatar sx={{ bgcolor: v1, width: '20px', height: '20px',fontSize:'10px' }}> </Avatar>
+                                                <Avatar sx={{ bgcolor: v1, width: '20px', height: '20px', fontSize: '10px' }}> </Avatar>
                                             ))
                                         }
                                     </AvatarGroup>
@@ -305,6 +308,94 @@ const Latestproducts = ({ data }) => (
     </Paper>
 )
 
+const Conversions = ({ data }) => (
+    <Paper sx={{ p: 2,height:"100%"}}>
+        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+            <Avatar sx={{ bgcolor: 'white', boxShadow: 1, color: 'black' }}><PieChartOutlineIcon /></Avatar>
+            <Typography variant='subtitle1' sx={{ fontWeight: '60', fontSize: '18px' }}>Conversions</Typography>
+        </Box>
+
+        <Grid container sx={{ mt: 4 }}>
+            <Grid size={6}>
+                <Typography variant='h3' sx={{ color: '#15B79F' }}>
+                    +5%
+                </Typography>
+
+                <Typography variant='subtitle1' sx={{ color: '#767878' }}>
+                    increase in conversions compared to last year
+                </Typography>
+
+                <Typography variant='subtitle1' sx={{ fontSize: '15px', color: '#767878',alignSelf: 'flex-end'}}>
+                    <span style={{ color: 'blue' }}>This year </span> is forecasted to increase in your conversion by 0.5% the end of the current year.
+                </Typography>
+            </Grid>
+            <Grid size={6}>
+                {
+                    data.map((v) => (
+                        <Box sx={{ mt: 2 }}>
+                            <Typography variant='subtitle1' sx={{ fontSize: '16.5px', fontWeight: '400' }}>{v.name}</Typography>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                <LinearProgress determinate value={parseFloat(v.price.replace(/[^0-9.]/g, ""))} sx={{ height: '6px' }} />
+                                <Typography >{v.price}</Typography>
+                            </Box>
+                        </Box>
+                    ))
+                }
+
+
+            </Grid>
+        </Grid>
+    </Paper>
+)
+
+const data = [
+    { label: "Fruits", value: 400, color: '#FB9C0C' },
+    { label: "Vegitables", value: 300, color: '#15B79F' },
+    { label: "DayFruits", value: 300, color: '#635BFF' },
+    { label: "OrganicItems", value: 200, color: '#F1F1F4' },
+];
+
+const Costbreakdown = ({ data }) => (
+    <Paper sx={{ p: 2 }}>
+        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+            <Avatar sx={{ bgcolor: 'white', boxShadow:1, color: 'black' }}><CalendarTodayOutlinedIcon /></Avatar>
+            <Box>
+                <Typography variant='subtitle1' sx={{ fontWeight: '500', fontSize: '18px' }}>Cost breakdown</Typography>
+                <Typography variant='subtitle2' sx={{ fontWeight: '100', color: '#767878', fontSize: '15px' }}>Based on selected period</Typography>
+            </Box>
+        </Box>
+
+        <PieChart
+            series={[{ innerRadius: 65, outerRadius: 100, data: data }]}
+            // {...settings}
+            sx={{ mt: 3 }}
+            height={200}
+            // slotProps={{
+            //     legend: {
+            //         direction: 'row',
+            //         position: { vertical: 'bottom', horizontal: 'middle' },
+            //         labelMarkType: 'line',
+            //         sx: { fontSize: 15 }
+            //     },
+            // }}
+        />
+        <Grid container spacing={2} sx={{textAlign:'left',mt:2}}>
+            {
+                data.map((v) => (
+                    <Grid size={6}>
+                        <Box sx={{display:'flex',alignItems:'center',gap:1}}>
+                            <span style={{backgroundColor:v.color,width:'20px',height:'5px',borderRadius:'5px'}}></span>
+                            <Typography variant='subtitle1' sx={{color: '#474848'}}>{v.label}</Typography>
+                        </Box>
+                        <Typography variant='h5' sx={{fontSize: '26px' }}>${v.value}</Typography>
+                    </Grid>
+                ))
+            }
+        </Grid>
+
+
+    </Paper>
+)
 
 function Dashboard(props) {
     return (
@@ -339,6 +430,13 @@ function Dashboard(props) {
                     </Grid>
                     <Grid size={4}>
                         <Latestproducts data={latestproducts} />
+                    </Grid>
+
+                    <Grid size={8} >
+                        <Conversions data={latestproducts} />
+                    </Grid>
+                    <Grid size={4}>
+                        <Costbreakdown data={data} />
                     </Grid>
 
                 </Grid>
