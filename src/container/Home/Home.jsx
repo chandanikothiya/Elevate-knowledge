@@ -1136,7 +1136,7 @@ Popular course START */}
                                 {/* Card item END */}
                                 {/* Card item START */}
                                 <div className="col-sm-6 col-lg-4 col-xl-3">
-                                    <div className={`${themecontext.theme === 'ligth' ? 'crd-ligth' : 'crd-dark'} card  shadow h-100`}>
+                                    <div className={`${themecontext.theme === 'light' ? 'crd-light' : 'crd-dark'} card  shadow h-100`}>
                                         {/* Image */}
                                         <img src="assets/images/courses/4by3/09.jpg" className="card-img-top" alt="course image" />
                                         <div className="card-body pb-0">

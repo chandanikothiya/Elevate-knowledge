@@ -21,6 +21,9 @@ import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import CastForEducationIcon from '@mui/icons-material/CastForEducation';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { NavLink } from 'react-router-dom';
+import SunnyIcon from '@mui/icons-material/Sunny';
+import BedtimeIcon from '@mui/icons-material/Bedtime';
+import { ThemeContext } from '../../../Context/ThemeContext';
 
 const drawerWidth = 240;
 
@@ -105,6 +108,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function Layout({ children }) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+    const themecontext = React.useContext(ThemeContext);
+    console.log(themecontext)
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -143,6 +148,11 @@ export default function Layout({ children }) {
                     <Typography variant="h6" noWrap component="div">
                         Mini variant drawer
                     </Typography>
+                    <IconButton color="secondary" aria-label="add an alarm" sx={{ml:'auto',color:'white'}} onClick={() => themecontext.toggleTheme(themecontext.theme)}>
+                        {
+                            themecontext.theme === 'light' ? <BedtimeIcon/> : <SunnyIcon/>
+                        }                     
+                    </IconButton>
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>

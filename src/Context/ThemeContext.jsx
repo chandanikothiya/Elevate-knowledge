@@ -3,7 +3,7 @@ import { ThemeReducer } from './Reducer/Themereducer';
 import { TOGGLE_THEME } from './ActionType';
 
 const initialState = {
-    theme: 'ligth'
+    theme: 'light'
 }
 
 export const ThemeContext = createContext();
@@ -13,7 +13,7 @@ export const ThemeProvider = ({ children }) => {
     const [state, dispatch] = useReducer(ThemeReducer, initialState);
 
     const toggleTheme = (val) => {
-        dispatch({ type: TOGGLE_THEME, payload: val === 'ligth' ? 'dark' : 'ligth' })
+        dispatch({ type: TOGGLE_THEME, payload: val === 'light' ? 'dark' : 'light' })
     }
 
 
