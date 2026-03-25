@@ -21,7 +21,7 @@ function UploadFile(props) {
 
     const [field, meta, helpers] = useField(props);
     const { setValue } = helpers; // Formik's internal state management, specifically the values object.
-    console.log("filed",field.value)
+    console.log("filed",field)
 
     let fileurl = ''
 
@@ -29,7 +29,7 @@ function UploadFile(props) {
         fileurl = field.url
         // fileurl = "../public/images/" + field.value
     } else if (typeof field.value === 'object' && field.value ) {   
-        console.log("urlpath",field.value.file)
+        console.log("urlpath",field.value,field.value.file)
         fileurl = URL.createObjectURL(field.value.file);
         // fileurl = field.value.url;
         // fileurl = "../public/images/" + field.value.name //also worked
