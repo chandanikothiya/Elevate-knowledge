@@ -49,7 +49,7 @@ import StudentCourseList from '../container/StudentCourseList/StudentCourseList'
 import StudentPaymentInfo from '../container/StudentPaymentInfo/StudentPaymentInfo';
 import PrivateRoutes from './PrivateRoutes';
 import CategorySingal from '../container/CategorySingal/CategorySingal';
-import Chat from '../container/chat/chat';
+// import Chat from '../container/chat/chat';
 import Verifyuser from '../container/Auth/verifyuser';
 import Auth from '../container/Auth/Auth';
 import { useDispatch } from 'react-redux';
@@ -125,7 +125,7 @@ function UserRoutes(props) {
                 <Route path='/studentpaymentinfo' element={<StudentPaymentInfo />} />
                 <Route path='/CategorySingal/:id' element={<CategorySingal />} />
                 <Route path='/categories' element={<Categories />} />
-                <Route path='/chat' element={<Chat />} />
+                {/* <Route path='/chat' element={<Chat />} /> */}
                 <Route path='/verifyuser' element={<Verifyuser />} />
                 <Route path='/instructoreaddcourese' element={<InstructoreAddCourse />} />
                 <Route path='/instructorManageCourse' element={<InstructorManageCourse />} />
