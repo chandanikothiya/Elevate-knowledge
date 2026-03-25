@@ -50,7 +50,7 @@ import StudentPaymentInfo from '../container/StudentPaymentInfo/StudentPaymentIn
 import PrivateRoutes from './PrivateRoutes';
 import CategorySingal from '../container/CategorySingal/CategorySingal';
 // import Chat from '../container/chat/chat';
-import Verifyuser from '../container/Auth/verifyuser';
+import Verifyuser from '../container/Auth/Verifyuser';
 import Auth from '../container/Auth/Auth';
 import { useDispatch } from 'react-redux';
 import { checkauth } from '../redux/slice/auth.slice';
