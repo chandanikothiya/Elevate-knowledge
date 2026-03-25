@@ -83,7 +83,7 @@ function Category(props) {
     // console.log(categoryschema);
 
     const handleSubmit = async (values) => {
-
+        console.log("vvvv",values)
         try {
             if (Object.keys(updatecategory).length > 0) {
 
