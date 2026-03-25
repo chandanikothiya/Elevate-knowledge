@@ -57,7 +57,7 @@ function UploadFile(props) {
                 />
             </Button>
 
-            <img src={fileurl?.url} alt="Profile-img" width={"50px"} height={"50px"}/>
+            <img src={fileurl} alt="Profile-img" width={"50px"} height={"50px"}/>
 
             {meta.error && meta.touched ?
                 <p style={{ color: 'red' }}>{meta.error}</p> : ""}
