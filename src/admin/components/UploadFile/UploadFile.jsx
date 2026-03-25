@@ -25,8 +25,8 @@ function UploadFile(props) {
 
     let fileurl = ''
 
-    if (typeof field.value === 'object' &&  field.url){
-        fileurl = field.url
+    if (typeof field.value === 'object' &&  field.value.url){
+        fileurl = field.value.url
         // fileurl = "../public/images/" + field.value
     } else if (typeof field.value === 'object' && field.value ) {   
         //console.log("urlpath",field.value,field.File)
