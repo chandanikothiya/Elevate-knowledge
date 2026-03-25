@@ -27,15 +27,15 @@ function Category(props) {
 
     const dispatch = useDispatch();
     const categorys = useSelector(state => state.category)
-    console.log("addda", categorys.category);
-
-    console.log(categorydata);
+    // console.log("addda", categorys.category);
+    console.log(categorys)
+    // console.log(categorydata);
 
     let data = [
         { value:'', label: 'Select Parent Category' }
     ];
 
-    categorys.category.map((v, i) => {
+    categorys?.category?.map((v, i) => {
 
         // if (v !== null) {
             console.log(v._id)
