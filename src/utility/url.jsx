@@ -1,4 +1,4 @@
-export const BASE_URL = "https://backend-chi-rosy-95.vercel.app/"
+export const BASE_URL = "https://backend-chi-rosy-95.vercel.app/api/v1/"
 export const IMG_URL = "https://backend-chi-rosy-95.vercel.app/"
 
 //chnge url when live
