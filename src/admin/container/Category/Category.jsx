@@ -32,15 +32,15 @@ function Category(props) {
     // console.log(categorydata);
 
     let data = [
-        { value:'', label: 'Select Parent Category' }
+        { value: '', label: 'Select Parent Category' }
     ];
 
     categorys?.category?.map((v, i) => {
 
         // if (v !== null) {
-            console.log(v._id)
+        console.log(v._id)
 
-            data.push({ value: v._id, label: v.name })
+        data.push({ value: v._id, label: v.name })
         // }
     })
 
@@ -126,8 +126,10 @@ function Category(props) {
             field: "category_img", headerName: 'categoryimg', width: 120,
             renderCell: (params) => (
                 <>
-                    {console.log(params.row.category_img)}
-                    <img src={IMG_URL + params.row.category_img} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} />
+                    {console.log("row",params.row.category_img)}
+                    {/* <img src={IMG_URL + params.row.category_img} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} /> */}
+                    <img src={params.row.category_img?.url} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} />
+
                 </>
             )
         },
@@ -156,7 +158,7 @@ function Category(props) {
             renderCell: (params) => (
                 <>
                     {console.log(params, params.row.parent_category_id)}
-                    {params.row.parent_category_id !== null ? categorys.category.find((v) => v._id === params.row.parent_category_id).name :'no parent category'}
+                    {params.row.parent_category_id !== null ? categorys.category.find((v) => v._id === params.row.parent_category_id).name : 'no parent category'}
                     {/* {
                        categorys.category.find((v) => v._id === params.row.parent_category_id)
                     } */}
