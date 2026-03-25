@@ -29,11 +29,12 @@ function UploadFile(props) {
         fileurl = field.value
         // fileurl = "../public/images/" + field.value
     } else if (typeof field.value === 'object' && field.value ) {
-        fileurl = URL.createObjectURL(field.value);
+        console.log("urlpath",field.value)
+        //fileurl = URL.createObjectURL(field.value);
         // fileurl = "../public/images/" + field.value.name //also worked
     }
     console.log(fileurl);
-    
+
 
     return (
         <>
