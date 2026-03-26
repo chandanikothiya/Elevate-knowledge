@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getcategory, getparentcategory } from '../../redux/slice/category.slice';
 import { IMG_URL } from '../../utility/url';
@@ -16,6 +16,11 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import Container from '@mui/material/Container';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import Grid from '@mui/material/Grid';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import SearchIcon from "@mui/icons-material/Search";
 
 
 function Categories(props) {
@@ -24,6 +29,12 @@ function Categories(props) {
 
     const categorys = useSelector(state => state.category)
     console.log(categorys.category)
+
+    const [secarch,setSeacrh] = useState("");
+    console.log(secarch)
+
+    let filter = categorys.category.filter((v) => v.name.includes(secarch));
+    console.log(filter)
 
     useEffect(() => {
         dispatch(getparentcategory())
@@ -34,76 +45,59 @@ function Categories(props) {
         <>
             <Container maxWidth="md">
 
-                <Card sx={{ maxWidth: 345 }}>
-                    <CardMedia
-                        sx={{ height: 140 }}
-                        image="/static/images/cards/contemplative-reptile.jpg"
-                        title="green iguana"
+                <Paper
+                    component="form"
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        width: "100%",
+                        maxWidth: 500,
+                        mx: "auto",
+                        mb: 10,
+                        px: 2,
+                        py: 0.5,
+                        border: '1px solid grey',
+                        boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                    }}
+                >
+                    <InputBase
+                        sx={{ ml: 1, flex: 1 }}
+                        placeholder="Search products..."
+                        inputProps={{ "aria-label": "search" }}
+                        onChange={(e) => setSeacrh(e.target.value)}
                     />
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                            Lizard
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                            Lizards are a widespread group of squamate reptiles, with over 6,000
-                            species, ranging across all continents except Antarctica
-                        </Typography>
-                    </CardContent>
-                    <CardActions>
-                        <Button size="small">Share</Button>
-                        <Button size="small">Learn More</Button>
-                    </CardActions>
-                </Card>
 
-                <Box sx={{ display: 'flex', gap: 5 }}>
-                    {categorys.category.map((v) => (
-                        <Card
-                            key={v._id}
-                            sx={{
-                                display: 'flex',
-                                borderRadius: 3,
-                                boxShadow: 2,
-                                overflow: 'hidden',
-                                minHeight: 250,
-                            }}
+                    <IconButton type="submit" sx={{ p: "8px" }}>
+                        <SearchIcon />
+                    </IconButton>
+                </Paper>
 
-                            style={{ position: 'relative' }}
-                        >
-                            {/* LEFT IMAGE */}
-                            <CardMedia
-                                component="img"
-                                image={IMG_URL + v.category_img}
-                                alt={v.name}
-                                sx={{
-                                    width: 280,
-                                    height: 250,
-                                    objectFit: 'cover',
-                                }}
-                            />
+                <Grid container spacing={4}>
+                    {filter.map((v) => (
+                        <Grid key={v._id} size={6}>
+                            <Card sx={{ width: "100%", position: 'relative' }}>
+                                <CardMedia
+                                    sx={{ height: 250 }}
+                                    image={v.category_img?.url || ""}
 
-                            {/* RIGHT CONTENT */}
-                            <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                                />
                                 <CardContent>
-                                    <Typography variant="h5" fontWeight="600">
+                                    <Typography variant="h5">
                                         {v.name}
                                     </Typography>
-
-                                    <IconButton style={{ position: 'absolute', top: '10px', right: '0' }}>
-                                        <FavoriteBorderIcon />
-                                    </IconButton>
-
-                                    <Typography
-                                        variant="body2"
-                                        sx={{ color: 'text.secondary', mt: 1 }}
-                                    >
+                                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                                         {v.description}
                                     </Typography>
-
                                 </CardContent>
-                            </Box>
-                        </Card>
+
+                                <CardActions sx={{ position: 'absolute', top: 0, right: 0 }}>
+                                    <Button size="small" ><FavoriteBorderOutlinedIcon sx={{ color: "black", fontSize: '30px', borderRadius: '50%', boxShadow: 2, bgcolor: 'white' }} /></Button>
+
+                                </CardActions>
+                            </Card>
+                        </Grid>
                     ))}
-                </Box>
+                </Grid>
             </Container>
 
         </>

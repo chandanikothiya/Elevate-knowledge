@@ -99,8 +99,6 @@ export const editcategory = createAsyncThunk(
         try {
             console.log("data",data);
 
-            const formdata = new FormData();
-            formdata.append("name", data.name);
             formdata.append("description", data.description);
             formdata.append("category_img", data.category_img)
 
