@@ -103,7 +103,7 @@ export const editcategory = createAsyncThunk(
             formdata.append("name", data.name);
             formdata.append("description", data.description);
             formdata.append("category_img", data.category_img)
-            formdata.append("parent_category_id", data.parentcategory)
+            //formdata.append("parent_category_id", data.parentcategory)
 
             const response = await fetch(`${BASE_URL}category/updateCategory/${data._id}`, {
                 method: "PUT",
