@@ -21,11 +21,11 @@ function UploadFile(props) {
     console.log("okok")
     const [field, meta, helpers] = useField(props);
     const { setValue } = helpers; // Formik's internal state management, specifically the values object.
-    console.log("filed",field.value)
+    console.log("filed",field)
 
     let fileurl = ''
 
-    if (typeof field.value === 'object' &&  field.value.url){
+    if (typeof field.value.url === 'string'){
         fileurl = field.value.url
         // fileurl = "../public/images/" + field.value
     } else if (typeof field.value === 'object' && field.value ) {   
