@@ -33,8 +33,14 @@ function Categories(props) {
     const [secarch,setSeacrh] = useState("");
     console.log(secarch)
 
-    let filter = categorys.category.filter((v) => v.name.includes(secarch));
-    console.log(filter)
+    const handlefilter = () => {
+        return categorys?.category?.filter((v) => v.name?.toLocaleLowerCase?.includes(secarch.toLocaleLowerCase()));
+    }
+
+    // let filter = categorys.category.filter((v) => v.name.includes(secarch.toLocaleLowerCase()));
+    // console.log(filter)
+
+    const sdata = handlefilter();
 
     useEffect(() => {
         dispatch(getparentcategory())
@@ -73,7 +79,7 @@ function Categories(props) {
                 </Paper>
 
                 <Grid container spacing={4}>
-                    {filter.map((v) => (
+                    {sdata?.map((v) => (
                         <Grid key={v._id} size={6}>
                             <Card sx={{ width: "100%", position: 'relative' }}>
                                 <CardMedia
