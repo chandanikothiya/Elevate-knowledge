@@ -21,6 +21,7 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from "@mui/icons-material/Search";
+import Useseacrh from '../../Useseacrh/Useseacrh';
 
 
 function Categories(props) {
@@ -33,16 +34,12 @@ function Categories(props) {
     const [secarch,setSeacrh] = useState("");
     console.log(secarch)
 
-    const handlefilter = () => {
-        return categorys?.category?.filter
-        ((v) => v.name?.toLowerCase()?.includes(secarch.toLowerCase()) 
-        ||  v.description?.toLowerCase()?.includes(secarch.toLowerCase()));
-    }
+   
 
     // let filter = categorys.category.filter((v) => v.name.includes(secarch.toLocaleLowerCase()));
     // console.log(filter)
 
-    const sdata = handlefilter();
+    Useseacrh(categorys.category,["name","description"]);
 
     useEffect(() => {
         dispatch(getparentcategory())
@@ -81,7 +78,7 @@ function Categories(props) {
                 </Paper>
 
                 <Grid container spacing={4}>
-                    {sdata?.map((v) => (
+                    {categorys.category?.map((v) => (
                         <Grid key={v._id} size={6}>
                             <Card sx={{ width: "100%", position: 'relative' }}>
                                 <CardMedia
