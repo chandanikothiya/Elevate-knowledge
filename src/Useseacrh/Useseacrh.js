@@ -2,7 +2,7 @@ import React from 'react';
 
 function Useseacrh(data,keys) {
 
-    console.log(data,keys)
+    console.log("datakey",data,keys)
 
     const handlefilter = () => {
         return categorys?.category?.filter
