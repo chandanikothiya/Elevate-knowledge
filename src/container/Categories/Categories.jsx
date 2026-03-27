@@ -34,7 +34,7 @@ function Categories(props) {
     console.log(secarch)
 
     const handlefilter = () => {
-        return categorys?.category?.filter((v) => v.name?.toLocaleLowerCase?.includes(secarch.toLocaleLowerCase()));
+        return categorys?.category?.filter((v) => v.name?.toLocaleLowerCase()?.includes(secarch.toLocaleLowerCase()));
     }
 
     // let filter = categorys.category.filter((v) => v.name.includes(secarch.toLocaleLowerCase()));
