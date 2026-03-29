@@ -89,6 +89,7 @@ function Categories(props) {
                                     <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                                         {v.description}
                                     </Typography>
+                                   
                                 </CardContent>
 
                                 <CardActions sx={{ position: 'absolute', top: 0, right: 0 }}>

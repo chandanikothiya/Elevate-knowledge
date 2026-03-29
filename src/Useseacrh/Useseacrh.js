@@ -8,7 +8,7 @@ function Useseacrh(data, keys) {
     console.log("datakey", data, keys)
 
     const handlefilter = () => {
-        return data.filter
+        return data?.filter
             ((v) =>
                 keys.some((v1) => 
                     typeof v[v1] === 'string' ?
