@@ -134,10 +134,10 @@ function Course(props) {
             field: "course_img", headerName: 'coures image', width: 120,
             renderCell: (params) => (
                 <>
-                    {console.log(params.row.course_img?.url)}
-                    {/* <img src={params.row.course_img?.includes('blob') ? params.row.course_img :
-                        params.row.course_img?.url} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} /> */}
-                    <img src={params.row?.course_img?.url} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} />
+                    {console.log(params.row)}
+                    <img src={params.row.course_img?.url?.includes('blob') ? params.row.course_img :
+                        params.row.course_img?.url} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} />
+                    {/* <img src={params.row?.course_img} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} /> */}
 
                 </>
             )
