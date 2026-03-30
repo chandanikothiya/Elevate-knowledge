@@ -55,7 +55,7 @@ function Course(props) {
         { value: '', label: 'Select Parent Category' }
     ];
 
-    categorys.category.map((v) => {
+    categorys?.category?.map((v) => {
         ddata.push({ value: v._id, label: v.name })
     })
 
