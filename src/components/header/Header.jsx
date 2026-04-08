@@ -487,7 +487,7 @@ function Header(props) {
 
               <li> <hr className="dropdown-divider" /></li>
               {/* Dark mode switch START */}
-              <li>
+              {/* <li>
                 <div className="modeswitch-wrap" id="darkModeSwitch">
                   <Switch
                     checked={checked}
@@ -496,7 +496,7 @@ function Header(props) {
                   />
                   <span>Dark mode</span>
                 </div>
-              </li>
+              </li> */}
               {/* Dark mode switch END */}
             </ul>
           </div>

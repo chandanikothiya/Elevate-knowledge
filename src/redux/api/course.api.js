@@ -16,7 +16,7 @@ export const courseApi = createApi({
                 body: data
             }),
             async onQueryStarted(data, { dispatch, queryFulfilled }) {
-                const temid = crypto.randomUUID
+                const temid = crypto.randomUUID()
                 const patchResult = dispatch(
                     courseApi.util.updateQueryData('getCourse', undefined, (draft) => {
                         draft.data.push({ ...data, _id: temid })
@@ -29,6 +29,7 @@ export const courseApi = createApi({
                         courseApi.util.updateQueryData('getCourse', undefined, (draft) => {
                             const findex = draft.data.findIndex((v) => v._id === temid)
                             draft.data[findex] = data.data
+                            console.log("draft.data",draft.data)
                         }),
                     )
 
@@ -59,13 +60,30 @@ export const courseApi = createApi({
                                 description: data.get("description"),
                                 price: data.get("price"),
                                 week_no: data.get("week_no"),
-                                course_img: typeof data.get("course_img") === 'string' ? data.get("course_img") : URL.createObjectURL(data.get("course_img"))
+                                course_img: data.get("file")
+                                    ? {
+                                        url: URL.createObjectURL(data.get("file"))
+                                    }
+                                    : draft.data[index].course_img
                             });
                         }
                     }),
                 )
                 try {
-                    await queryFulfilled
+                    const { data: res } = await queryFulfilled
+
+                   
+                    dispatch(
+                        courseApi.util.updateQueryData('getCourse', undefined, (draft) => {
+                            const index = draft.data.findIndex(
+                                (v) => v._id === res.data._id
+                            )
+
+                            if (index !== -1) {
+                                draft.data[index] = res.data
+                            }
+                        })
+                    )
                 } catch {
                     patchResult.undo()
                 }
@@ -96,7 +114,7 @@ export const courseApi = createApi({
                     patchResult.undo()
                 }
             },
-           //invalidatesTags: ['course']
+            //invalidatesTags: ['course']
         }),
         deleteCourse: build.mutation({
             query: (_id) => ({

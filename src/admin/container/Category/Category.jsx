@@ -38,9 +38,9 @@ function Category(props) {
     categorys?.category?.map((v, i) => {
 
         // if (v !== null) {
-        console.log(v._id)
+        console.log(v?._id)
 
-        data.push({ value: v._id, label: v.name })
+        data.push({ value: v?._id, label: v?.name })
         // }
     })
 
@@ -126,7 +126,7 @@ function Category(props) {
             field: "category_img", headerName: 'categoryimg', width: 120,
             renderCell: (params) => (
                 <>
-                    {console.log("row",params.row.category_img)}
+                    {console.log("  ",params.row.category_img)}
                     {/* <img src={IMG_URL + params.row.category_img} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} /> */}
                     <img src={params.row.category_img?.url} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} />
 
@@ -168,6 +168,9 @@ function Category(props) {
     ]
     const paginationModel = { page: 0, pageSize: 5 };
 
+   
+    
+
     return (
         <>
             <h2>Category</h2>
@@ -187,7 +190,7 @@ function Category(props) {
                             }}
                             validationSchema={categoryschema}
                             onSubmit={(values, { resetForm }) => {
-                                console.log(values)
+                                console.log("valuesvalues", values)
                                 handleSubmit(values);
                                 handleClose();
                                 resetForm();
@@ -239,8 +242,8 @@ function Category(props) {
             </React.Fragment>
 
             <DataGrid
-                rows={categorys.category}
-                getRowId={(row) => row._id}
+                rows={categorys?.category}
+                getRowId={(row) => row?._id || Math.random()}
                 columns={columns}
                 initialState={{ pagination: { paginationModel } }}
                 pageSizeOptions={[5, 10]}

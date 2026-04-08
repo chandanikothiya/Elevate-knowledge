@@ -15,7 +15,7 @@ import { mixed, object, string } from 'yup';
 import { addcourse, deletecoures, editcoures, getcourse } from '../../../redux/slice/course.slice';
 import { DataGrid } from '@mui/x-data-grid';
 import { IMG_URL } from '../../../utility/url';
-import { IconButton } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Switch from '@mui/material/Switch';
@@ -25,15 +25,19 @@ function Course(props) {
 
     const [open, setOpen] = React.useState(false);
     const [updatecourse, setUpdateCourse] = useState({})
+    const [inputcount, setInputcount] = useState(1)
+    const [files, setfiles] = useState([])
+    console.log("fileskk", files)
     const dispatch = useDispatch();
     const categorys = useSelector(state => state.category)
     console.log("addda", categorys.category);
+    console.log("inputcount", inputcount)
 
     // const coures = useSelector(state => state.course)
     // console.log("addda", coures.course);
 
     const { data, error, isLoading } = useGetCourseQuery();
-    console.log(data)
+    console.log("datadata", data)
 
     const [addcourse] = useAddCourseMutation();
     const [editcourse] = useUpdateCourseMutation();
@@ -47,6 +51,8 @@ function Course(props) {
 
     useEffect(() => {
         getdata()
+        //setInputcount(1)
+
     }, [])
 
 
@@ -74,7 +80,7 @@ function Course(props) {
         description: string().required(),
         price: string().required(),
         week_no: string().required(),
-        course_img: mixed().required()
+        // course_img: mixed().required()
     })
 
     function handledelete(id) {
@@ -87,6 +93,8 @@ function Course(props) {
         console.log("edata", data)
         handleClickOpen();
         setUpdateCourse(data)
+        console.log("updatecourse", updatecourse)
+        setInputcount(updatecourse.course_img.length)
     }
 
     function handletoggle(data) {
@@ -95,21 +103,71 @@ function Course(props) {
     }
 
     function handlesubmit(values) {
+        const insid = JSON.parse(localStorage.getItem("loginuser"))
+        console.log("insvalue", values)
 
         const formdata = new FormData();
         formdata.append("category", values.category);
         formdata.append("name", values.name);
         formdata.append("description", values.description);
-        formdata.append("price", values.price);
+        formdata.append("instructor_id", insid._id);
+        formdata.append("price",parseInt(values.price) + (values.price * 0.18));
         formdata.append("week_no", values.week_no);
-        formdata.append("course_img", values.course_img);
+        formdata.append("course_video", values.course_video);
+
+        for (let key in values) {
+            if (key.startsWith("course_img") && values[key]) {
+                formdata.append("course_img", values[key]);
+            }
+        }
+
+        if (values.course_img instanceof File) {
+            formdata.append("course_img", values.course_img);
+        } else {
+            //formdata.append("course_img", values.course_img);
+        }
+
+        // if (values.course_video instanceof File) {
+        //     formdata.append("course_video", values.course_video);
+        // } else {
+        // }
 
         if (Object.keys(updatecourse).length > 0) {
+
+            let oldimages = [];
+            console.log("updatecourse", oldimages, values)
+
+            const sendkey = Object.fromEntries(
+                Object.entries(values).filter(([key]) => key.startsWith('course_img_'))
+            )
+
+            //console.log("updatecourse", Object.values(sendkey))
+            let notupdateid = []
+            Object.values(sendkey).map((v) => {
+                //console.log("updatecourse",v)
+                // if (! v instanceof File) {
+                //     const keys = Object.keys(sendkey).map(key => ({
+                //         key: key,
+                //         value: sendkey[key]
+                //     }));
+                //     formdata.append("upateimg",keys);
+                //     console.log("updatecourse",keys)
+                // }
+
+                if (!(v instanceof File)) {
+                    console.log("updatecourse",v)
+                    notupdateid.push(v.public_id);
+                }
+            })
+            console.log("updatecourse",notupdateid)
+            formdata.append("notupdateid",JSON.stringify(notupdateid));
+
+
             formdata.append("_id", values._id);
             if (typeof values.course_img === 'object') {
                 editcourse(formdata)
             } else {
-                editcourse(formdata)
+                editcourse({ formdata })
             }
 
             //dispatch(editcoures(values))
@@ -129,21 +187,44 @@ function Course(props) {
             }
         },
         { field: "name", headerName: 'name', width: 180 },
-        { field: "description", headerName: 'description', width: 250 },
+        { field: "description", headerName: 'description', width: 180 },
         {
-            field: "course_img", headerName: 'coures image', width: 120,
+            field: "course_img", headerName: 'coures image', width: 200,
             renderCell: (params) => (
                 <>
-                    {console.log(params.row)}
-                    <img src={params.row.course_img?.url?.includes('blob') ? params.row.course_img :
-                        params.row.course_img?.url} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} />
-                    {/* <img src={params.row?.course_img} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} /> */}
+                    {console.log("params.row", params)}
+                    {/* <img src={params.row.course_img?.url?.includes('blob') ? params.row.course_img :
+                        params.row.course_img?.url} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} /> */}
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                        {
+                            params.row?.course_img?.map((v) => (
+                                <img src={v?.url} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} />
+                            ))
+                        }
+                    </div>
+                    {/* <img src={params.row?.course_img[0]?.url} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} /> */}
 
                 </>
             )
         },
-        { field: "price", headerName: 'price', width: 120 },
-        { field: "week_no", headerName: 'week_no', width: 150 },
+        {
+            field: "course_video", headerName: 'course_video', width: 120,
+            renderCell: (params) => (
+                <>
+                    {console.log("params.row", params)}
+                    {/* <img src={params.row.course_img?.url?.includes('blob') ? params.row.course_img :
+                        params.row.course_img?.url} width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} /> */}
+                    <video width={"50px"} height={"50px"} style={{ objectFit: 'cover' }} onClick={() => window.open(params.row?.course_video?.url, '_blank')}>
+                        <source
+                            src={params.row?.course_video?.url}
+                            type="video/mp4" />
+                    </video>
+
+                </>
+            )
+        },
+        { field: "price", headerName: 'price', width: 100 },
+        { field: "week_no", headerName: 'week_no', width: 100 },
         {
             field: 'isactive', headerName: 'isactive', width: 100,
             renderCell: (params) => (
@@ -182,7 +263,7 @@ function Course(props) {
     ]
     const paginationModel = { page: 0, pageSize: 5 };
 
-    
+
 
     return (
         <>
@@ -194,13 +275,19 @@ function Course(props) {
                 <DialogContent>
 
                     <Formik
-                        initialValues={Object.keys(updatecourse).length > 0 ? updatecourse : {
+                        initialValues={Object.keys(updatecourse).length > 0 ? {
+                            ...updatecourse,
+                            ...updatecourse.course_img?.reduce((acc, img, index) => {
+                                acc[`course_img_${index}`] = img;
+                                return acc;
+                            }, {})
+                        } : {
                             category: '',
                             name: '',
                             description: '',
                             price: '',
                             week_no: '',
-                            course_img: ''
+                            course_video: ""
                         }}
                         validationSchema={courseSchema}
                         onSubmit={(values, { resetForm }) => {
@@ -211,51 +298,91 @@ function Course(props) {
                             resetForm();
                         }}
                     >
-                        <Form id="subscription-form">
+                        {({ values }) => {
+                            console.log("valuesvalues", values)
+                            return (<Form id="subscription-form">
 
-                            <MyTextField
-                                name="category"
-                                id="category"
-                                label="Select Category"
-                                InputLabelProps={{ shrink: true, required: true }}
-                                select
-                                data={ddata}
-                                slotProps={{
-                                    select: {
-                                        native: true,
-                                    },
-                                }}
-                            />
+                                <MyTextField
+                                    name="category"
+                                    id="category"
+                                    label="Select Category"
+                                    InputLabelProps={{ shrink: true, required: true }}
+                                    select
+                                    data={ddata}
+                                    slotProps={{
+                                        select: {
+                                            native: true,
+                                        },
+                                    }}
+                                />
 
-                            <MyTextField
-                                name="name"
-                                id="name"
-                                label="Enter Course Name"
-                            />
+                                <MyTextField
+                                    name="name"
+                                    id="name"
+                                    label="Enter Course Name"
+                                />
 
-                            <MyTextField
-                                name="description"
-                                id="description"
-                                label="Enter Description"
-                            />
+                                <MyTextField
+                                    name="description"
+                                    id="description"
+                                    label="Enter Description"
+                                />
 
-                            <MyTextField
-                                name="price"
-                                id="price"
-                                label="Enter Price"
-                            />
+                                <MyTextField
+                                    name="price"
+                                    id="price"
+                                    label="Enter Price"
 
-                            <MyTextField
-                                name="week_no"
-                                id="week_no"
-                                label="Enter Week No"
-                            />
+                                />
 
-                            <UploadFile
-                                name='course_img'
-                            />
+                                <MyTextField
+                                    name="week_no"
+                                    id="week_no"
+                                    label="Enter Week No"
+                                />
 
-                        </Form>
+                                {/* <UploadFile
+                                    name='course_img'
+                                    label="upload image"
+                                /> */}
+
+                                <UploadFile
+                                    name='course_video'
+                                    label="uplaod video"
+                                />
+
+                                {Array.from(Array(inputcount)).map((c, index) => {
+                                    console.log("one", c, index)
+                                    return (
+                                        <>
+                                            <div style={{ display: 'flex' }}>
+                                                <UploadFile
+                                                    name={`course_img_${index}`}
+                                                    values={values?.course_images}
+                                                />
+                                                <Button sx={{ bgcolor: '#ced4da', padding: '6px', minWidth: '40px', ml: 2 }} onClick={() => setInputcount(inputcount + 1)}>+</Button>
+                                                {
+                                                    index > 0 && <Button sx={{ bgcolor: '#ced4da', padding: '6px', minWidth: '40px', ml: 2 }} onClick={() => setInputcount(inputcount - 1)}>-</Button>
+
+                                                }
+                                            </div>
+                                        </>
+                                    )
+                                })}
+
+
+                                <Box sx={{ display: 'flex', fontSize: '20px', alignItems: 'center', mt: 3 }} >
+                                    <label htmlFor="gst">GST: </label>
+                                    <Typography sx={{ fontSize: '20px' }}>18%</Typography>
+                                </Box>
+
+                                <Box sx={{ display: 'flex', fontSize: '20px', alignItems: 'center', mt: 3 }} >
+                                    <label htmlFor="gst">Total Price: </label>
+                                    <Typography sx={{ fontSize: '20px' }} name="total_price">{parseInt(values.price) + (values.price * 0.18)}</Typography>
+                                </Box>
+
+                            </Form>)
+                        }}
                     </Formik>
                 </DialogContent>
                 <DialogActions>

@@ -68,7 +68,7 @@ function UserRoutes(props) {
     }, [])
 
     const themecontext = useContext(ThemeContext);
-    console.log("themecontext",themecontext)
+    console.log("themecontext", themecontext)
     return (
         <div className={themecontext.theme}>
             <Header />

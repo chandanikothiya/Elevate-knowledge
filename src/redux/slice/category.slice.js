@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../utility/url";
+import { axiosInstance } from "../../utility/axiosInstance"
 
 const initialState = {
     isloading: false,
@@ -26,14 +27,16 @@ export const addcategory = createAsyncThunk(
             //formdata.append("parent_category_id", data.parentcategory);
 
 
-            const response = await fetch(BASE_URL + "category/addCategory", {
-                method: "POST",
-                body: formdata,
-            })
+            // const response = await fetch(BASE_URL + "category/addCategory", {
+            //     method: "POST",
+            //     body: formdata,
+            // })
 
-            const datar = await response.json();
-            console.log("addda", datar)
-            return datar.data
+            const response = await axiosInstance.post('category/addCategory', formdata)
+            console.log(response.data.data)
+            return response.data.data;
+
+
         } catch (error) {
             console.log(error)
         }
@@ -58,7 +61,7 @@ export const getcategory = createAsyncThunk(
 
 export const getparentcategory = createAsyncThunk(
     'category/getparentcategory',
-    async () => {
+    async (_, { rejectWithValue }) => {
         try {
             const response = await fetch(BASE_URL + "category/getparentCategories")
             const data = await response.json();
@@ -66,7 +69,8 @@ export const getparentcategory = createAsyncThunk(
 
             return data.data;
         } catch (error) {
-            console.log(error)
+            console.log("caterror", error.message)
+            return rejectWithValue(error.message)
         }
 
     }
@@ -79,14 +83,14 @@ export const deletecategory = createAsyncThunk(
 
             console.log("delteid", id)
 
-            const response = await fetch(`${BASE_URL}category/deleteCategory/${id}`, {
-                method: "DELETE"
-            })
+            // const response = await fetch(`${BASE_URL}category/deleteCategory/${id}`, {
+            //     method: "DELETE"
+            // })
 
-            const data = await response.json();
-            console.log(data)
+            const response = await axiosInstance.delete(`category/deleteCategory/${id}`)
 
-            return id;
+           console.log(response.data.data)
+            return response.data.data;
         } catch (error) {
             console.log(error)
         }
@@ -97,24 +101,27 @@ export const editcategory = createAsyncThunk(
     'category/editcategory',
     async (data) => {
         try {
-            console.log("data",data);
-
+            console.log("data", data);
+            const formdata = new FormData();
+            formdata.append("name", data.name);
             formdata.append("description", data.description);
             formdata.append("category_img", data.category_img)
 
             if (data.parentcategory) {
-formdata.append("parent_category_id", data.parentcategory)
+                formdata.append("parent_category_id", data.parentcategory)
             }
-            
 
-            const response = await fetch(`${BASE_URL}category/updateCategory/${data._id}`, {
-                method: "PUT",
-                body: formdata,
 
-            });
-            const datar = await response.json()
+            // const response = await fetch(`${BASE_URL}category/updateCategory/${data._id}`, {
+            //     method: "PUT",
+            //     body: formdata,
 
-            return datar.data;
+            // });
+
+            const response = await axiosInstance.put(`category/updateCategory/${data._id}`, formdata)
+            console.log("response", response)
+            return response.data.data;
+
         } catch (error) {
             console.log(error)
         }
@@ -131,12 +138,27 @@ const categoryslice = createSlice({
             state.category.push(action.payload)
             // console.log(state.category)
         })
+        builder.addCase(getcategory.pending, (state, action) => {
+            state.isloading = true
+            // console.log(action.payload)
+        })
         builder.addCase(getcategory.fulfilled, (state, action) => {
+            state.isloading = false
             state.category = action.payload
             // console.log(action.payload)
         })
+        builder.addCase(getparentcategory.pending, (state, action) => {
+            state.isloading = true
+            // console.log(action.payload)
+        })
         builder.addCase(getparentcategory.fulfilled, (state, action) => {
+            state.isloading = false
             state.category = action.payload
+            // console.log(action.payload)
+        })
+        builder.addCase(getparentcategory.rejected, (state, action) => {
+            state.isloading = false
+            state.category = []
             // console.log(action.payload)
         })
         builder.addCase(deletecategory.fulfilled, (state, action) => {

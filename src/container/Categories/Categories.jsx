@@ -22,24 +22,24 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from "@mui/icons-material/Search";
 import Useseacrh from '../../Useseacrh/Useseacrh';
+import withReduxFetch from '../../Hoc/withReduxFetch';
 
 
-function Categories(props) {
+function Categories({category}) {
 
-    const dispatch = useDispatch();
+    console.log(category)
+    
 
-    const categorys = useSelector(state => state.category)
-    console.log(categorys.category)
+    // const categorys = useSelector(state => state.category)
+    // console.log(categorys.category)
 
 
     // let filter = categorys.category.filter((v) => v.name.includes(secarch.toLocaleLowerCase()));
     // console.log(filter)
    
-    const [ secarch,setSeacrh,sdata] = Useseacrh(categorys?.category,["name","description"]);
+    const [ secarch,setSeacrh,sdata] = Useseacrh(category,["name","description"]);
 
-    useEffect(() => {
-        dispatch(getparentcategory())
-    }, [])
+   
 
     const theme = useTheme();
     return (
@@ -106,4 +106,4 @@ function Categories(props) {
     );
 }
 
-export default Categories;
+export default withReduxFetch(Categories,getparentcategory,(state) => state.category);

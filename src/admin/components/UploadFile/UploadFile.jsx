@@ -21,46 +21,97 @@ function UploadFile(props) {
     console.log("okok")
     const [field, meta, helpers] = useField(props);
     const { setValue } = helpers; // Formik's internal state management, specifically the values object.
-    console.log("filed",field)
+    console.log("filed", field)
+    console.log(typeof field.value?.type)
+
+    if (field.value?.type?.startsWith('image/')) {
+        console.log("img")
+    } else {
+        console.log("video")
+    }
+
+    // if (field.name.startsWith(course_img)) {
+
+    // }
 
     let fileurl = ''
 
-    if (typeof field.value.url === 'string'){
-        fileurl = field.value.url
+    if (typeof field?.value?.url === 'string') {
+        fileurl = field.value?.url
         // fileurl = "../public/images/" + field.value
-    } else if (typeof field.value === 'object' && field.value ) {   
-        //console.log("urlpath",field.value,field.File)
-        fileurl = URL.createObjectURL(field.value);
+    } else if (typeof field.value === 'object' && field.value) {
+        if (Array.isArray(field.value)) {
+            console.log("ok")
+            fileurl = field.value[0]?.url
+        } else {
+            console.log("urlpath", field.value)
+            fileurl = URL.createObjectURL(field.value);
+            console.log(typeof fileurl)
+
+        }
+
         // fileurl = field.value.url;
         // fileurl = "../public/images/" + field.value.name //also worked
+    } else if (Array.isArray(field.value)) {
+        console.log("okkkkk")
     }
-    console.log("fileurl",fileurl);
 
+    console.log("fileurl", fileurl);
 
     return (
         <>
-            <Button
-                style={{ marginTop: '20px' }}
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
-            >
-                Upload files
-                <VisuallyHiddenInput
-                    {...props}
-                    type="file"
-                 
-                    onChange={(event) => setValue(event.target.files[0])}
-                // onChange={(event) => console.log(event.target.files[0])}
-                />
-            </Button>
+            <div style={{ marginTop: '20px' }}>
+                <label style={{ display: 'block' }}>{props.label}</label>
+                <Button
+                    style={{ marginTop: '0px' }}
+                    component="label"
+                    role={undefined}
+                    variant="contained"
+                    tabIndex={-1}
+                    startIcon={<CloudUploadIcon />}
+                >
+                    Upload files
+                    <VisuallyHiddenInput
+                        {...props}
+                        type="file"
+                        onChange={(event) => setValue(event.target.files[0])}
+                    // onChange={(event) => console.log(event.target.files[0])}
+                    />
+                </Button>
 
-            <img src={fileurl} alt="Profile-img" width={"50px"} height={"50px"}/>
 
-            {meta.error && meta.touched ?
-                <p style={{ color: 'red' }}>{meta.error}</p> : ""}
+                {
+                    field.value?.type ?
+                        field.value?.type?.startsWith('image/') ?
+                            <img src={fileurl} alt="Profile-img" width={"50px"} height={"50px"} /> :
+                            field.value?.type?.startsWith('video/') &&
+                            <video width={"50px"} style={{ display: 'inline-block', width: '50px', height: '50px' }}>
+                                <source
+                                    src={fileurl}
+                                />
+                            </video>
+                        :
+                        field.value?.public_id?.startsWith('course/') ?
+                            <img src={fileurl} alt="Profile-img" width={"50px"} height={"50px"} /> :
+                            field.value?.public_id?.startsWith('course_video/') &&
+                            <video width={"50px"} style={{ display: 'inline-block', width: '50px', height: '50px' }}>
+                                <source
+                                    src={fileurl}
+                                />
+                            </video>
+                }
+
+
+                {
+
+                }
+
+
+
+
+                {meta.error && meta.touched ?
+                    <p style={{ color: 'red' }}>{meta.error}</p> : ""}
+            </div>
         </>
     );
 }

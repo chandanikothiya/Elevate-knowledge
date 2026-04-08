@@ -8,6 +8,7 @@ import Course from '../admin/container/Course/Course';
 
 import { ThemeContext } from '../Context/ThemeContext';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Demo from '../admin/container/Demo/Demo';
 
 
 function AdminRoutes(props) {
@@ -55,6 +56,7 @@ function AdminRoutes(props) {
                     <Route path='/category' element={<Category />}></Route>
                     <Route path='/subcategory' element={<SubCategory />}></Route>
                     <Route path='/course' element={<Course />}></Route>
+                    <Route path='/demo' element={<Demo />}></Route>
                 </Routes>
             </Layout>
         </ThemeProvider>
