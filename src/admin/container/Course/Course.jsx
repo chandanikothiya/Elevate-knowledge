@@ -27,6 +27,7 @@ function Course(props) {
     const [updatecourse, setUpdateCourse] = useState({})
     const [inputcount, setInputcount] = useState(1)
     const [files, setfiles] = useState([])
+    const [price,setPrice] = useState('')
     console.log("fileskk", files)
     const dispatch = useDispatch();
     const categorys = useSelector(state => state.category)
@@ -110,8 +111,8 @@ function Course(props) {
         formdata.append("category", values.category);
         formdata.append("name", values.name);
         formdata.append("description", values.description);
+        formdata.append("price", parseInt(values.price) + (values.price * 0.18));
         formdata.append("instructor_id", insid._id);
-        formdata.append("price",parseInt(values.price) + (values.price * 0.18));
         formdata.append("week_no", values.week_no);
         formdata.append("course_video", values.course_video);
 
@@ -131,6 +132,8 @@ function Course(props) {
         //     formdata.append("course_video", values.course_video);
         // } else {
         // }
+
+       
 
         if (Object.keys(updatecourse).length > 0) {
 
@@ -155,12 +158,12 @@ function Course(props) {
                 // }
 
                 if (!(v instanceof File)) {
-                    console.log("updatecourse",v)
+                    console.log("updatecourse", v)
                     notupdateid.push(v.public_id);
                 }
             })
-            console.log("updatecourse",notupdateid)
-            formdata.append("notupdateid",JSON.stringify(notupdateid));
+            console.log("updatecourse", notupdateid)
+            formdata.append("notupdateid", JSON.stringify(notupdateid));
 
 
             formdata.append("_id", values._id);
@@ -262,7 +265,7 @@ function Course(props) {
 
     ]
     const paginationModel = { page: 0, pageSize: 5 };
-
+    console.log("price",price)
 
 
     return (
@@ -332,7 +335,8 @@ function Course(props) {
                                     name="price"
                                     id="price"
                                     label="Enter Price"
-
+                                    // value={values.price}
+                                    // onChange={(e) => setPrice(e.target.value)}
                                 />
 
                                 <MyTextField

@@ -1,6 +1,25 @@
 import React from 'react';
+import { useGetCourseQuery } from '../../redux/api/course.api';
+import { useParams } from 'react-router-dom';
 
 function CourseListMinimal(props) {
+
+    const { data, error, isloading } = useGetCourseQuery();
+    console.log(data?.data)
+
+    const { id } = useParams();
+    console.log("getid", id)
+
+    let coursedata;
+
+    if (id) {
+        coursedata = data?.data?.filter((v) => v.category === id)
+        console.log(coursedata)
+    } else {
+        coursedata = data?.data;
+    }
+
+
     return (
         <main>
             {/* =======================
@@ -80,394 +99,58 @@ Page content START */}
                     {/* Course list START */}
                     <div className="row g-4 justify-content-center">
                         {/* Card item START */}
-                        <div className="col-lg-10 col-xxl-6">
-                            <div className="card rounded overflow-hidden shadow">
-                                <div className="row g-0">
-                                    {/* Image */}
-                                    <div className="col-md-4">
-                                        <img src="assets/images/courses/4by3/01.jpg" alt="card image" />
-                                    </div>
-                                    {/* Card body */}
-                                    <div className="col-md-8">
-                                        <div className="card-body">
-                                            {/* Title */}
-                                            <div className="d-flex justify-content-between mb-2">
-                                                <h5 className="card-title mb-0"><a href="#">The Complete Digital Marketing Course - 12 Courses in 1</a></h5>
-                                                {/* Wishlist icon */}
-                                                <a href="#"><i className="fas fa-heart text-danger" /></a>
+                        {
+                            coursedata?.map((v) => (
+                                <div className="col-lg-10 col-xxl-6">
+                                    <div className="card rounded overflow-hidden shadow">
+                                        <div className="row g-0">
+                                            {/* Image */}
+                                            <div className="col-md-4">
+                                                <img src={v.course_img[0].url} alt="card image" />
                                             </div>
-                                            {/* Content */}
-                                            {/* Info */}
-                                            <ul className="list-inline mb-1">
-                                                <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="far fa-clock text-danger me-2" />6h 56m</li>
-                                                <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="fas fa-table text-orange me-2" />82 lectures</li>
-                                                <li className="list-inline-item h6 fw-light"><i className="fas fa-signal text-success me-2" />Beginner</li>
-                                            </ul>
-                                            {/* Rating */}
-                                            <ul className="list-inline mb-0">
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star-half-alt text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light">4.5/5.0</li>
-                                            </ul>
+                                            {/* Card body */}
+                                            <div className="col-md-8">
+                                                <div className="card-body">
+                                                    {/* Title */}
+                                                    <div className="d-flex justify-content-between mb-2">
+                                                        <h5 className="card-title mb-0"><a href="#">{v.name}</a></h5>
+                                                        {/* Wishlist icon */}
+                                                        <a href="#"><i className="fas fa-heart text-danger" /></a>
+                                                    </div>
+                                                    {/* Content */}
+                                                    {/* Info */}
+                                                    <ul className="list-inline mb-1" style={{margin:'20px 0'}}>
+                                                        <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="far fa-clock text-danger me-2" />{v.week_no} Week</li>
+                                                        {/* <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="fas fa-table text-orange me-2" />82 lectures</li> */}
+                                                        <li className="list-inline-item h6 fw-light"><i className="fas fa-signal text-success me-2" />Beginner</li>
+                                                    </ul>
+
+                                                     <div className="d-flex justify-content-between mb-2">
+                                                        <h5 className="card-title mb-0" ><a href="#" style={{color:'rgba(214, 41, 62, 1)'}}>₨ {parseInt(v.price)}</a></h5>
+                                                        {/* Wishlist icon */}
+                                                        
+                                                    </div>
+                                                    {/* Rating */}
+                                                    {/* <ul className="list-inline mb-0">
+                                                        <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
+                                                        <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
+                                                        <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
+                                                        <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
+                                                        <li className="list-inline-item me-0 small"><i className="fas fa-star-half-alt text-warning" /></li>
+                                                        <li className="list-inline-item ms-2 h6 fw-light">4.5/5.0</li>
+                                                    </ul> */}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            ))
+                        }
+
                         {/* Card item END */}
                         {/* Card item START */}
-                        <div className="col-lg-10 col-xxl-6">
-                            <div className="card rounded overflow-hidden shadow">
-                                <div className="row g-0">
-                                    {/* Image */}
-                                    <div className="col-md-4">
-                                        <img src="assets/images/courses/4by3/02.jpg" alt="card image" />
-                                    </div>
-                                    {/* Card body */}
-                                    <div className="col-md-8">
-                                        <div className="card-body">
-                                            {/* Title */}
-                                            <div className="d-flex justify-content-between mb-2">
-                                                <h5 className="card-title mb-0"><a href="#">Graphic Design Masterclass</a></h5>
-                                                {/* Wishlist icon */}
-                                                <a href="#" className="h6 fw-light"><i className="far fa-heart" /></a>
-                                            </div>
-                                            {/* Content */}
-                                            {/* Info */}
-                                            <ul className="list-inline mb-1">
-                                                <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="far fa-clock text-danger me-2" />9h 56m</li>
-                                                <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="fas fa-table text-orange me-2" />65 lectures</li>
-                                                <li className="list-inline-item h6 fw-light"><i className="fas fa-signal text-success me-2" />All level</li>
-                                            </ul>
-                                            {/* Rating */}
-                                            <ul className="list-inline mb-0">
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="far fa-star text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light">4.0/5.0</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {/* Card item END */}
-                        {/* Card item START */}
-                        <div className="col-lg-10 col-xxl-6">
-                            <div className="card rounded overflow-hidden shadow">
-                                <div className="row g-0">
-                                    {/* Image */}
-                                    <div className="col-md-4">
-                                        <img src="assets/images/courses/4by3/03.jpg" alt="card image" />
-                                    </div>
-                                    {/* Card body */}
-                                    <div className="col-md-8">
-                                        <div className="card-body">
-                                            {/* Title */}
-                                            <div className="d-flex justify-content-between mb-2">
-                                                <h5 className="card-title mb-0"><a href="#">Create a Design System in Figma</a></h5>
-                                                {/* Wishlist icon */}
-                                                <a href="#" className="h6 fw-light"><i className="far fa-heart" /></a>
-                                            </div>
-                                            {/* Content */}
-                                            {/* Info */}
-                                            <ul className="list-inline mb-1">
-                                                <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="far fa-clock text-danger me-2" />7h 16m</li>
-                                                <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="fas fa-table text-orange me-2" />32 lectures</li>
-                                                <li className="list-inline-item h6 fw-light"><i className="fas fa-signal text-success me-2" />Intermediate</li>
-                                            </ul>
-                                            {/* Rating */}
-                                            <ul className="list-inline mb-0">
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="far fa-star text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light">4.0/5.0</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {/* Card item END */}
-                        {/* Card item START */}
-                        <div className="col-lg-10 col-xxl-6">
-                            <div className="card rounded overflow-hidden shadow">
-                                <div className="row g-0">
-                                    {/* Image */}
-                                    <div className="col-md-4">
-                                        <img src="assets/images/courses/4by3/05.jpg" alt="card image" />
-                                    </div>
-                                    {/* Card body */}
-                                    <div className="col-md-8">
-                                        <div className="card-body">
-                                            {/* Title */}
-                                            <div className="d-flex justify-content-between mb-2">
-                                                <h5 className="card-title mb-0"><a href="#">The Complete Web Development in python</a></h5>
-                                                {/* Wishlist icon */}
-                                                <a href="#"><i className="fas fa-heart text-danger" /></a>
-                                            </div>
-                                            {/* Content */}
-                                            {/* Info */}
-                                            <ul className="list-inline mb-1">
-                                                <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="far fa-clock text-danger me-2" />7h 16m</li>
-                                                <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="fas fa-table text-orange me-2" />32 lectures</li>
-                                                <li className="list-inline-item h6 fw-light"><i className="fas fa-signal text-success me-2" />Intermediate</li>
-                                            </ul>
-                                            {/* Rating */}
-                                            <ul className="list-inline mb-0">
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="far fa-star text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light">4.0/5.0</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {/* Card item END */}
-                        {/* Card item START */}
-                        <div className="col-lg-10 col-xxl-6">
-                            <div className="card rounded overflow-hidden shadow">
-                                <div className="row g-0">
-                                    {/* Image */}
-                                    <div className="col-md-4">
-                                        <img src="assets/images/courses/4by3/06.jpg" alt="card image" />
-                                    </div>
-                                    {/* Card body */}
-                                    <div className="col-md-8">
-                                        <div className="card-body">
-                                            {/* Title */}
-                                            <div className="d-flex justify-content-between mb-2">
-                                                <h5 className="card-title mb-0"><a href="#">Angular – The Complete Guider</a></h5>
-                                                {/* Wishlist icon */}
-                                                <a href="#" className="h6 fw-light"><i className="far fa-heart" /></a>
-                                            </div>
-                                            {/* Content */}
-                                            {/* Info */}
-                                            <ul className="list-inline mb-1">
-                                                <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="far fa-clock text-danger me-2" />21h 16m</li>
-                                                <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="fas fa-table text-orange me-2" />68 lectures</li>
-                                                <li className="list-inline-item h6 fw-light"><i className="fas fa-signal text-success me-2" />All level</li>
-                                            </ul>
-                                            {/* Rating */}
-                                            <ul className="list-inline mb-0">
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star-half-alt text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light">4.5/5.0</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {/* Card item END */}
-                        {/* Card item START */}
-                        <div className="col-lg-10 col-xxl-6">
-                            <div className="card rounded overflow-hidden shadow">
-                                <div className="row g-0">
-                                    {/* Image */}
-                                    <div className="col-md-4">
-                                        <img src="assets/images/courses/4by3/07.jpg" alt="card image" />
-                                    </div>
-                                    {/* Card body */}
-                                    <div className="col-md-8">
-                                        <div className="card-body">
-                                            {/* Title */}
-                                            <div className="d-flex justify-content-between mb-2">
-                                                <h5 className="card-title mb-0"><a href="#">Deep Learning with React-Native</a></h5>
-                                                {/* Wishlist icon */}
-                                                <a href="#" className="h6 fw-light"><i className="far fa-heart" /></a>
-                                            </div>
-                                            {/* Content */}
-                                            {/* Info */}
-                                            <ul className="list-inline mb-1">
-                                                <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="far fa-clock text-danger me-2" />10h 16m</li>
-                                                <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="fas fa-table text-orange me-2" />21 lectures</li>
-                                                <li className="list-inline-item h6 fw-light"><i className="fas fa-signal text-success me-2" />Advance</li>
-                                            </ul>
-                                            {/* Rating */}
-                                            <ul className="list-inline mb-0">
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star-half-alt text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="far fa-star text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light">3.5/5.0</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {/* Card item END */}
-                        {/* Card item START */}
-                        <div className="col-lg-10 col-xxl-6">
-                            <div className="card rounded overflow-hidden shadow">
-                                <div className="row g-0">
-                                    {/* Image */}
-                                    <div className="col-md-4">
-                                        <img src="assets/images/courses/4by3/09.jpg" alt="card image" />
-                                    </div>
-                                    {/* Card body */}
-                                    <div className="col-md-8">
-                                        <div className="card-body">
-                                            {/* Title */}
-                                            <div className="d-flex justify-content-between mb-2">
-                                                <h5 className="card-title mb-0"><a href="#">JavaScript: Full Understanding</a></h5>
-                                                {/* Wishlist icon */}
-                                                <a href="#"><i className="fas fa-heart text-danger" /></a>
-                                            </div>
-                                            {/* Content */}
-                                            {/* Info */}
-                                            <ul className="list-inline mb-1">
-                                                <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="far fa-clock text-danger me-2" />7h 16m</li>
-                                                <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="fas fa-table text-orange me-2" />12 lectures</li>
-                                                <li className="list-inline-item h6 fw-light"><i className="fas fa-signal text-success me-2" />Beginner</li>
-                                            </ul>
-                                            {/* Rating */}
-                                            <ul className="list-inline mb-0">
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="far fa-star text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light">4.0/5.0</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {/* Card item END */}
-                        {/* Card item START */}
-                        <div className="col-lg-10 col-xxl-6">
-                            <div className="card rounded overflow-hidden shadow">
-                                <div className="row g-0">
-                                    {/* Image */}
-                                    <div className="col-md-4">
-                                        <img src="assets/images/courses/4by3/11.jpg" alt="card image" />
-                                    </div>
-                                    {/* Card body */}
-                                    <div className="col-md-8">
-                                        <div className="card-body">
-                                            {/* Title */}
-                                            <div className="d-flex justify-content-between mb-2">
-                                                <h5 className="card-title mb-0"><a href="#">Build Responsive Websites with HTML</a></h5>
-                                                {/* Wishlist icon */}
-                                                <a href="#" className="h6 fw-light"><i className="far fa-heart" /></a>
-                                            </div>
-                                            {/* Content */}
-                                            {/* Info */}
-                                            <ul className="list-inline mb-1">
-                                                <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="far fa-clock text-danger me-2" />15h 16m</li>
-                                                <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="fas fa-table text-orange me-2" />38 lectures</li>
-                                                <li className="list-inline-item h6 fw-light"><i className="fas fa-signal text-success me-2" />All level</li>
-                                            </ul>
-                                            {/* Rating */}
-                                            <ul className="list-inline mb-0">
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="far fa-star text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light">4.0/5.0</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {/* Card item END */}
-                        {/* Card item START */}
-                        <div className="col-lg-10 col-xxl-6">
-                            <div className="card rounded overflow-hidden shadow">
-                                <div className="row g-0">
-                                    {/* Image */}
-                                    <div className="col-md-4">
-                                        <img src="assets/images/courses/4by3/12.jpg" alt="card image" />
-                                    </div>
-                                    {/* Card body */}
-                                    <div className="col-md-8">
-                                        <div className="card-body">
-                                            {/* Title */}
-                                            <div className="d-flex justify-content-between mb-2">
-                                                <h5 className="card-title mb-0"><a href="#">Build Websites with CSS</a></h5>
-                                                {/* Wishlist icon */}
-                                                <a href="#" className="h6 fw-light"><i className="far fa-heart" /></a>
-                                            </div>
-                                            {/* Content */}
-                                            {/* Info */}
-                                            <ul className="list-inline mb-1">
-                                                <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="far fa-clock text-danger me-2" />22h 16m</li>
-                                                <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="fas fa-table text-orange me-2" />16 lectures</li>
-                                                <li className="list-inline-item h6 fw-light"><i className="fas fa-signal text-success me-2" />Advance</li>
-                                            </ul>
-                                            {/* Rating */}
-                                            <ul className="list-inline mb-0">
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star-half-alt text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light">4.5/5.0</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {/* Card item END */}
-                        {/* Card item START */}
-                        <div className="col-lg-10 col-xxl-6">
-                            <div className="card rounded overflow-hidden shadow">
-                                <div className="row g-0">
-                                    {/* Image */}
-                                    <div className="col-md-4">
-                                        <img src="assets/images/courses/4by3/13.jpg" alt="card image" />
-                                    </div>
-                                    {/* Card body */}
-                                    <div className="col-md-8">
-                                        <div className="card-body">
-                                            {/* Title */}
-                                            <div className="d-flex justify-content-between mb-2">
-                                                <h5 className="card-title mb-0"><a href="#">PHP with - CMS Project</a></h5>
-                                                {/* Wishlist icon */}
-                                                <a href="#"><i className="fas fa-heart text-danger" /></a>
-                                            </div>
-                                            {/* Content */}
-                                            {/* Info */}
-                                            <ul className="list-inline mb-1">
-                                                <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="far fa-clock text-danger me-2" />10h 16m</li>
-                                                <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="fas fa-table text-orange me-2" />9 lectures</li>
-                                                <li className="list-inline-item h6 fw-light"><i className="fas fa-signal text-success me-2" />Intermediate</li>
-                                            </ul>
-                                            {/* Rating */}
-                                            <ul className="list-inline mb-0">
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star-half-alt text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light">4.5/5.0</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                       
+
                         {/* Card item END */}
                     </div>
                     {/* Course list END */}

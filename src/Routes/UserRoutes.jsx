@@ -58,6 +58,7 @@ import Categories from '../container/Categories/Categories';
 import InstructoreAddCourse from '../container/Instructotr_create_course/InstructoreAddCourse';
 import InstructorManageCourse from '../container/Instructor-manage-course/InstructorManageCourse';
 import { ThemeContext } from '../Context/ThemeContext';
+import SubCategory from '../container/SubCategory/SubCategory';
 
 function UserRoutes(props) {
 
@@ -84,6 +85,8 @@ function UserRoutes(props) {
                 <Route path='/coursegridminimal' element={<CourseGridMinimal />} />
                 <Route path='/courselistclassic' element={<CourseListClassic />} />
                 <Route path='/courselistminimal' element={<CourseListMinimal />} />
+                <Route path='/courselistminimal/:id' element={<CourseListMinimal />} />
+
                 <Route path='/coursedetailclassic' element={<CourseDetailClassic />} />
                 <Route path='/coursedetailminimal' element={<CourseDetailMinimal />} />
                 <Route path='/coursedetailadvance' element={<CourseDetailAdvance />} />
@@ -125,6 +128,7 @@ function UserRoutes(props) {
                 <Route path='/studentpaymentinfo' element={<StudentPaymentInfo />} />
                 <Route path='/CategorySingal/:id' element={<CategorySingal />} />
                 <Route path='/categories' element={<Categories />} />
+                <Route path='/subcategory/:id' element={<SubCategory />} />
                 {/* <Route path='/chat' element={<Chat />} /> */}
                 <Route path='/verifyuser' element={<Verifyuser />} />
                 <Route path='/instructoreaddcourese' element={<InstructoreAddCourse />} />

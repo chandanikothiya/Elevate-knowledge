@@ -23,23 +23,33 @@ import InputBase from '@mui/material/InputBase';
 import SearchIcon from "@mui/icons-material/Search";
 import Useseacrh from '../../Useseacrh/Useseacrh';
 import withReduxFetch from '../../Hoc/withReduxFetch';
+import { useNavigate } from 'react-router-dom';
 
 
-function Categories({category}) {
+function Categories({ category }) {
 
     console.log(category)
-    
+    const navigate = useNavigate();
 
-    // const categorys = useSelector(state => state.category)
-    // console.log(categorys.category)
+    const dispatch = useDispatch();
+    const categorys = useSelector(state => state.category)
 
+    useEffect(() => {
+        dispatch(getcategory());
+    }, [])
+
+    console.log("category", categorys.category)
+    const x = categorys?.category?.filter((v) => v.parent_category_id === null)
 
     // let filter = categorys.category.filter((v) => v.name.includes(secarch.toLocaleLowerCase()));
     // console.log(filter)
-   
-    const [ secarch,setSeacrh,sdata] = Useseacrh(category,["name","description"]);
 
-   
+    const [secarch, setSeacrh, sdata] = Useseacrh(x, ["name", "description"]);
+
+    const handleclick = (id) => {
+        console.log("idd", id)
+        navigate(`/subcategory/${id}`)
+    }
 
     const theme = useTheme();
     return (
@@ -76,7 +86,7 @@ function Categories({category}) {
                 <Grid container spacing={4}>
                     {sdata?.map((v) => (
                         <Grid key={v._id} size={6}>
-                            <Card sx={{ width: "100%", position: 'relative' }}>
+                            <Card sx={{ width: "100%", position: 'relative' }} onClick={(e) => handleclick(v._id)}>
                                 <CardMedia
                                     sx={{ height: 250 }}
                                     image={v.category_img?.url || ""}
@@ -89,12 +99,11 @@ function Categories({category}) {
                                     <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                                         {v.description}
                                     </Typography>
-                                   
+
                                 </CardContent>
 
                                 <CardActions sx={{ position: 'absolute', top: 0, right: 0 }}>
                                     <Button size="small" ><FavoriteBorderOutlinedIcon sx={{ color: "black", fontSize: '30px', borderRadius: '50%', boxShadow: 2, bgcolor: 'white' }} /></Button>
-
                                 </CardActions>
                             </Card>
                         </Grid>
@@ -106,4 +115,4 @@ function Categories({category}) {
     );
 }
 
-export default withReduxFetch(Categories,getparentcategory,(state) => state.category);
+export default withReduxFetch(Categories, getparentcategory, (state) => state.category);
