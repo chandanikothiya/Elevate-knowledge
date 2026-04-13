@@ -116,7 +116,7 @@ Page content START */}
                                         <div className="col-sm-6 col-lg-4 col-xl-3">
                                             <div className="card shadow h-100">
                                                 {/* Image */}
-                                                <img src={v.course_img?.url} className="card-img-top" alt="course image" />
+                                                <img src={v.course_img?.url} className="card-img-top" alt="course image"/>
                                                 {/* Card body */}
                                                 <div className="card-body pb-0">
                                                     {/* Badge and favorite */}

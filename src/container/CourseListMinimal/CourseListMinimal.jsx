@@ -1,11 +1,12 @@
 import React from 'react';
 import { useGetCourseQuery } from '../../redux/api/course.api';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function CourseListMinimal(props) {
 
     const { data, error, isloading } = useGetCourseQuery();
     console.log(data?.data)
+    const navigate = useNavigate();
 
     const { id } = useParams();
     console.log("getid", id)
@@ -17,6 +18,15 @@ function CourseListMinimal(props) {
         console.log(coursedata)
     } else {
         coursedata = data?.data;
+    }
+
+    
+     const handleclick = (nid,name) => {
+        console.log("idd", id)
+        localStorage.setItem('course',name)
+
+        navigate(`/coursedetail/${nid}`)
+
     }
 
 
@@ -101,12 +111,12 @@ Page content START */}
                         {/* Card item START */}
                         {
                             coursedata?.map((v) => (
-                                <div className="col-lg-10 col-xxl-6">
-                                    <div className="card rounded overflow-hidden shadow">
+                                <div className="col-lg-10 col-xxl-6" >
+                                    <div className="card rounded overflow-hidden shadow" style={{height:"155px"}}>
                                         <div className="row g-0">
                                             {/* Image */}
-                                            <div className="col-md-4">
-                                                <img src={v.course_img[0].url} alt="card image" />
+                                            <div className="col-md-4" style={{height:"155px",width:'206px'}}>
+                                                <img src={v.course_img[0].url} alt="card image"  style={{height:"100%",width:'100%',objectFit:'cover'}} onClick={(e) => handleclick(v._id,v.name)}/>
                                             </div>
                                             {/* Card body */}
                                             <div className="col-md-8">

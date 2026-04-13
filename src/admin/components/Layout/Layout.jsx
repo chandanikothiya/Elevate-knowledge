@@ -122,8 +122,8 @@ export default function Layout({ children }) {
     const menulist = [
         { label: "Dashboard", icone: <DashboardIcon />, to: "/admin/dashboard" },
         { label: "Category", icone: <CategoryIcon />, to: "/admin/category" },
-        { label: "Sub Category", icone: <AccountTreeIcon />, to: "/admin/subcategory" },
-        { label: "Course", icone: <CastForEducationIcon />, to: "/admin/course" }
+        { label: "Course", icone: <CastForEducationIcon />, to: "/admin/course" },
+         { label: "Section", icone: <AccountTreeIcon />, to: "/admin/section" },
     ]
 
     return (

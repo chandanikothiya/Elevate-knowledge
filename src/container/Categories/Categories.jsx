@@ -46,8 +46,9 @@ function Categories({ category }) {
 
     const [secarch, setSeacrh, sdata] = Useseacrh(x, ["name", "description"]);
 
-    const handleclick = (id) => {
+    const handleclick = (id,name) => {
         console.log("idd", id)
+        localStorage.setItem("category",name)
         navigate(`/subcategory/${id}`)
     }
 
@@ -86,7 +87,7 @@ function Categories({ category }) {
                 <Grid container spacing={4}>
                     {sdata?.map((v) => (
                         <Grid key={v._id} size={6}>
-                            <Card sx={{ width: "100%", position: 'relative' }} onClick={(e) => handleclick(v._id)}>
+                            <Card sx={{ width: "100%", position: 'relative' }} onClick={(e) => handleclick(v._id,v.name)}>
                                 <CardMedia
                                     sx={{ height: 250 }}
                                     image={v.category_img?.url || ""}

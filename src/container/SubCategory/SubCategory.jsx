@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGetCourseQuery } from '../../redux/api/course.api';
 import Useseacrh from '../../Useseacrh/Useseacrh';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -9,6 +9,7 @@ function SubCategory(props) {
     const { id } = useParams();
     console.log("getid", id)
      const navigate = useNavigate();
+     const [count,setCount] = useState(0)
 
 
     const dispatch = useDispatch();
@@ -25,11 +26,15 @@ function SubCategory(props) {
     const [secarch, setSeacrh, sdata] = Useseacrh(x, ["name", "description", "price"]);
     console.log(sdata)
 
-    const handleclick = (nid) => {
+    const handleclick = (nid,name) => {
         console.log("idd", id)
+
+        setCount(count + 1)
+        const storename = count+'_subcategory'
 
         const checkcat = categorys?.category?.filter((v) => v.parent_category_id === nid)
         console.log('x',x)
+        localStorage.setItem(storename,name)
 
         if (checkcat?.length > 0) {
              navigate(`/subcategory/${nid}`)
@@ -144,7 +149,7 @@ Page content START */}
 
                                 {
                                     sdata?.map((v) => (
-                                        <div className="col-sm-6 col-lg-4 col-xl-3" onClick={(e) => handleclick(v._id)}>
+                                        <div className="col-sm-6 col-lg-4 col-xl-3" onClick={(e) => handleclick(v._id,v.name)}>
                                             <div className="card shadow h-100">
                                                 {/* Image */}
                                                 <img src={v.category_img?.url} className="card-img-top" alt="course image" height={200} />

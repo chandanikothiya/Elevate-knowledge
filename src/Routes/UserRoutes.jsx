@@ -59,6 +59,7 @@ import InstructoreAddCourse from '../container/Instructotr_create_course/Instruc
 import InstructorManageCourse from '../container/Instructor-manage-course/InstructorManageCourse';
 import { ThemeContext } from '../Context/ThemeContext';
 import SubCategory from '../container/SubCategory/SubCategory';
+import CourseDetail from '../container/CourseDetail/CourseDetail';
 
 function UserRoutes(props) {
 
@@ -133,6 +134,7 @@ function UserRoutes(props) {
                 <Route path='/verifyuser' element={<Verifyuser />} />
                 <Route path='/instructoreaddcourese' element={<InstructoreAddCourse />} />
                 <Route path='/instructorManageCourse' element={<InstructorManageCourse />} />
+                <Route path='/coursedetail/:id' element={<CourseDetail />} />
                 <Route path='*' element={<Error404 />} />
             </Routes>
             <Footer />
