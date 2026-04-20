@@ -6,6 +6,8 @@ import authreducre from "./slice/auth.slice"
 import alertreducre from "./slice/alert.slice"
 import courseReducer from "./slice/course.slice"
 import { courseApi } from "./api/course.api"
+import { sectionApi } from "./api/section.api"
+import { contentApi } from "./api/content.api"
 // import storage from "redux-persist/lib/storage"
 // import persistReducer from "redux-persist/es/persistReducer"
 // import persistStore from "redux-persist/es/persistStore"
@@ -20,11 +22,15 @@ export const storeconfig = () => {
             auth: authreducre,
             alert: alertreducre,
             //course:courseReducer,
-            [courseApi.reducerPath]: courseApi.reducer
+            [courseApi.reducerPath]: courseApi.reducer,
+            [sectionApi.reducerPath]:sectionApi.reducer,
+            [contentApi.reducerPath]:contentApi.reducer,
         },
         middleware: (getDefaultMiddleware) =>
             getDefaultMiddleware().concat(
-                courseApi.middleware
+                courseApi.middleware,
+                sectionApi.middleware,
+                contentApi.middleware
             ),
     })
 

@@ -22,6 +22,7 @@ function UploadFile(props) {
     const [field, meta, helpers] = useField(props);
     const { setValue } = helpers; // Formik's internal state management, specifically the values object.
     console.log("filed", field)
+    console.log("filed", field.value?.url?.includes('.mp4'))
     console.log(typeof field.value?.type)
 
     if (field.value?.type?.startsWith('image/')) {
@@ -100,13 +101,24 @@ function UploadFile(props) {
                                 />
                             </video>
                 }
-
-
                 {
+                    field.value?.public_id?.startsWith('category/') &&
+                    <img src={fileurl} alt="Profile-img" width={"50px"} height={"50px"} />
 
                 }
 
-
+                {
+                    field.value?.type?.includes('pdf') || field.value?.url?.includes('.pdf') ? (
+                        <embed src={fileurl} width="50px" height="50px" />
+                    ) : field.value?.url?.includes('.mp4') ? (
+                        <video
+                            width={"50px"} style={{ display: 'inline-block', width: '50px', height: '50px' }}
+                            
+                        >
+                            <source src={fileurl} type="video/mp4" />
+                        </video>
+                    ) : null
+                }
 
 
                 {meta.error && meta.touched ?

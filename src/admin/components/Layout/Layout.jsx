@@ -24,6 +24,7 @@ import { NavLink } from 'react-router-dom';
 import SunnyIcon from '@mui/icons-material/Sunny';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import { ThemeContext } from '../../../Context/ThemeContext';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const drawerWidth = 240;
 
@@ -124,6 +125,7 @@ export default function Layout({ children }) {
         { label: "Category", icone: <CategoryIcon />, to: "/admin/category" },
         { label: "Course", icone: <CastForEducationIcon />, to: "/admin/course" },
          { label: "Section", icone: <AccountTreeIcon />, to: "/admin/section" },
+         { label: "Content", icone: <ContentCopyIcon />, to: "/admin/content" }
     ]
 
     return (

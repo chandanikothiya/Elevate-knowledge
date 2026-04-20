@@ -34,7 +34,7 @@ function SubCategory(props) {
 
         const checkcat = categorys?.category?.filter((v) => v.parent_category_id === nid)
         console.log('x',x)
-        localStorage.setItem(storename,name)
+        localStorage.setItem('storename',name)
 
         if (checkcat?.length > 0) {
              navigate(`/subcategory/${nid}`)
