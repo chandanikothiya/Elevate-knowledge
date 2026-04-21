@@ -25,6 +25,7 @@ import SunnyIcon from '@mui/icons-material/Sunny';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import { ThemeContext } from '../../../Context/ThemeContext';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import QuizIcon from '@mui/icons-material/Quiz';
 
 const drawerWidth = 240;
 
@@ -124,8 +125,9 @@ export default function Layout({ children }) {
         { label: "Dashboard", icone: <DashboardIcon />, to: "/admin/dashboard" },
         { label: "Category", icone: <CategoryIcon />, to: "/admin/category" },
         { label: "Course", icone: <CastForEducationIcon />, to: "/admin/course" },
-         { label: "Section", icone: <AccountTreeIcon />, to: "/admin/section" },
-         { label: "Content", icone: <ContentCopyIcon />, to: "/admin/content" }
+        { label: "Section", icone: <AccountTreeIcon />, to: "/admin/section" },
+        { label: "Content", icone: <ContentCopyIcon />, to: "/admin/content" },
+         { label: "Quize", icone: <QuizIcon />, to: "/admin/quize" }
     ]
 
     return (
@@ -150,10 +152,10 @@ export default function Layout({ children }) {
                     <Typography variant="h6" noWrap component="div">
                         Mini variant drawer
                     </Typography>
-                    <IconButton color="secondary" aria-label="add an alarm" sx={{ml:'auto',color:'white'}} onClick={() => themecontext.toggleTheme(themecontext.theme)}>
+                    <IconButton color="secondary" aria-label="add an alarm" sx={{ ml: 'auto', color: 'white' }} onClick={() => themecontext.toggleTheme(themecontext.theme)}>
                         {
-                            themecontext.theme === 'light' ? <BedtimeIcon/> : <SunnyIcon/>
-                        }                     
+                            themecontext.theme === 'light' ? <BedtimeIcon /> : <SunnyIcon />
+                        }
                     </IconButton>
                 </Toolbar>
             </AppBar>

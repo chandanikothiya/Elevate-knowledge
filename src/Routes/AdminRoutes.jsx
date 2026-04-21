@@ -11,6 +11,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Demo from '../admin/container/Demo/Demo';
 import Section from '../admin/container/Section/Section';
 import Content from '../admin/container/Content/Content';
+import Quize from '../admin/container/Quize/Quize';
 
 
 function AdminRoutes(props) {
@@ -54,13 +55,14 @@ function AdminRoutes(props) {
         <ThemeProvider theme={theme}>
             <Layout>
                 <Routes>
-                    <Route path='/' element={<Dashboard />}></Route>
-                    <Route path='/category' element={<Category />}></Route>
-                    <Route path='/subcategory' element={<SubCategory />}></Route>
-                    <Route path='/course' element={<Course />}></Route>
-                    <Route path='/demo' element={<Demo />}></Route>
-                    <Route path='/section' element={<Section />}></Route>
-                    <Route path='/content' element={<Content />}></Route>
+                    <Route path='/' element={<Dashboard />}/>
+                    <Route path='/category' element={<Category />}/>
+                    <Route path='/subcategory' element={<SubCategory />}/>
+                    <Route path='/course' element={<Course />}/>
+                    <Route path='/demo' element={<Demo />}/>
+                    <Route path='/section' element={<Section />}/>
+                    <Route path='/content' element={<Content />}/>
+                    <Route path='/quize' element={<Quize />}/>
                 </Routes>
             </Layout>
         </ThemeProvider>
