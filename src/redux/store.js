@@ -8,6 +8,8 @@ import courseReducer from "./slice/course.slice"
 import { courseApi } from "./api/course.api"
 import { sectionApi } from "./api/section.api"
 import { contentApi } from "./api/content.api"
+import { quizApi } from "./api/quiz.api"
+import { questionApi } from "./api/question.api"
 // import storage from "redux-persist/lib/storage"
 // import persistReducer from "redux-persist/es/persistReducer"
 // import persistStore from "redux-persist/es/persistStore"
@@ -25,12 +27,16 @@ export const storeconfig = () => {
             [courseApi.reducerPath]: courseApi.reducer,
             [sectionApi.reducerPath]:sectionApi.reducer,
             [contentApi.reducerPath]:contentApi.reducer,
+            [quizApi.reducerPath]:quizApi.reducer,
+            [questionApi.reducerPath]:questionApi.reducer
         },
         middleware: (getDefaultMiddleware) =>
             getDefaultMiddleware().concat(
                 courseApi.middleware,
                 sectionApi.middleware,
-                contentApi.middleware
+                contentApi.middleware,
+                quizApi.middleware,
+                questionApi.middleware
             ),
     })
 

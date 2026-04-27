@@ -12,6 +12,8 @@ import Demo from '../admin/container/Demo/Demo';
 import Section from '../admin/container/Section/Section';
 import Content from '../admin/container/Content/Content';
 import Quize from '../admin/container/Quize/Quize';
+import QuestionAdd from '../container/QuestionAdd/QuestionAdd';
+import QuestionDisplay from '../admin/container/QuestionDisplay/QuestionDisplay';
 
 
 function AdminRoutes(props) {
@@ -63,6 +65,8 @@ function AdminRoutes(props) {
                     <Route path='/section' element={<Section />}/>
                     <Route path='/content' element={<Content />}/>
                     <Route path='/quize' element={<Quize />}/>
+                    <Route path='/questionadd/:id' element={<QuestionAdd />} />
+                    <Route path='/questiondisplay/:id' element={<QuestionDisplay />} />
                 </Routes>
             </Layout>
         </ThemeProvider>

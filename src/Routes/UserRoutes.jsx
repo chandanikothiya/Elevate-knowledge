@@ -60,6 +60,9 @@ import InstructorManageCourse from '../container/Instructor-manage-course/Instru
 import { ThemeContext } from '../Context/ThemeContext';
 import SubCategory from '../container/SubCategory/SubCategory';
 import CourseDetail from '../container/CourseDetail/CourseDetail';
+import QuestionAdd from '../container/QuestionAdd/QuestionAdd';
+import QuizExam from '../container/QuizExam/QuizExam';
+import Quize from '../container/Quize/Quize';
 
 function UserRoutes(props) {
 
@@ -91,7 +94,7 @@ function UserRoutes(props) {
                 <Route path='/coursedetailclassic' element={<CourseDetailClassic />} />
                 <Route path='/coursedetailminimal' element={<CourseDetailMinimal />} />
                 <Route path='/coursedetailadvance' element={<CourseDetailAdvance />} />
-                <Route path='/coursescreenvideo' element={<CourseScreenVideo />} />
+                <Route path='/coursescreenvideo/:id' element={<CourseScreenVideo />} />
                 <Route path='/contactus' element={<ContactUS />} />
                 <Route path='/bloggrid' element={<BlogGrid />} />
                 <Route path='/blogmasonry' element={<BlogMasonry />} />
@@ -135,6 +138,8 @@ function UserRoutes(props) {
                 <Route path='/instructoreaddcourese' element={<InstructoreAddCourse />} />
                 <Route path='/instructorManageCourse' element={<InstructorManageCourse />} />
                 <Route path='/coursedetail/:id' element={<CourseDetail />} />
+                <Route path='/quizexam/:id' element={<QuizExam />} />
+                <Route path='/quize/:id' element={<Quize />} />
                 <Route path='*' element={<Error404 />} />
             </Routes>
             <Footer />

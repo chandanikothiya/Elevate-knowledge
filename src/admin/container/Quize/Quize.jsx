@@ -19,15 +19,24 @@ import { addcategory, deletecategory, editcategory, getcategory } from '../../..
 import { IMG_URL } from '../../../utility/url';
 import { useDeleteCourseMutation, useGetCourseQuery } from '../../../redux/api/course.api';
 import { useAddsectionMutation, useDeletesectionMutation, useEditsectionMutation, useGetsectionQuery } from '../../../redux/api/section.api';
+import { useAddquizMutation, useDeletequizMutation, useEditquizMutation, useGetquizQuery } from '../../../redux/api/quiz.api';
+import { MdQuiz } from "react-icons/md";
+import { Box } from '@mui/material';
+import { FaEye } from "react-icons/fa";
+import { useAddquestionMutation } from '../../../redux/api/question.api';
+import { useNavigate } from 'react-router-dom';
 
 
 function Quize(props) {
 
     const [open, setOpen] = React.useState(false);
+    const [openq, setOpenq] = React.useState(false);
     const [categorydata, setCategoryData] = useState([]);
     const [updatecategory, setUpdateCategory] = useState({});
-    const [courseid,setCourseid] = useState('');
+    const [quizid,setQuizeid] = useState();
+    const [courseid, setCourseid] = useState('');
     const courseref = useRef(null);
+    const navigate = useNavigate()
 
     const dispatch = useDispatch();
     const categorys = useSelector(state => state.category)
@@ -39,9 +48,9 @@ function Quize(props) {
     console.log("cdata", data);
 
     const { data: sdata, error: serror, isLoading: sisloading } = useGetsectionQuery();
-    console.log("ref",sdata?.data)
+    console.log("ref", sdata?.data)
     const sfilter = sdata?.data?.filter((v) => v.course_id === courseid)
-    console.log("ref",sfilter)
+    console.log("ref", sfilter)
 
     let cdata = [
         { value: '', label: 'Select Course' }
@@ -55,7 +64,7 @@ function Quize(props) {
         // }
     })
     console.log(cdata)
-    
+
     let sectiondata = [
         { value: '', label: 'Select Section' }
     ];
@@ -63,18 +72,31 @@ function Quize(props) {
     sfilter?.map((v, i) => {
         // if (v !== null) {
         console.log(v?._id)
-
         sectiondata.push({ value: v?._id, label: v?.name })
         // }
     })
 
-   
+    //quize api
+    const [addquiz] = useAddquizMutation();
+    const { data: qdata, error: qerror, isLoading: qisLoading } = useGetquizQuery();
+    console.log("qdata", qdata)
+    const [editquiz] = useEditquizMutation();
+    const [deletequiz] = useDeletequizMutation();
+
     const handleClickOpen = () => {
         setOpen(true);
     };
 
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const handleClickOpenq = () => {
+        setOpenq(true);
+    };
+
+    const handleCloseq = () => {
+        setOpenq(false);
     };
 
     const getdata = async () => {
@@ -90,7 +112,7 @@ function Quize(props) {
     }, []);
 
     let categoryschema = object({
-        course_id: string().required(),
+        //course_id: string().required(),
         section_id: string().required(),
         name: string().required(),
         description: string().required(),
@@ -111,14 +133,13 @@ function Quize(props) {
         try {
             if (Object.keys(updatecategory).length > 0) {
 
-                editsection(values)
-
+                editquiz(values)
                 setUpdateCategory({});
 
             } else {
 
                 console.log("vvv", values);
-                addsection(values)
+                addquiz(values)
             }
 
         } catch (error) {
@@ -127,22 +148,23 @@ function Quize(props) {
     }
 
     const handleEdit = async (data) => {
-        console.log(data);
+        console.log("updatedata", data);
 
         handleClickOpen();
         setUpdateCategory(data)
+        setCourseid(data.course_id)
     }
 
     const handleDelete = async (id) => {
-        deletesection(id)
+        deletequiz(id)
     }
 
     const columns = [
         { field: "name", headerName: 'name', width: 180 },
-        { field: "order_no", headerName: 'order_no', width: 300 },
+        { field: "description", headerName: 'description', width: 200 },
 
         {
-            field: "course_id", headerName: 'course_id', width: 300,
+            field: "course_id", headerName: 'course', width: 180,
             renderCell: (params) => (
                 <>
                     {console.log(params, params.row.course_id)}
@@ -153,6 +175,19 @@ function Quize(props) {
                 </>
             )
         },
+        {
+            field: "section_id", headerName: 'section', width: 180,
+            renderCell: (params) => (
+                <>
+                    {console.log(params, params.row.course_id)}
+                    {params.row.section_id !== null && sdata?.data?.find((v) => v._id === params.row.section_id).name}
+                    {/* {
+                       categorys.category.find((v) => v._id === params.row.parent_category_id)
+                    } */}
+                </>
+            )
+        },
+        { field: "time", headerName: 'time', width: 100 },
         {
             field: 'Action', headerName: 'Action', width: 200,
             renderCell: (params) => (
@@ -173,28 +208,54 @@ function Quize(props) {
                 </>
             )
         },
+        {
+            field: '', headerName: 'Quize Action', width: 350,
+            renderCell: (params) => (
+                <>
+                    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', height: '100%' }}>
+                        <Button color="warning" variant="contained" startIcon={<MdQuiz />} onClick={() => {navigate(`/admin/questionadd/${params.row._id}`)}}>
+                            Add Question
+                        </Button>
+
+                        <Button color="success" variant="contained" startIcon={<FaEye />} onClick={() => {navigate(`/admin/questiondisplay/${params.row._id}`)}}>
+                            See Questions
+                        </Button>
+                    </Box>
+
+                </>
+            )
+        },
 
     ]
     const paginationModel = { page: 0, pageSize: 5 };
 
-    // function handleChange(e) {
-        
-    //     console.log("ref",e.target.value);
-    // }
-    console.log("ref",courseid)
+    const handleChange = (e) => {
+
+        // console.log("ref",typeof e.target.value,e.target.innerText);
+        // setCourseid(e.target.value)
+    }
+    console.log("ref", courseid)
+
+    
+
+   
+
+    
+
     return (
         <>
-            <h2>Category</h2>
+
             <React.Fragment>
                 <Button variant="outlined" onClick={handleClickOpen}>
                     Add Quiz
                 </Button>
                 <Dialog open={open} onClose={handleClose}>
-                    <DialogTitle>Category</DialogTitle>
+                    <DialogTitle>Quize</DialogTitle>
                     <DialogContent>
                         <Formik
                             initialValues={Object.keys(updatecategory).length > 0 ? updatecategory : {
-                                course_id:'',
+
+                                course_id: '',
                                 section_id: "",
                                 name: "",
                                 description: "",
@@ -204,69 +265,76 @@ function Quize(props) {
                             onSubmit={(values, { resetForm }) => {
                                 console.log("valuesvalues", values)
                                 handleSubmit(values);
+
                                 handleClose();
                                 resetForm();
                             }}
                         >
-                             {({ values }) => {
-                           return (  <Form>
-                                <MyTextField
-                                    name="course_id"
-                                    id="courseid"
-                                    label="Select Course"
-                                    select
-                                    data={cdata}
-                                    value={courseid}
-                                    InputLabelProps={{ shrink: true, required: true }}
-                                    slotProps={{
-                                        select: {
-                                            native: true,
-                                        },
-                                    }}
-                                    onChange={(e) => setCourseid(e.target.value)}
-                                />
-
-                                <MyTextField
-                                    name="section_id"
-                                    id="sectionid"
-                                    label="Select Section"
-                                    select
-                                    data={sectiondata}
-                                    InputLabelProps={{ shrink: true, required: true }}
-                                    slotProps={{
-                                        select: {
-                                            native: true,
-                                        },
-                                    }}
-
-                                />
-
-                                <MyTextField
-                                    name="name"
-                                    id="name"
-                                    label="Quiz Name"
-                                />
-
-                                <MyTextField
-                                    name="description"
-                                    id="description"
-                                    label="Description"
-                                />
+                            {(props) => {
+                                return (<Form>
+                                    <MyTextField
+                                        name="course_id"
+                                        id="courseid"
+                                        label="Select Course"
+                                        select
+                                        data={cdata}
+                                        value={props.values.course_id}
+                                        InputLabelProps={{ shrink: true, required: true }}
+                                        slotProps={{
+                                            select: {
+                                                native: true,
+                                            },
+                                        }}
+                                        //ref={courseref}
 
 
-                                <MyTextField
-                                    name="time"
-                                    id="time"
-                                    label="Time"  
-                                />
+                                        onChange={(e) => {
+                                            props.handleChange(e);
+                                            setCourseid(e.target.value)
+                                        }}
+                                    />
 
-                                <DialogActions>
-                                    <Button onClick={handleClose}>Cancel</Button>
-                                    <Button type="submit">
-                                        Add Quize
-                                    </Button>
-                                </DialogActions>
-                            </Form> )
+                                    <MyTextField
+                                        name="section_id"
+                                        id="sectionid"
+                                        label="Select Section"
+                                        select
+                                        data={sectiondata}
+                                        InputLabelProps={{ shrink: true, required: true }}
+                                        slotProps={{
+                                            select: {
+                                                native: true,
+                                            },
+                                        }}
+
+                                    />
+
+                                    <MyTextField
+                                        name="name"
+                                        id="name"
+                                        label="Quiz Name"
+                                    />
+
+                                    <MyTextField
+                                        name="description"
+                                        id="description"
+                                        label="Description"
+                                    />
+
+
+                                    <MyTextField
+                                        name="time"
+                                        id="time"
+                                        label="Time"
+                                    />
+
+                                    <DialogActions>
+                                        <Button onClick={handleClose}>Cancel</Button>
+                                        <Button type="submit">
+                                            Add Quize
+                                        </Button>
+                                    </DialogActions>
+                                </Form>)
                             }}
                         </Formik>
                     </DialogContent>
@@ -274,7 +342,7 @@ function Quize(props) {
             </React.Fragment>
 
             <DataGrid
-                rows={sdata?.data}
+                rows={qdata?.data}
                 getRowId={(row) => row?._id || Math.random()}
                 columns={columns}
                 initialState={{ pagination: { paginationModel } }}
@@ -282,6 +350,80 @@ function Quize(props) {
                 checkboxSelection
                 sx={{ border: 0 }}
             />
+
+            {/* <Dialog open={openq} onClose={handleCloseq}>
+                <DialogTitle>Quize Question</DialogTitle>
+                <DialogContent>
+                    <Formik
+                        initialValues={{
+                            questionname: "",
+                            option1: "",
+                            option2: "",
+                            option3: "",
+                            option4: "",
+                            answer: ""
+                        }}
+                        validationSchema={questionschema}
+                        onSubmit={(values, { resetForm }) => {
+                            console.log("valuesvalues", values)
+                            handleSubmitq(values);
+                            handleCloseq();
+                            resetForm();
+                        }}
+                    >
+                        {(props) => {
+                            return (<Form>
+
+                                <MyTextField
+                                    name="questionname"
+                                    id="questionname"
+                                    label="Enter Question Name"
+                                />
+
+                                <label style={{ marginTop: '20px' }}>Enter Four Option</label>
+
+                                <MyTextField
+                                    name="option1"
+                                    id="option1"
+                                    label="Enter Option1"
+                                    sx={{ marginTop: '0px' }}
+                                />
+
+                                <MyTextField
+                                    name="option2"
+                                    id="option2"
+                                    label="Enter Option2"
+                                />
+
+                                <MyTextField
+                                    name="option3"
+                                    id="option3"
+                                    label="Enter Option3"
+                                />
+
+                                <MyTextField
+                                    name="option4"
+                                    id="option4"
+                                    label="Enter Option4"
+                                />
+
+                                <MyTextField
+                                    name="answer"
+                                    id="answer"
+                                    label="Enter Correct Answer"
+                                />
+
+                                <DialogActions>
+                                    <Button onClick={handleCloseq}>Cancel</Button>
+                                    <Button type="submit">
+                                        Add Question
+                                    </Button>
+                                </DialogActions>
+                            </Form>)
+                        }}
+                    </Formik>
+                </DialogContent>
+            </Dialog> */}
         </>
     );
 }

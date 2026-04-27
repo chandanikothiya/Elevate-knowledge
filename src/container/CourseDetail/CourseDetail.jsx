@@ -7,13 +7,13 @@ import { MdAutorenew } from "react-icons/md";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import Divider from '@mui/material/Divider';
 import { useGetCourseQuery } from "../../redux/api/course.api";
 import { useGetsectionQuery } from "../../redux/api/section.api";
 import { useGetcontentQuery } from "../../redux/api/content.api";
 import { FaFilePdf } from "react-icons/fa6";
-
+import { SiQuizlet } from "react-icons/si";
 
 function CourseDetail() {
 
@@ -250,7 +250,7 @@ function CourseDetail() {
 
                                                         <div className="col-12" >
 
-                                                            <h5 h5 className="mb-4" >{v.name}</h5>
+                                                            <h5 className="mb-4" >{v.name}</h5>
 
                                                             {
                                                                 contentdata?.map((v1) => {
@@ -258,7 +258,7 @@ function CourseDetail() {
                                                                     const video = v1.content_file.find((v2) => v2.url.includes('video'))
                                                                     console.log(video)
 
-                                                                     const pdf = v1.content_file.find((v2) => v2.url.includes('pdf'))
+                                                                    const pdf = v1.content_file.find((v2) => v2.url.includes('pdf'))
                                                                     console.log(video)
                                                                     return (
                                                                         <>
@@ -276,10 +276,10 @@ function CourseDetail() {
 
                                                                             <div className="d-sm-flex justify-content-sm-between align-items-center mt-4">
                                                                                 <div className="d-flex">
-                                                                                    <a href="#" className="btn btn-danger-soft btn-round mb-0"><FaFilePdf size={'20px'}/></a>
+                                                                                    <a href="#" className="btn btn-danger-soft btn-round mb-0"><FaFilePdf size={'20px'} /></a>
                                                                                     <div className="ms-2 ms-sm-3 mt-1 mt-sm-0">
                                                                                         <h6 className="mb-0">{v1.name + " " + "pdf"}</h6>
-                                                                                        
+
                                                                                     </div>
                                                                                 </div>
 
@@ -291,14 +291,23 @@ function CourseDetail() {
                                                                     )
                                                                 })
                                                             }
+                                                            <div className="d-sm-flex justify-content-sm-between align-items-center mt-4">
+                                                                <div className="d-flex" style={{alignItems:'flex-start'}}>
+                                                                    <a href="#" className="btn btn-warning-soft btn-round mb-0"><SiQuizlet  size={'20px'} /></a>
+                                                                    <div className="ms-2 ms-sm-3 mt-1 mt-sm-0">
+                                                                        <h6 className="mb-0">Quiz</h6>
+                                                                    </div>
+                                                                </div>
 
+                                                                <NavLink to={`/quize/${v._id}`} className="btn btn-sm btn-success mb-0">Open</NavLink>
+                                                            </div>
                                                         </div>
 
                                                     )
                                                 })
                                             }
 
-                                           
+
                                             {/* Lecture item END */}
                                             {/* Collapse body START */}
                                             <div className="collapse mt-0" id="collapseCourse">

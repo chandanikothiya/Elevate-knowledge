@@ -6,31 +6,31 @@ export const quizApi = createApi({
     reducerPath: 'quizApi',
     baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
     endpoints: (builder) => ({
-        getcontent: builder.query({
+        getquiz: builder.query({
             query: () => ({
-                url: '/content/getallContent',
+                url: '/quiz/getallQuize',
             }),
             providesTags: ['quiz']
         }),
-        addcontent: builder.mutation({
+        addquiz: builder.mutation({
             query: (data) => ({
-                url: '/content/addContent',
+                url: '/quiz/addQuize',
                 method: 'post',
                 body: data
             }),
             invalidatesTags:['quiz']
         }),
-        editcontent: builder.mutation({
+        editquiz: builder.mutation({
             query: (data) => ({
-                url: `/content/updateContent/${data.get("_id")}`,
+                url: `/quiz/updateQuize/${data._id}`,
                 method: 'put',
                 body: data
             }),
             invalidatesTags:['quiz']
         }),
-        deletecontent: builder.mutation({
+        deletequiz: builder.mutation({
             query: (id) => ({
-                url: `/content/deleteContent/${id}`,
+                url: `/quiz/deleteQuize/${id}`,
                 method: 'delete'
             }),
             invalidatesTags:['quiz']
@@ -38,4 +38,4 @@ export const quizApi = createApi({
     })
 })
 
-export const { useGetcontentQuery,useAddcontentMutation,useEditcontentMutation,useDeletecontentMutation } = quizApi;
+export const { useGetquizQuery,useAddquizMutation,useEditquizMutation,useDeletequizMutation } = quizApi;
