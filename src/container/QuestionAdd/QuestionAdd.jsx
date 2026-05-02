@@ -10,7 +10,6 @@ import { useParams } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-
 function QuestionAdd(props) {
 
     const [open, setOpen] = React.useState(false);
@@ -107,7 +106,6 @@ function QuestionAdd(props) {
                 onSubmit={(values, { resetForm }) => {
                     console.log("valuesvalues", values)
                     handleSubmitq(values);
-
                     resetForm();
                 }}
             >
