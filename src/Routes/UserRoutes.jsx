@@ -63,6 +63,7 @@ import CourseDetail from '../container/CourseDetail/CourseDetail';
 import QuestionAdd from '../container/QuestionAdd/QuestionAdd';
 import QuizExam from '../container/QuizExam/QuizExam';
 import Quize from '../container/Quize/Quize';
+import CheckAnswer from '../container/CheckAnswer/CheckAnswer';
 
 function UserRoutes(props) {
 
@@ -140,6 +141,7 @@ function UserRoutes(props) {
                 <Route path='/coursedetail/:id' element={<CourseDetail />} />
                 <Route path='/quizexam/:id' element={<QuizExam />} />
                 <Route path='/quize/:id' element={<Quize />} />
+                <Route path='/quizresult/:id' element={<CheckAnswer />} />
                 <Route path='*' element={<Error404 />} />
             </Routes>
             <Footer />
