@@ -11,10 +11,10 @@ import { contentApi } from "./api/content.api"
 import { quizApi } from "./api/quiz.api"
 import { questionApi } from "./api/question.api"
 import { resultApi } from "./api/result.api"
+import { wishlistApi } from "./api/wishlist.api"
 // import storage from "redux-persist/lib/storage"
 // import persistReducer from "redux-persist/es/persistReducer"
 // import persistStore from "redux-persist/es/persistStore"
-
 
 export const storeconfig = () => {
     const store = configureStore({
@@ -30,7 +30,8 @@ export const storeconfig = () => {
             [contentApi.reducerPath]:contentApi.reducer,
             [quizApi.reducerPath]:quizApi.reducer,
             [questionApi.reducerPath]:questionApi.reducer,
-            [resultApi.reducerPath]:resultApi.reducer
+            [resultApi.reducerPath]:resultApi.reducer,
+            [wishlistApi.reducerPath]:wishlistApi.reducer
         },
         middleware: (getDefaultMiddleware) =>
             getDefaultMiddleware().concat(
@@ -39,7 +40,8 @@ export const storeconfig = () => {
                 contentApi.middleware,
                 quizApi.middleware,
                 questionApi.middleware,
-                resultApi.middleware
+                resultApi.middleware,
+                wishlistApi.middleware
             ),
     })
 
