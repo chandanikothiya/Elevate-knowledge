@@ -2,38 +2,37 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../../utility/url";
 
 
-export const wishlistApi = createApi({
-    reducerPath: 'wishlistApi',
+export const cartApi = createApi({
+    reducerPath: 'cartApi',
     baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
     endpoints: (builder) => ({
-        getallwishlist: builder.query({
+        getallcart: builder.query({
             query: () => ({
-                url: '/wishlist/getallwishlist',
+                url: '/cart/getallcart',
             }),
-            providesTags: ['wishlist']
+            providesTags: ['cart']
         }),
-        getwishlist: builder.query({
+        getcart: builder.query({
             query: (id) => ({
-                url: `/wishlist/getwishlist/${id}`,
-                
+                url: `/cart/getcart/${id}`,
             }),
-            providesTags: ['wishlist']
+            providesTags: ['cart']
         }),
-        addwishlist: builder.mutation({
+        addcart: builder.mutation({
             query: (data) => ({
-                url: '/wishlist/addwishlist',
+                url: '/cart/addcart',
                 method: 'post',
                 body: data
             }),
-            invalidatesTags: ['wishlist']
+            invalidatesTags: ['cart']
         }),
-        deletewishlist: builder.mutation({
-            query: (data) => ({
-                url: `/wishlist/deletewishlist/${data.id}`,
+        deletecart: builder.mutation({
+            query: ({data,id}) => ({
+                url: `/cart/deletecart${id}`,
                 method: 'delete',
-                body: data,
+                body:data,
             }),
-            invalidatesTags: ['wishlist']
+            invalidatesTags: ['cart']
         }),
         // editquiz: builder.mutation({
         //     query: (data) => ({
@@ -54,5 +53,5 @@ export const wishlistApi = createApi({
 })
 
 export const {
-    useAddwishlistMutation, useGetallwishlistQuery,
-    useGetwishlistQuery, useDeletewishlistMutation } = wishlistApi;
+    useGetallcartQuery, useGetcartQuery,
+    useAddcartMutation, useDeletecartMutation } = cartApi;

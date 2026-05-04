@@ -1,6 +1,32 @@
 import React from 'react';
+import { useGetwishlistQuery } from '../../redux/api/wishlist.api';
+import { useGetCourseQuery } from '../../redux/api/course.api';
 
 function Cart(props) {
+
+    const loginid = JSON.parse(localStorage.getItem('loginuser'))._id
+    console.log(loginid)
+
+    const { data: wdata, error: werror, isLoading: wisloading } = useGetwishlistQuery(loginid)
+    console.log(wdata)
+
+    const { data, error, isloading } = useGetCourseQuery();
+    console.log(data?.data)
+
+    //const cartp = pdata?.data?.filter((v) => data?.body?.products?.some((v1) => v1.product_id.toString() === v._id.toString()));
+
+    const cartdata = data?.data?.filter((v) => wdata?.data?.course.some((v1) => v1.course_id === v._id))
+    console.log(cartdata)
+
+    let newArray = data?.data?.reduce((acc, item) => {
+        if (wdata?.data?.course.some(x => x.course_id === item._id)) {
+            acc.push(item);
+        }
+        return acc;
+    }, []);
+
+    console.log(newArray)
+
     return (
         <main>
             {/* =======================
@@ -51,55 +77,39 @@ Page content START */}
                                         {/* Table body START */}
                                         <tbody className="border-top-0">
                                             {/* Table item */}
-                                            <tr>
-                                                {/* Course item */}
-                                                <td>
-                                                    <div className="d-lg-flex align-items-center">
-                                                        {/* Image */}
-                                                        <div className="w-100px w-md-80px mb-2 mb-md-0">
-                                                            <img src="assets/images/courses/4by3/08.jpg" className="rounded" alt />
-                                                        </div>
-                                                        {/* Title */}
-                                                        <h6 className="mb-0 ms-lg-3 mt-2 mt-lg-0">
-                                                            <a href="#">Building Scalable APIs with GraphQL</a>
-                                                        </h6>
-                                                    </div>
-                                                </td>
-                                                {/* Amount item */}
-                                                <td>
-                                                    <h5 className="text-success mb-0">$350</h5>
-                                                </td>
-                                                {/* Action item */}
-                                                <td>
-                                                    <a href="#" className="btn btn-sm btn-success-soft px-2 me-1 mb-1 mb-md-0"><i className="far fa-fw fa-edit" /></a>
-                                                    <button className="btn btn-sm btn-danger-soft px-2 mb-0"><i className="fas fa-fw fa-times" /></button>
-                                                </td>
-                                            </tr>
-                                            {/* Table item */}
-                                            <tr>
-                                                {/* Course item */}
-                                                <td>
-                                                    <div className="d-lg-flex align-items-center">
-                                                        {/* Image */}
-                                                        <div className="w-100px w-md-80px mb-2 mb-md-0">
-                                                            <img src="assets/images/courses/4by3/10.jpg" className="rounded" alt />
-                                                        </div>
-                                                        {/* Title */}
-                                                        <h6 className="mb-0 ms-lg-3 mt-2 mt-lg-0">
-                                                            <a href="#">Bootstrap 5 From Scratch</a>
-                                                        </h6>
-                                                    </div>
-                                                </td>
-                                                {/* Amount item */}
-                                                <td>
-                                                    <h5 className="text-success mb-0">$150</h5>
-                                                </td>
-                                                {/* Action item */}
-                                                <td>
-                                                    <a href="#" className="btn btn-sm btn-success-soft px-2 me-1 mb-1 mb-md-0"><i className="far fa-fw fa-edit" /></a>
-                                                    <button className="btn btn-sm btn-danger-soft px-2 mb-0"><i className="fas fa-fw fa-times" /></button>
-                                                </td>
-                                            </tr>
+
+                                            {
+
+                                                cartdata?.map((v) => {
+
+                                                    return (
+                                                        <tr>
+                                                            <td>
+                                                                <div className="d-lg-flex align-items-center">
+                                                                    {/* Image */}
+                                                                    <div className="w-100px w-md-80px mb-2 mb-md-0">
+                                                                        <img src={v?.course_img?.[0]?.url} className="rounded" alt />
+                                                                    </div>
+                                                                    {/* Title */}
+                                                                    <h6 className="mb-0 ms-lg-3 mt-2 mt-lg-0">
+                                                                        <a href="#">{v.name}</a>
+                                                                    </h6>
+                                                                </div>
+                                                            </td>
+
+                                                            <td>
+                                                                <h5 className="text-success mb-0">{parseInt(v.price)}</h5>
+                                                            </td>
+                                                            <td>
+                                                                <a href="#" className="btn btn-sm btn-success-soft px-2 me-1 mb-1 mb-md-0"><i className="far fa-fw fa-edit" /></a>
+                                                                <button className="btn btn-sm btn-danger-soft px-2 mb-0"><i className="fas fa-fw fa-times" /></button>
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                })
+
+                                            }
+
                                         </tbody>
                                     </table>
                                 </div>

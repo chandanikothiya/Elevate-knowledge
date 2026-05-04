@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useGetCourseQuery } from '../../redux/api/course.api';
 import { useNavigate, useParams } from 'react-router-dom';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import IconButton from '@mui/material/IconButton';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useAddwishlistMutation, useDeletewishlistMutation, useGetallwishlistQuery, useGetwishlistQuery } from '../../redux/api/wishlist.api';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Box } from '@mui/material';
+import { useAddcartMutation } from '../../redux/api/cart.api';
+import { setalert } from '../../redux/slice/alert.slice';
+import { useDispatch } from 'react-redux';
 
 function CourseListMinimal(props) {
 
     const { data, error, isloading } = useGetCourseQuery();
     console.log(data?.data)
     const navigate = useNavigate();
+     const dispatch = useDispatch()
+    const [addwishlist] = useAddwishlistMutation();
+    const [delwishlist] = useDeletewishlistMutation();
+    const [addcart] = useAddcartMutation();
 
     const { id } = useParams();
     console.log("getid", id)
@@ -20,15 +33,39 @@ function CourseListMinimal(props) {
         coursedata = data?.data;
     }
 
-    
-     const handleclick = (nid,name) => {
+
+    const handleclick = (nid, name) => {
         console.log("idd", id)
-        localStorage.setItem('course',name)
+        localStorage.setItem('course', name)
 
         navigate(`/coursedetail/${nid}`)
-
     }
 
+    const loginid = JSON.parse(localStorage.getItem('loginuser'))._id
+    console.log(loginid)
+
+    const { data: wdata, error: werror, isLoading: wisloading } = useGetwishlistQuery(loginid)
+    // const {data:wdata,error:werror,isLoading:wisloading} = useGetallwishlistQuery()
+
+    console.log("wdata", wdata, loginid)
+
+    const handlewishist = (id) => {
+        console.log("data", id)
+        addwishlist({ course_id: id, user_id: loginid })
+    }
+
+    const handledelwishist = (cid) => {
+        console.log("cid", cid, loginid)
+        delwishlist({ course_id: cid, id: loginid })
+    }
+
+    const handlecart = async (id) => {
+        const res = await addcart({ course_id: id, user_id: loginid });
+        console.log("res",res)
+        if (res.data.suucess) {
+            dispatch(setalert({ text: res.data.message, variant: 'success' }))
+        }
+    }
 
     return (
         <main>
@@ -110,13 +147,17 @@ Page content START */}
                     <div className="row g-4 justify-content-center">
                         {/* Card item START */}
                         {
-                            coursedata?.map((v) => (
-                                <div className="col-lg-10 col-xxl-6" >
-                                    <div className="card rounded overflow-hidden shadow" style={{height:"155px"}}>
+
+                            coursedata?.map((v) => {
+
+                                const iswishlist = wdata?.data?.course?.some((v1) => v1.course_id === v._id)
+                                console.log("iswishlist", iswishlist, v._id, wdata, coursedata)
+                                return (<div className="col-lg-10 col-xxl-6" >
+                                    <div className="card rounded overflow-hidden shadow" style={{ height: "155px" }}>
                                         <div className="row g-0">
                                             {/* Image */}
-                                            <div className="col-md-4" style={{height:"155px",width:'206px'}}>
-                                                <img src={v.course_img[0].url} alt="card image"  style={{height:"100%",width:'100%',objectFit:'cover'}} onClick={(e) => handleclick(v._id,v.name)}/>
+                                            <div className="col-md-4" style={{ height: "155px", width: '206px' }}>
+                                                <img src={v.course_img[0].url} alt="card image" style={{ height: "100%", width: '100%', objectFit: 'cover' }} onClick={(e) => handleclick(v._id, v.name)} />
                                             </div>
                                             {/* Card body */}
                                             <div className="col-md-8">
@@ -124,21 +165,34 @@ Page content START */}
                                                     {/* Title */}
                                                     <div className="d-flex justify-content-between mb-2">
                                                         <h5 className="card-title mb-0"><a href="#">{v.name}</a></h5>
-                                                        {/* Wishlist icon */}
-                                                        <a href="#"><i className="fas fa-heart text-danger" /></a>
+                                                        <Box>
+                                                            {/* Wishlist icon */}
+                                                            {
+                                                                iswishlist ?
+                                                                    <IconButton onClick={() => handledelwishist(v._id)}>
+                                                                        <FavoriteIcon sx={{ color: "red" }} />
+                                                                    </IconButton> :
+                                                                    <IconButton onClick={() => handlewishist(v._id)}>
+                                                                        <FavoriteBorderIcon />
+                                                                    </IconButton>
+                                                            }
+                                                            <IconButton onClick={() => handlecart(v._id)}>
+                                                                <ShoppingCartIcon />
+                                                            </IconButton>
+                                                        </Box>
                                                     </div>
                                                     {/* Content */}
                                                     {/* Info */}
-                                                    <ul className="list-inline mb-1" style={{margin:'20px 0'}}>
+                                                    <ul className="list-inline mb-1" style={{ margin: '20px 0' }}>
                                                         <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="far fa-clock text-danger me-2" />{v.week_no} Week</li>
                                                         {/* <li className="list-inline-item h6 fw-light mb-1 mb-sm-0"><i className="fas fa-table text-orange me-2" />82 lectures</li> */}
                                                         <li className="list-inline-item h6 fw-light"><i className="fas fa-signal text-success me-2" />Beginner</li>
                                                     </ul>
 
-                                                     <div className="d-flex justify-content-between mb-2">
-                                                        <h5 className="card-title mb-0" ><a href="#" style={{color:'rgba(214, 41, 62, 1)'}}>₨ {parseInt(v.price)}</a></h5>
+                                                    <div className="d-flex justify-content-between mb-2">
+                                                        <h5 className="card-title mb-0" ><a href="#" style={{ color: 'rgba(214, 41, 62, 1)' }}>₨ {parseInt(v.price)}</a></h5>
                                                         {/* Wishlist icon */}
-                                                        
+
                                                     </div>
                                                     {/* Rating */}
                                                     {/* <ul className="list-inline mb-0">
@@ -153,13 +207,13 @@ Page content START */}
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))
+                                </div>)
+                            })
                         }
 
                         {/* Card item END */}
                         {/* Card item START */}
-                       
+
 
                         {/* Card item END */}
                     </div>
