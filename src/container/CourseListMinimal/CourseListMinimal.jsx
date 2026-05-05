@@ -16,7 +16,7 @@ function CourseListMinimal(props) {
     const { data, error, isloading } = useGetCourseQuery();
     console.log(data?.data)
     const navigate = useNavigate();
-     const dispatch = useDispatch()
+    const dispatch = useDispatch()
     const [addwishlist] = useAddwishlistMutation();
     const [delwishlist] = useDeletewishlistMutation();
     const [addcart] = useAddcartMutation();
@@ -61,10 +61,18 @@ function CourseListMinimal(props) {
 
     const handlecart = async (id) => {
         const res = await addcart({ course_id: id, user_id: loginid });
-        console.log("res",res)
-        if (res.data.suucess) {
+        console.log("responsecart", res,typeof res?.error?.data?.success)
+        if (res?.data?.success) {
             dispatch(setalert({ text: res.data.message, variant: 'success' }))
+        } else if (!res?.error?.status?.success) {
+            console.log("responsecart", "error")
+            dispatch(setalert({ text: res?.error?.data?.message, variant: 'error' }))
         }
+
+        // if (res?.error?.data?.suucess === false) {
+        //     console.log("responsecart", "error")
+        //     dispatch(setalert({ text: res?.error?.data?.message, variant: 'error' }))
+        // }
     }
 
     return (

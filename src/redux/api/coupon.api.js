@@ -2,37 +2,45 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../../utility/url";
 
 
-export const cartApi = createApi({
-    reducerPath: 'cartApi',
+export const couponApi = createApi({
+    reducerPath: 'couponApi',
     baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
     endpoints: (builder) => ({
-        getallcart: builder.query({
+        getallcoupon: builder.query({
             query: () => ({
-                url: '/cart/getallcart',
+                url: '/coupon/getallcoupon',
             }),
-            providesTags: ['cart']
+            providesTags: ['coupon']
         }),
-        getcart: builder.query({
+        getcoupon: builder.query({
             query: (id) => ({
-                url: `/cart/getcart/${id}`,
+                url: `/coupon/getcoupon/${id}`,
             }),
-            providesTags: ['cart']
+            providesTags: ['coupon']
         }),
-        addcart: builder.mutation({
+        addcoupon: builder.mutation({
             query: (data) => ({
-                url: '/cart/addcart',
+                url: '/coupon/addcoupon',
                 method: 'post',
                 body: data
             }),
-            invalidatesTags: ['cart']
+            invalidatesTags: ['coupon']
         }),
-        deletecart: builder.mutation({
+        updatecoupon: builder.mutation({
             query: (data) => ({
-                url: `/cart/deletecart/${data.id}`,
-                method: 'delete',
-                body:data,
+                url: `/coupon/updatecoupon/${data._id}`,
+                method: 'put',
+                body: data
             }),
-            invalidatesTags: ['cart']
+            invalidatesTags: ['coupon']
+        }),
+        deletecoupon: builder.mutation({
+            query: (data) => ({
+                url: `/coupon/deletecoupon/${data.id}`,
+                method: 'delete',
+                body: data,
+            }),
+            invalidatesTags: ['coupon']
         }),
         // editquiz: builder.mutation({
         //     query: (data) => ({
@@ -53,5 +61,5 @@ export const cartApi = createApi({
 })
 
 export const {
-    useGetallcartQuery, useGetcartQuery,
-    useAddcartMutation, useDeletecartMutation } = cartApi;
+    useGetallcouponQuery, useGetcouponQuery, useAddcouponMutation,
+    useUpdatecouponMutation, useDeletecouponMutation } = couponApi;

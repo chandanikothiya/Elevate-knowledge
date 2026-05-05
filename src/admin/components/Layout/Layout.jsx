@@ -26,6 +26,8 @@ import BedtimeIcon from '@mui/icons-material/Bedtime';
 import { ThemeContext } from '../../../Context/ThemeContext';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import QuizIcon from '@mui/icons-material/Quiz';
+import { RiCoupon2Fill } from "react-icons/ri";
+
 
 const drawerWidth = 240;
 
@@ -127,7 +129,8 @@ export default function Layout({ children }) {
         { label: "Course", icone: <CastForEducationIcon />, to: "/admin/course" },
         { label: "Section", icone: <AccountTreeIcon />, to: "/admin/section" },
         { label: "Content", icone: <ContentCopyIcon />, to: "/admin/content" },
-         { label: "Quize", icone: <QuizIcon />, to: "/admin/quize" }
+         { label: "Quize", icone: <QuizIcon />, to: "/admin/quize" },
+         { label: "Coupon", icone: <RiCoupon2Fill style={{fontSize:'20px'}} />, to: "/admin/coupon" }
     ]
 
     return (

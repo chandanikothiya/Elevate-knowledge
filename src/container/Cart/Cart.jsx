@@ -1,31 +1,31 @@
 import React from 'react';
 import { useGetwishlistQuery } from '../../redux/api/wishlist.api';
 import { useGetCourseQuery } from '../../redux/api/course.api';
+import { useDeletecartMutation, useGetcartQuery } from '../../redux/api/cart.api';
 
 function Cart(props) {
 
     const loginid = JSON.parse(localStorage.getItem('loginuser'))._id
     console.log(loginid)
 
-    const { data: wdata, error: werror, isLoading: wisloading } = useGetwishlistQuery(loginid)
-    console.log(wdata)
+    const { data: cdata, error: cerror, isLoading: cisloading } = useGetcartQuery(loginid)
+    console.log(cdata?.data)
+    const [deletecart] = useDeletecartMutation();
 
     const { data, error, isloading } = useGetCourseQuery();
     console.log(data?.data)
 
     //const cartp = pdata?.data?.filter((v) => data?.body?.products?.some((v1) => v1.product_id.toString() === v._id.toString()));
 
-    const cartdata = data?.data?.filter((v) => wdata?.data?.course.some((v1) => v1.course_id === v._id))
+    const cartdata = data?.data?.filter((v) => cdata?.data?.course.some((v1) => v1.course_id === v._id))
     console.log(cartdata)
 
-    let newArray = data?.data?.reduce((acc, item) => {
-        if (wdata?.data?.course.some(x => x.course_id === item._id)) {
-            acc.push(item);
-        }
-        return acc;
-    }, []);
+    const handleremovecart = (value) => {
+        console.log("value",value)
 
-    console.log(newArray)
+        deletecart({course_id:value?._id,id:cdata?.data?._id})
+    }
+
 
     return (
         <main>
@@ -101,8 +101,8 @@ Page content START */}
                                                                 <h5 className="text-success mb-0">{parseInt(v.price)}</h5>
                                                             </td>
                                                             <td>
-                                                                <a href="#" className="btn btn-sm btn-success-soft px-2 me-1 mb-1 mb-md-0"><i className="far fa-fw fa-edit" /></a>
-                                                                <button className="btn btn-sm btn-danger-soft px-2 mb-0"><i className="fas fa-fw fa-times" /></button>
+                                                                {/* <a href="#" className="btn btn-sm btn-success-soft px-2 me-1 mb-1 mb-md-0"><i className="far fa-fw fa-edit" /></a> */}
+                                                                <button className="btn btn-sm btn-danger-soft px-2 mb-0" onClick={() => handleremovecart(v)}><i className="fas fa-fw fa-times" /></button>
                                                             </td>
                                                         </tr>
                                                     )
