@@ -19,7 +19,7 @@ import { addcategory, deletecategory, editcategory, getcategory } from '../../..
 import { IMG_URL } from '../../../utility/url';
 import { useDeleteCourseMutation, useGetCourseQuery } from '../../../redux/api/course.api';
 import { useAddsectionMutation, useDeletesectionMutation, useEditsectionMutation, useGetsectionQuery } from '../../../redux/api/section.api';
-import { useAddcouponMutation, useGetallcouponQuery } from '../../../redux/api/coupon.api';
+import { useAddcouponMutation, useDeletecouponMutation, useGetallcouponQuery, useUpdatecouponMutation } from '../../../redux/api/coupon.api';
 
 
 function Coupon(props) {
@@ -36,8 +36,8 @@ function Coupon(props) {
 
     const { data, error, isLoading } = useGetallcouponQuery();
     console.log("cdata", data);
-
-   
+    const [deletecoupon] = useDeletecouponMutation();
+    const [updatecoupon] = useUpdatecouponMutation();
 
     const [addcoupon] = useAddcouponMutation();
 
@@ -107,13 +107,13 @@ function Coupon(props) {
         try {
             if (Object.keys(updatecategory).length > 0) {
 
-                editsection(values)
+                updatecoupon(values)
 
                 setUpdateCategory({});
 
             } else {
 
-               addcoupon(values)
+                addcoupon(values)
             }
 
         } catch (error) {
@@ -129,13 +129,13 @@ function Coupon(props) {
     }
 
     const handleDelete = async (id) => {
-        deletesection(id)
+        deletecoupon(id)
     }
-
+    console.log("updatecategory", updatecategory)
     const columns = [
         { field: "code", headerName: 'code', width: 180 },
-        { field: "discount", headerName: 'discount', width: 300 },
-         { field: "stock", headerName: 'stock', width: 300 },
+        { field: "discount", headerName: 'discount', width: 200 },
+        { field: "stock", headerName: 'stock', width: 200 },
         { field: "expirydate", headerName: 'expirydate', width: 180 },
         { field: "description", headerName: 'description', width: 300 },
         {
@@ -164,9 +164,9 @@ function Coupon(props) {
 
     return (
         <>
-            <h2>Category</h2>
+            <h2 >Coupon</h2>
             <React.Fragment>
-                <Button variant="outlined" onClick={handleClickOpen}>
+                <Button variant="outlined" onClick={handleClickOpen} sx={{ mt: 2, mb: 2 }}>
                     Add Coupon
                 </Button>
                 <Dialog open={open} onClose={handleClose}>
@@ -235,7 +235,7 @@ function Coupon(props) {
             </React.Fragment>
 
             <DataGrid
-                rows={sdata?.data}
+                rows={data?.data}
                 getRowId={(row) => row?._id || Math.random()}
                 columns={columns}
                 initialState={{ pagination: { paginationModel } }}

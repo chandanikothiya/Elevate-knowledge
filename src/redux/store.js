@@ -13,6 +13,8 @@ import { questionApi } from "./api/question.api"
 import { resultApi } from "./api/result.api"
 import { wishlistApi } from "./api/wishlist.api"
 import { cartApi } from "./api/cart.api"
+import { couponApi } from "./api/coupon.api"
+import { paymentApi } from "./api/payment.api"
 // import storage from "redux-persist/lib/storage"
 // import persistReducer from "redux-persist/es/persistReducer"
 // import persistStore from "redux-persist/es/persistStore"
@@ -33,7 +35,9 @@ export const storeconfig = () => {
             [questionApi.reducerPath]:questionApi.reducer,
             [resultApi.reducerPath]:resultApi.reducer,
             [wishlistApi.reducerPath]:wishlistApi.reducer,
-            [cartApi.reducerPath]:cartApi.reducer
+            [cartApi.reducerPath]:cartApi.reducer,
+            [couponApi.reducerPath]:couponApi.reducer,
+            [paymentApi.reducerPath]:paymentApi.reducer
         },
         middleware: (getDefaultMiddleware) =>
             getDefaultMiddleware().concat(
@@ -44,7 +48,8 @@ export const storeconfig = () => {
                 questionApi.middleware,
                 resultApi.middleware,
                 wishlistApi.middleware,
-                cartApi.middleware
+                cartApi.middleware,
+                paymentApi.middleware
             ),
     })
 

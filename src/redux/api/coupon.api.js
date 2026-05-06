@@ -35,10 +35,10 @@ export const couponApi = createApi({
             invalidatesTags: ['coupon']
         }),
         deletecoupon: builder.mutation({
-            query: (data) => ({
-                url: `/coupon/deletecoupon/${data.id}`,
+            query: (id) => ({
+                url: `/coupon/deletecoupon/${id}`,
                 method: 'delete',
-                body: data,
+               
             }),
             invalidatesTags: ['coupon']
         }),

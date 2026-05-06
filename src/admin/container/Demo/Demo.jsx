@@ -3,61 +3,75 @@ import UploadFile from '../../components/UploadFile/UploadFile';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { useAdddemoMutation } from '../../../redux/api/demo.api';
+import { useCreatepaymentQuery } from '../../../redux/api/payment.api';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 function Demo(props) {
-    const [open, setOpen] = React.useState(false);
-    const [inputcount, setInputcount] = useState(1)
-    const [adddemo] = useAdddemoMutation()
+    // const [open, setOpen] = React.useState(false);
+    // const [inputcount, setInputcount] = useState(1)
+    // const [adddemo] = useAdddemoMutation()
+    
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+    // const handleClickOpen = () => {
+    //     setOpen(true);
+    // };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+    // const handleClose = () => {
+    //     setOpen(false);
+    // };
 
-    function handlesubmit(values) {
-        console.log("values", values)
+    // function handlesubmit(values) {
+    //     console.log("values", values)
 
-        const formdata = new FormData();
-        //formdata.append("demo_img", values.demo_img);
+    //     const formdata = new FormData();
+    //     //formdata.append("demo_img", values.demo_img);
 
-        // if (typeof values.demo_img instanceof File) {
-        //     formdata.append("demo_img", values.demo_img);
-        // }
-        for (let key in values) {
-            console.log(key)
-            if (key.startsWith("demo_img") && values[key]) {
-                formdata.append("demo_img", values[key]);
-            }
-            else if (key === 'demo_video' && values[key]) {
-                console.log("in videro",formdata)
-                formdata.append("demo_video", values[key]);
+    //     // if (typeof values.demo_img instanceof File) {
+    //     //     formdata.append("demo_img", values.demo_img);
+    //     // }
+    //     for (let key in values) {
+    //         console.log(key)
+    //         if (key.startsWith("demo_img") && values[key]) {
+    //             formdata.append("demo_img", values[key]);
+    //         }
+    //         else if (key === 'demo_video' && values[key]) {
+    //             console.log("in videro",formdata)
+    //             formdata.append("demo_video", values[key]);
 
-            }
+    //         }
+    //     }
+    //     console.log(formdata)
+    //     adddemo(formdata)
+    // }
+    const navigate = useNavigate();
+    const handlebtnclick = async() => {
+        const res = await axios.get('http://localhost:8080/api/v1/payment/createpayment')
+        console.log(res)
+
+        if (res) {
+            const link = res?.data?.data?.links?.[1]?.href;
+            navigate(link)
         }
-        console.log(formdata)
-        adddemo(formdata)
     }
 
     return (
         <>
-            <Button variant="outlined" onClick={handleClickOpen}>
+            {/* <Button variant="outlined" onClick={handleClickOpen}>
                 Open form dialog
-            </Button>
-            <Dialog open={open} onClose={handleClose}>
+            </Button> */}
+            {/* <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Add Course</DialogTitle>
                 <DialogContent>
 
                     <Formik
                         initialValues={{
 
-                            // course_img: [],
+                     
                             demo_video: ""
                         }}
-                        //validationSchema={courseSchema}
+                       
                         onSubmit={(values, { resetForm }) => {
                             console.log("fval", values)
                             handlesubmit(values)
@@ -69,12 +83,6 @@ function Demo(props) {
                         {({ values }) => {
                             console.log("valuesvalues", values)
                             return (<Form id="subscription-form">
-
-
-                                {/* <UploadFile
-                                    name='demo_img'
-                                    label="upload image"
-                                /> */}
 
 
 
@@ -112,7 +120,9 @@ function Demo(props) {
                         Add Course
                     </Button>
                 </DialogActions>
-            </Dialog>
+            </Dialog> */}
+
+            <Button onClick={handlebtnclick}> Payment</Button>
         </>
     )
 }
