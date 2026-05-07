@@ -64,6 +64,8 @@ import QuestionAdd from '../container/QuestionAdd/QuestionAdd';
 import QuizExam from '../container/QuizExam/QuizExam';
 import Quize from '../container/Quize/Quize';
 import CheckAnswer from '../container/CheckAnswer/CheckAnswer';
+import Failed from '../container/Failed/Failed';
+import Success from '../container/Success/Success';
 
 function UserRoutes(props) {
 
@@ -142,6 +144,8 @@ function UserRoutes(props) {
                 <Route path='/quizexam/:id' element={<QuizExam />} />
                 <Route path='/quize/:id' element={<Quize />} />
                 <Route path='/quizresult/:id' element={<CheckAnswer />} />
+                <Route path='/filed' element={<Failed />} />
+                <Route path='/success' element={<Success />} />
                 <Route path='*' element={<Error404 />} />
             </Routes>
             <Footer />

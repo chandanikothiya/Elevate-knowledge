@@ -13,7 +13,6 @@ function Demo(props) {
     // const [inputcount, setInputcount] = useState(1)
     // const [adddemo] = useAdddemoMutation()
     
-
     // const handleClickOpen = () => {
     //     setOpen(true);
     // };
@@ -45,6 +44,7 @@ function Demo(props) {
     //     console.log(formdata)
     //     adddemo(formdata)
     // }
+    
     const navigate = useNavigate();
     const handlebtnclick = async() => {
         const res = await axios.get('http://localhost:8080/api/v1/payment/createpayment')
